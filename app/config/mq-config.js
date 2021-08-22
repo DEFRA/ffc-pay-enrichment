@@ -13,7 +13,11 @@ const mqSchema = joi.object({
     name: joi.string(),
     address: joi.string(),
     topic: joi.string(),
-    numberOfReceivers: joi.number().default(3)
+    numberOfReceivers: joi.number().default(1)
+  },
+  processingTopic: {
+    name: joi.string(),
+    address: joi.string()
   }
 })
 const mqConfig = {
@@ -30,6 +34,10 @@ const mqConfig = {
     address: process.env.PAYMENT_SUBSCRIPTION_ADDRESS,
     topic: process.env.PAYMENT_TOPIC_ADDRESS,
     numberOfReceivers: process.env.PAYMENT_SUBSCRIPTION_RECEIVERS
+  },
+  processingTopic: {
+    name: process.env.PROCESSING_TOPIC_NAME,
+    address: process.env.PROCESSING_TOPIC_ADDRESS
   }
 }
 
@@ -43,7 +51,9 @@ if (mqResult.error) {
 }
 
 const paymentSubscription = { ...mqResult.value.messageQueue, ...mqResult.value.paymentSubscription }
+const processingTopic = { ...mqResult.value.messageQueue, ...mqResult.value.processingTopic }
 
 module.exports = {
-  paymentSubscription
+  paymentSubscription,
+  processingTopic
 }
