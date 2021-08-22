@@ -1,4 +1,4 @@
-const { createInvoiceNumber } = require('../../app/invoice-number')
+const createInvoiceNumber = require('../../app/enrichment/create-invoice-number')
 
 const paymentRequest = {
   sourceSystem: 'SFIP',

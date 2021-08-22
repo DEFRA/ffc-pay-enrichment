@@ -1,4 +1,4 @@
-const paymentRequestSchema = require('../../../../app/enrichment/schemas/header')
+const paymentRequestSchema = require('../../../app/enrichment/schemas/header')
 let paymentRequest
 
 describe('payment request validation', () => {
