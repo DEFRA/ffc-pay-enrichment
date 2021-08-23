@@ -2,7 +2,7 @@ const enrichInvoiceLine = require('./enrich-invoice-line')
 const invoiceLine = require('./schemas/invoice-line')
 const validateInvoiceLine = require('./validate-invoice-line')
 
-const processInvoiceLines = async (invoiceLines, paymentRequestId, fundCode) => {
+const processInvoiceLines = async (invoiceLines, fundCode) => {
   // ignore any net lines
   invoiceLines = invoiceLines.filter(x => !x.description.startsWith('N00'))
   for (const line of invoiceLines) {

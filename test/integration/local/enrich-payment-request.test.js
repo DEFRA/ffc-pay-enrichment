@@ -20,7 +20,7 @@ describe('enrich payment request', () => {
 
     deliveryBody = {
       schemeId: 1,
-      deliveryBody: 'SFI'
+      deliveryBody: 'RP00'
     }
 
     frn = {
@@ -31,8 +31,6 @@ describe('enrich payment request', () => {
     paymentRequest = {
       sourceSystem: 'SFIP',
       deliveryBody: 'RP00',
-      invoiceNumber: 'SFI00000001',
-      frn: 1234567890,
       sbi: 123456789,
       paymentRequestNumber: 1,
       agreementNumber: 'SIP00000000000001',
@@ -45,15 +43,11 @@ describe('enrich payment request', () => {
       invoiceLines: [
         {
           standardCode: '80001',
-          accountCode: 'SOS273',
-          fundCode: 'DRD10',
           description: 'G00 - Gross value of claim',
           value: 250.00
         },
         {
           standardCode: '80001',
-          accountCode: 'SOS273',
-          fundCode: 'DRD10',
           description: 'P02 - Over declaration penalty',
           value: -100.00
         }
@@ -106,5 +100,42 @@ describe('enrich payment request', () => {
     } catch (error) {
       expect(error.message).toBeDefined()
     }
+  })
+
+  test('should add frn', async () => {
+    await enrichPaymentRequest(paymentRequest)
+    expect(paymentRequest.frn).toBe(1234567890)
+  })
+
+  test('should add schemeId', async () => {
+    await enrichPaymentRequest(paymentRequest)
+    expect(paymentRequest.schemeId).toBe(1)
+  })
+
+  test('should add ledger', async () => {
+    await enrichPaymentRequest(paymentRequest)
+    expect(paymentRequest.ledger).toBe('AP')
+  })
+
+  test('should add delivery body', async () => {
+    await enrichPaymentRequest(paymentRequest)
+    expect(paymentRequest.deliveryBody).toBe('RP00')
+  })
+
+  test('should transform value to pence', async () => {
+    await enrichPaymentRequest(paymentRequest)
+    expect(paymentRequest.value).toBe(15000)
+  })
+
+  test('should add scheme codes', async () => {
+    await enrichPaymentRequest(paymentRequest)
+    expect(paymentRequest.invoiceLines[0].schemeCode).toBe('80001')
+    expect(paymentRequest.invoiceLines[1].schemeCode).toBe('80001')
+  })
+
+  test('should add fund codes', async () => {
+    await enrichPaymentRequest(paymentRequest)
+    expect(paymentRequest.invoiceLines[0].fundCode).toBe('DRD10')
+    expect(paymentRequest.invoiceLines[1].fundCode).toBe('DRD10')
   })
 })
