@@ -92,7 +92,6 @@ describe('enrich payment request', () => {
 
   test('should error for empty payment request', async () => {
     paymentRequest = {}
-
     try {
       await enrichPaymentRequest(paymentRequest)
     } catch (error) {
@@ -102,7 +101,6 @@ describe('enrich payment request', () => {
 
   test('should error for payment request without invoice lines', async () => {
     delete paymentRequest.invoiceLines
-
     try {
       await enrichPaymentRequest(paymentRequest)
     } catch (error) {
