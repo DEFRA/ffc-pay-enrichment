@@ -1,4 +1,5 @@
 const enrichInvoiceLine = require('./enrich-invoice-line')
+const invoiceLine = require('./schemas/invoice-line')
 const validateInvoiceLine = require('./validate-invoice-line')
 
 const processInvoiceLines = async (invoiceLines, paymentRequestId, fundCode) => {
@@ -8,6 +9,7 @@ const processInvoiceLines = async (invoiceLines, paymentRequestId, fundCode) => 
     await enrichInvoiceLine(invoiceLine, fundCode)
     validateInvoiceLine(invoiceLine)
   }
+  return invoiceLines
 }
 
 module.exports = processInvoiceLines

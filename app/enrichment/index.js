@@ -8,7 +8,7 @@ const enrichPaymentRequest = async (paymentRequest) => {
   await enrichHeader(paymentRequest)
   validatePaymentRequest(paymentRequest)
   const fundCode = await getFundCode(paymentRequest.schemeId)
-  await processInvoiceLines(paymentRequest.invoiceLines, fundCode)
+  paymentRequest.invoiceLines = await processInvoiceLines(paymentRequest.invoiceLines, fundCode)
   validateValues(paymentRequest.value, paymentRequest.invoiceLines)
 }
 

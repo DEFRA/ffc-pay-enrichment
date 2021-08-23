@@ -13,7 +13,8 @@ describe('process invoice lines', () => {
       value: 100,
       description: 'N00 - Net value of claim'
     }]
-    await processInvoiceLines(lines, 1, 'DRD10')
-    expect(lines.length).toBe(1)
+    const invoiceLines = await processInvoiceLines(lines, 1, 'DRD10')
+    expect(invoiceLines.length).toBe(1)
+    expect(invoiceLines[0].description).toBe('G00 - Gross value of claim')
   })
 })
