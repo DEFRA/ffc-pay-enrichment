@@ -1,8 +1,6 @@
 jest.mock('../../../app/enrichment/enrich-invoice-line')
 jest.mock('../../../app/enrichment/validate-invoice-line')
 const processInvoiceLines = require('../../../app/enrichment/process-invoice-lines')
-const validateValues = require('../../../app/enrichment/process-invoice-lines')
-const invoiceLine = require('../../../app/enrichment/schemas/invoice-line')
 
 describe('process invoice lines', () => {
   test('should ignore net lines', async () => {
