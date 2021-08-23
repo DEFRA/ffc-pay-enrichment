@@ -1,4 +1,3 @@
-const {not} = require('../../../app/enrichment/schemas/header')
 const validateValues = require('../../../app/enrichment/validate-values')
 
 describe('validate value', () => {
@@ -12,7 +11,7 @@ describe('validate value', () => {
   test('does not error if value equals lines with multiple lines', () => {
     const lines = [{
       value: 50
-    },{
+    }, {
       value: 50
     }]
     expect(()=>validateValues(100, lines)).not.toThrow()
@@ -21,7 +20,7 @@ describe('validate value', () => {
   test('does not error if net 0', () => {
     const lines = [{
       value: 50
-    },{
+    }, {
       value: -50
     }]
     expect(()=>validateValues(0, lines)).not.toThrow()
