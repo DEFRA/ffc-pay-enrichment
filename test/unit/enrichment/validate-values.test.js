@@ -5,7 +5,7 @@ describe('validate value', () => {
     const lines = [{
       value: 100
     }]
-    expect(()=>validateValues(100, lines)).not.toThrow()
+    expect(() => validateValues(100, lines)).not.toThrow()
   })
 
   test('does not error if value equals lines with multiple lines', () => {
@@ -14,7 +14,7 @@ describe('validate value', () => {
     }, {
       value: 50
     }]
-    expect(()=>validateValues(100, lines)).not.toThrow()
+    expect(() => validateValues(100, lines)).not.toThrow()
   })
 
   test('does not error if net 0', () => {
@@ -23,7 +23,7 @@ describe('validate value', () => {
     }, {
       value: -50
     }]
-    expect(()=>validateValues(0, lines)).not.toThrow()
+    expect(() => validateValues(0, lines)).not.toThrow()
   })
 
   test('does not error if value equals lines with positive and negative', () => {
@@ -32,14 +32,14 @@ describe('validate value', () => {
     }, {
       value: -50
     }]
-    expect(()=>validateValues(50, lines)).not.toThrow()
+    expect(() => validateValues(50, lines)).not.toThrow()
   })
 
   test('does not error if value equals lines with negative', () => {
     const lines = [{
       value: -100
     }]
-    expect(()=>validateValues(-100, lines)).not.toThrow()
+    expect(() => validateValues(-100, lines)).not.toThrow()
   })
 
   test('does not error if value equals lines with negative and multiple lines', () => {
@@ -48,21 +48,21 @@ describe('validate value', () => {
     }, {
       value: 50
     }]
-    expect(()=>validateValues(-50, lines)).not.toThrow()
+    expect(() => validateValues(-50, lines)).not.toThrow()
   })
 
   test('errors if value higher', () => {
     const lines = [{
       value: 50
     }]
-    expect(()=>validateValues(100, lines)).toThrow()
+    expect(() => validateValues(100, lines)).toThrow()
   })
 
   test('errors if value lower', () => {
     const lines = [{
       value: 150
     }]
-    expect(()=>validateValues(100, lines)).toThrow()
+    expect(() => validateValues(100, lines)).toThrow()
   })
 
   test('errors if multiple lines', () => {
@@ -71,6 +71,6 @@ describe('validate value', () => {
     }, {
       value: -100
     }]
-    expect(()=>validateValues(100, lines)).toThrow()
+    expect(() => validateValues(100, lines)).toThrow()
   })
 })
