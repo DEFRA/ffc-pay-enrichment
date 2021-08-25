@@ -6,7 +6,6 @@ services:
       context: .
       target: production
     image: ffc-sfi-payment-enrichment
-    container_name: ffc-sfi-payment-enrichment
     depends_on: 
       - ffc-sfi-payment-enrichment-postgres
     environment:

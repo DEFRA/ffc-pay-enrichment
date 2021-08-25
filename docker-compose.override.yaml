@@ -8,7 +8,6 @@ services:
     build:
       target: development
     image: ffc-sfi-payment-enrichment-development
-    container_name: ffc-sfi-payment-enrichment-development
     ports:
       - "9241:9229"
     volumes:
