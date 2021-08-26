@@ -8,10 +8,17 @@ services:
     build:
       target: development
     image: ffc-sfi-payment-enrichment-development
-    container_name: ffc-sfi-payment-enrichment-development
     ports:
-      - "3012:3012"
       - "9241:9229"
     volumes:
       - ./app/:/home/node/app/
       - ./package.json:/home/node/package.json
+
+  ffc-sfi-payment-enrichment-postgres:
+    ports:
+      - "5439:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data: {}
