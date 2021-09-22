@@ -1,0 +1,26 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+  <changeSet author="John Watson" id="1">
+    <tagDatabase tag="v1.1.0" />
+  </changeSet>
+  <changeSet author="John Watson" id="2">
+    <modifyDataType columnName="standardCode" newDataType="VARCHAR(50)" tableName="schemeCodes" />
+  </changeSet>
+  <changeSet author="John Watson" id="3">
+    <insert tableName="schemeCodes">
+      <column name="schemeCodeId" value="3" />
+      <column name="standardCode" value="sfi-arable-soil" />
+      <column name="schemeCode" value="80001" />
+    </insert>
+    <insert tableName="schemeCodes">
+      <column name="schemeCodeId" value="4" />
+      <column name="standardCode" value="sfi-improved-grassland" />
+      <column name="schemeCode" value="80002" />
+    </insert>
+    <insert tableName="schemeCodes">
+      <column name="schemeCodeId" value="5" />
+      <column name="standardCode" value="sfi-moorland" />
+      <column name="schemeCode" value="80003" />
+    </insert>
+  </changeSet>
+</databaseChangeLog>

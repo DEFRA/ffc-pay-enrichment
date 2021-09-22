@@ -11,7 +11,7 @@ services:
     ports:
       - "9241:9229"
     volumes:
-      - ./app/:/home/node/app/
+      - ./app:/home/node/app
       - ./package.json:/home/node/package.json
 
   ffc-sfi-payment-enrichment-postgres:
