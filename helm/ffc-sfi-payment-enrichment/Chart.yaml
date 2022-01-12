@@ -1,6 +1,6 @@
 apiVersion: v2
 description: FFC Payment enrichment service
-name: ffc-sfi-payment-enrichment
+name: ffc-pay-enrichment
 # this version is automatically updated in the build pipline
 version: 1.0.0
 dependencies:

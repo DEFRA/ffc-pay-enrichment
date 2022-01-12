@@ -1,15 +1,15 @@
 version: '3.8'
 
 services:
-  ffc-sfi-payment-enrichment:
+  ffc-pay-enrichment:
     build:
       context: .
       target: production
-    image: ffc-sfi-payment-enrichment
+    image: ffc-pay-enrichment
     depends_on: 
-      - ffc-sfi-payment-enrichment-postgres
+      - ffc-pay-enrichment-postgres
     environment:
-      APPINSIGHTS_CLOUDROLE: ffc-sfi-payment-enrichment-local
+      APPINSIGHTS_CLOUDROLE: ffc-pay-enrichment-local
       APPINSIGHTS_INSTRUMENTATIONKEY: ${APPINSIGHTS_INSTRUMENTATIONKEY}
       MESSAGE_QUEUE_HOST: ${MESSAGE_QUEUE_HOST:-notset}
       MESSAGE_QUEUE_PASSWORD: ${MESSAGE_QUEUE_PASSWORD:-notset}
@@ -24,7 +24,7 @@ services:
       POSTGRES_SCHEMA_NAME: ${POSTGRES_SCHEMA_NAME:-public}
       POSTGRES_USERNAME: ${POSTGRES_SCHEMA_USERNAME:-postgres}
   
-  ffc-sfi-payment-enrichment-postgres:
+  ffc-pay-enrichment-postgres:
     image: postgres:11.4-alpine
     environment:
       POSTGRES_DB: ffc_sfi_payment_enrichment

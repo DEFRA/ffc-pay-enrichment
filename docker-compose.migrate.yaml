@@ -22,7 +22,7 @@ services:
     entrypoint: >
       sh -c "/scripts/migration/database-up"
     depends_on:
-      - ffc-sfi-payment-enrichment-postgres
+      - ffc-pay-enrichment-postgres
     volumes:
       - ./changelog:/liquibase/changelog
       - ./scripts:/scripts
@@ -40,7 +40,7 @@ services:
       - ./changelog:/liquibase/changelog
       - ./scripts:/scripts
 
-  ffc-sfi-payment-enrichment-postgres:
+  ffc-pay-enrichment-postgres:
     image: postgres:11.4-alpine
     environment: *common-postgres
     volumes:

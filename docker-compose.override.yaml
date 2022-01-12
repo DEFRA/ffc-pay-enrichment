@@ -4,17 +4,17 @@ version: '3.8'
 # to provide dependencies and expose ports for local testing
 
 services:
-  ffc-sfi-payment-enrichment:
+  ffc-pay-enrichment:
     build:
       target: development
-    image: ffc-sfi-payment-enrichment-development
+    image: ffc-pay-enrichment-development
     ports:
       - "9241:9229"
     volumes:
       - ./app:/home/node/app
       - ./package.json:/home/node/package.json
 
-  ffc-sfi-payment-enrichment-postgres:
+  ffc-pay-enrichment-postgres:
     ports:
       - "5441:5432"
     volumes:

@@ -1,2 +1,2 @@
-{{- define "ffc-sfi-payment-enrichment.container" -}}
+{{- define "ffc-pay-enrichment.container" -}}
 {{- end -}}

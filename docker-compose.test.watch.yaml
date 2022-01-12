@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  ffc-sfi-payment-enrichment:
+  ffc-pay-enrichment:
     command: >
       sh -c "npm run test:watch"
     volumes:
