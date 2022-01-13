@@ -18,7 +18,7 @@ services:
       PAYMENT_SUBSCRIPTION_ADDRESS: ${PAYMENT_SUBSCRIPTION_ADDRESS:-notset}
       PROCESSING_TOPIC_ADDRESS: ${PROCESSING_TOPIC_ADDRESS:-notset}
       POSTGRES_DB: ffc_sfi_payment_enrichment
-      POSTGRES_HOST: ${POSTGRES_HOST:-ffc-sfi-payment-enrichment-postgres}
+      POSTGRES_HOST: ${POSTGRES_HOST:-ffc-pay-enrichment-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_SCHEMA_PASSWORD:-ppp}
       POSTGRES_PORT: 5432
       POSTGRES_SCHEMA_NAME: ${POSTGRES_SCHEMA_NAME:-public}
