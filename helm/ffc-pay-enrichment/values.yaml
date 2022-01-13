@@ -34,9 +34,9 @@ container:
   limitMemory: 180Mi
   limitCpu: 120m
   messageQueueHost: namespace.servicebus.windows.net
-  paymentTopicAddress: ffc-sfi-payment-request
-  paymentSubscriptionAddress: ffc-sfi-payment-request-enrichment
-  processingTopicAddress: ffc-sfi-payment-processing
+  paymentTopicAddress: ffc-pay-request
+  paymentSubscriptionAddress: ffc-pay-request-enrichment
+  processingTopicAddress: ffc-pay-processing
 
 postgresService:
   postgresDb: ffc_pay_enrichment

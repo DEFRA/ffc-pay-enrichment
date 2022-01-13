@@ -1,7 +1,7 @@
 const createMessage = (paymentRequest) => {
   return {
     body: paymentRequest,
-    type: 'uk.gov.sfi.payment.enriched',
+    type: 'uk.gov.pay.enriched',
     source: 'ffc-pay-enrichment'
   }
 }
