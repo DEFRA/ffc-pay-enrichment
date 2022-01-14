@@ -17,7 +17,7 @@ services:
       PAYMENT_TOPIC_ADDRESS: ${PAYMENT_TOPIC_ADDRESS:-notset}
       PAYMENT_SUBSCRIPTION_ADDRESS: ${PAYMENT_SUBSCRIPTION_ADDRESS:-notset}
       PROCESSING_TOPIC_ADDRESS: ${PROCESSING_TOPIC_ADDRESS:-notset}
-      POSTGRES_DB: ffc_sfi_payment_enrichment
+      POSTGRES_DB: ffc_pay_enrichment
       POSTGRES_HOST: ${POSTGRES_HOST:-ffc-pay-enrichment-postgres}
       POSTGRES_PASSWORD: ${POSTGRES_SCHEMA_PASSWORD:-ppp}
       POSTGRES_PORT: 5432
@@ -27,6 +27,6 @@ services:
   ffc-pay-enrichment-postgres:
     image: postgres:11.4-alpine
     environment:
-      POSTGRES_DB: ffc_sfi_payment_enrichment
+      POSTGRES_DB: ffc_pay_enrichment
       POSTGRES_PASSWORD: ppp
       POSTGRES_USERNAME: postgres
