@@ -53,8 +53,8 @@ if (mqResult.error) {
 const paymentSubscription = { ...mqResult.value.messageQueue, ...mqResult.value.paymentSubscription }
 const processingTopic = { ...mqResult.value.messageQueue, ...mqResult.value.processingTopic }
 
-console.log(paymentSubscription.address)
-console.log(processingTopic.address)
+console.log(`XX${paymentSubscription.address}XX`)
+console.log(`XX${processingTopic.address}XX`)
 
 module.exports = {
   paymentSubscription,
