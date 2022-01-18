@@ -35,7 +35,7 @@ container:
   limitCpu: 120m
   messageQueueHost: namespace.servicebus.windows.net
   paymentTopicAddress: ffc-pay-request
-  paymentSubscriptionAddress: ffc-pay-request-enrichment
+  paymentSubscriptionAddress: ffc-pay-enrichment
   processingTopicAddress: ffc-pay-processing
 
 postgresService:
