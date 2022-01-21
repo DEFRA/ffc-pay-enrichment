@@ -2,6 +2,40 @@
 
 FFC service to enrich payment requests with mandatory data for the Sustainable Farming Incentive (SFI).
 
+## Prerequisites
+
+- Access to an instance of an
+[Azure Service Bus](https://docs.microsoft.com/en-us/azure/service-bus-messaging/)(ASB).
+- Docker
+- Docker Compose
+
+Optional:
+- Kubernetes
+- Helm
+
+## Azure Service Bus
+
+This service depends on a valid Azure Service Bus connection string for
+asynchronous communication.  The following environment variables need to be set
+in any non-production (`!config.isProd`) environment before the Docker
+container is started or tests are run. 
+
+When deployed into an appropriately configured AKS
+cluster (where [AAD Pod Identity](https://github.com/Azure/aad-pod-identity) is
+configured) the microservice will use AAD Pod Identity through the manifests
+for
+[azure-identity](./helm/ffc-sfi-agreement-api/templates/azure-identity.yaml)
+and
+[azure-identity-binding](./helm/ffc-sfi-agreement-api/templates/azure-identity-binding.yaml).
+
+| Name | Description |
+| ---| --- |
+| MESSAGE_QUEUE_HOST | Azure Service Bus hostname, e.g. `myservicebus.servicebus.windows.net` |
+| MESSAGE_QUEUE_PASSWORD | Azure Service Bus SAS policy key |
+| PAYMENT_TOPIC_ADDRESS | Inbound payment requests for enrichment |
+| PAYMENT_SUBSCRIPTION_ADDRESS | Inbound payment requests for enrichment |
+| PROCESSING_TOPIC_ADDRESS | Outbound enriched payment requests for processing |
+
 ### Example inbound payment request
 
 ```
@@ -26,7 +60,7 @@ FFC service to enrich payment requests with mandatory data for the Sustainable F
 
 ### Example enriched payment request
 
-Notice that values are converted to pence for downstream processing.
+Notice that values are converted to pence for downstream processing and the invoice number is transformed to DAX format.
 
 ```
 {
@@ -35,7 +69,7 @@ Notice that values are converted to pence for downstream processing.
   "frn": 1234567890
   "marketingYear": 2022,
   "paymentRequestNumber": 1,
-  "invoiceNumber": "SFI12345678",
+  "invoiceNumber": "S123456789A123456V001",
   "agreementNumber": "SFI12345",
   "contractNumber": "SFI12345",
   "currency": 'GBP",
@@ -54,40 +88,6 @@ Notice that values are converted to pence for downstream processing.
   }]
 }
 ```
-
-## Prerequisites
-
-- Access to an instance of an
-[Azure Service Bus](https://docs.microsoft.com/en-us/azure/service-bus-messaging/)(ASB).
-- Docker
-- Docker Compose
-
-Optional:
-- Kubernetes
-- Helm
-
-### Azure Service Bus
-
-This service depends on a valid Azure Service Bus connection string for
-asynchronous communication.  The following environment variables need to be set
-in any non-production (`!config.isProd`) environment before the Docker
-container is started or tests are run. 
-
-When deployed into an appropriately configured AKS
-cluster (where [AAD Pod Identity](https://github.com/Azure/aad-pod-identity) is
-configured) the microservice will use AAD Pod Identity through the manifests
-for
-[azure-identity](./helm/ffc-sfi-agreement-api/templates/azure-identity.yaml)
-and
-[azure-identity-binding](./helm/ffc-sfi-agreement-api/templates/azure-identity-binding.yaml).
-
-| Name | Description |
-| ---| --- |
-| MESSAGE_QUEUE_HOST | Azure Service Bus hostname, e.g. `myservicebus.servicebus.windows.net` |
-| MESSAGE_QUEUE_PASSWORD | Azure Service Bus SAS policy key |
-| PAYMENT_TOPIC_ADDRESS | Inbound payment requests for enrichment |
-| PAYMENT_SUBSCRIPTION_ADDRESS | Inbound payment requests for enrichment |
-| PROCESSING_TOPIC_ADDRESS | Outbound enriched payment requests for processing |
 
 ## Running the application
 

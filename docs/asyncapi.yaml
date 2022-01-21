@@ -15,9 +15,6 @@ components:
   messages:
     PaymentRequest:
       contentType: application/json
-      headers:
-        type: object
-        properties:
       payload:
         type: object
         properties:
@@ -74,9 +71,6 @@ components:
                   description: Decimal value of invoice line
     EnrichedPaymentRequest:
       contentType: application/json
-      headers:
-        type: object
-        properties:
       payload:
         type: object
         properties:
