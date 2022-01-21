@@ -1,8 +1,0 @@
-{{- include "ffc-helm-library.deployment" (list . "ffc-sfi-payment-enrichment.deployment") -}}
-{{- define "ffc-sfi-payment-enrichment.deployment" -}}
-spec:
-  template:
-    spec:
-      containers:
-      - {{ include "ffc-helm-library.container" (list . "ffc-sfi-payment-enrichment.container") }}
-{{- end -}}

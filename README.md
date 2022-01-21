@@ -1,6 +1,6 @@
-# FFC SFI Payment Enrichment 
+# FFC Payment Enrichment 
 
-FFC service to enrich payment requests with mandatory data for the Sustainable Farming Incentive (SFI).
+FFC service to enrich payment requests with mandatory data.
 
 ## Prerequisites
 
@@ -13,7 +13,7 @@ Optional:
 - Kubernetes
 - Helm
 
-### Azure Service Bus
+## Azure Service Bus
 
 This service depends on a valid Azure Service Bus connection string for
 asynchronous communication.  The following environment variables need to be set
@@ -24,17 +24,70 @@ When deployed into an appropriately configured AKS
 cluster (where [AAD Pod Identity](https://github.com/Azure/aad-pod-identity) is
 configured) the microservice will use AAD Pod Identity through the manifests
 for
-[azure-identity](./helm/ffc-sfi-agreement-api/templates/azure-identity.yaml)
+[azure-identity](./helm/ffc-pay-enrichment/templates/azure-identity.yaml)
 and
-[azure-identity-binding](./helm/ffc-sfi-agreement-api/templates/azure-identity-binding.yaml).
+[azure-identity-binding](./helm/ffc-pay-enrichment/templates/azure-identity-binding.yaml).
 
 | Name | Description |
 | ---| --- |
 | MESSAGE_QUEUE_HOST | Azure Service Bus hostname, e.g. `myservicebus.servicebus.windows.net` |
 | MESSAGE_QUEUE_PASSWORD | Azure Service Bus SAS policy key |
-| PAYMENT_TOPIC_ADDRESS | Inbound payment requests for enrichment |
-| PAYMENT_SUBSCRIPTION_ADDRESS | Inbound payment requests for enrichment |
-| PROCESSING_TOPIC_ADDRESS | Outbound enriched payment requests for processing |
+| MESSAGE_QUEUE_USER | Azure Service Bus SAS policy name, e.g. `RootManageSharedAccessKey`    |
+| MESSAGE_QUEUE_SUFFIX | Developer initials |
+
+
+### Example inbound payment request
+
+```
+{
+  "sourceSystem": "SFIP",
+  "sbi": 123456789,
+  "marketingYear": 2022,
+  "paymentRequestNumber": 1,
+  "agreementNumber": "SFI12345",
+  "contractNumber": "SFI12345",
+  "currency": 'GBP",
+  "schedule": "Q4",
+  "dueDate": "09/11/2022",
+  "value": 1000.00,
+  "invoiceLines": [{
+    "standardCode": "sfi-arable-soil",
+    "description": "G00 - Gross value of claim",
+    "value": 1000.00
+  }]
+}
+```
+
+### Example enriched payment request
+
+Notice that values are converted to pence for downstream processing and the invoice number is transformed to DAX format.
+
+```
+{
+  "sourceSystem": "SFIP",
+  "sbi": 123456789,
+  "frn": 1234567890
+  "marketingYear": 2022,
+  "paymentRequestNumber": 1,
+  "invoiceNumber": "S123456789A123456V001",
+  "agreementNumber": "SFI12345",
+  "contractNumber": "SFI12345",
+  "currency": 'GBP",
+  "schedule": "Q4",
+  "dueDate": "09/11/2022",
+  "value": 100000,
+  "schemeId": "SFI",
+  "ledger": "AP",
+  "deliveryBody": "RP00"
+  "invoiceLines": [{
+    "standardCode": "sfi-arable-soil",
+    "description": "G00 - Gross value of claim",
+    "value": 100000,
+    "schemeCode": "80001",
+    "fundCode": "DOM00"
+  }]
+}
+```
 
 ## Running the application
 

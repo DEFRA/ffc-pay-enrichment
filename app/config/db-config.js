@@ -24,10 +24,10 @@ const retry = {
 }
 
 const dbConfig = {
-  database: process.env.POSTGRES_DB || 'ffc_sfi_payment_enrichment',
+  database: process.env.POSTGRES_DB || 'ffc_pay_enrichment',
   dialect: 'postgres',
   hooks,
-  host: process.env.POSTGRES_HOST || 'ffc-sfi-payment-enrichment-postgres',
+  host: process.env.POSTGRES_HOST || 'ffc-pay-enrichment-postgres',
   password: process.env.POSTGRES_PASSWORD,
   port: process.env.POSTGRES_PORT || 5432,
   logging: process.env.POSTGRES_LOGGING || false,
