@@ -1,8 +1,8 @@
 environment: development
-name: ffc-sfi-payment-enrichment
-namespace: ffc-sfi
-workstream: ffc-sfi
-image: ffc-sfi-payment-enrichment
+name: ffc-pay-enrichment
+namespace: ffc-pay
+workstream: ffc-pay
+image: ffc-pay-enrichment
 
 labels:
   component: service
@@ -11,10 +11,10 @@ appInsights:
   key:
 
 containerConfigMap:
-  name: ffc-sfi-payment-enrichment-config-map
+  name: ffc-pay-enrichment-config-map
 
 containerSecret:
-  name: ffc-sfi-payment-enrichment-container-secret
+  name: ffc-pay-enrichment-container-secret
   type: Opaque
 
 deployment:
@@ -34,17 +34,17 @@ container:
   limitMemory: 180Mi
   limitCpu: 120m
   messageQueueHost: namespace.servicebus.windows.net
-  paymentTopicAddress: ffc-sfi-payment-request
-  paymentSubscriptionAddress: ffc-sfi-payment-request-enrichment
-  processingTopicAddress: ffc-sfi-payment-processing
+  paymentTopicAddress: ffc-pay-request
+  paymentSubscriptionAddress: ffc-pay-enrichment
+  processingTopicAddress: ffc-pay-processing
 
 postgresService:
-  postgresDb: ffc_sfi_payment_enrichment
+  postgresDb: ffc_pay_enrichment
   # postgresExternalName is the external host name to which PostgreSQL
   # requests should be forwarded. If empty, PostgreSQL is assumed to be
   # within the cluster and accessible via postgresHost
   postgresExternalName:
-  postgresHost: ffc-sfi-payment-enrichment-postgres
+  postgresHost: ffc-pay-enrichment-postgres
   postgresPort: 5432
   postgresSchema: public
   postgresUser: postgres

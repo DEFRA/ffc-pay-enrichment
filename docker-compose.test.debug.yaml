@@ -1,6 +1,6 @@
 version: '3.8'
 services:
-  ffc-sfi-payment-enrichment:
+  ffc-pay-enrichment:
     command: npm run test:debug
     ports:
       - "9241:9229"

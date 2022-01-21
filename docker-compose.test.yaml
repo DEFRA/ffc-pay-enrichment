@@ -4,11 +4,11 @@ version: '3.8'
 # that test output is saved to the host
 
 services:
-  ffc-sfi-payment-enrichment:
+  ffc-pay-enrichment:
     build:
       target: development
-    image: ffc-sfi-payment-enrichment-development
-    container_name: ffc-sfi-payment-enrichment-test
+    image: ffc-pay-enrichment-development
+    container_name: ffc-pay-enrichment-test
     command: npm run test
     volumes:
       - ./app:/home/node/app
