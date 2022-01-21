@@ -22,7 +22,7 @@
   "dependencies": {
     "@azure/identity": "^2.0.1",
     "applicationinsights": "^1.8.2",
-    "ffc-messaging": "^2.3.0",
+    "ffc-messaging": "^2.3.3",
     "joi": "^17.4.2",
     "moment": "^2.29.1",
     "pg": "^8.6.0",
