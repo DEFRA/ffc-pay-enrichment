@@ -97,7 +97,7 @@ Notice that values are converted to pence for downstream processing and the invo
   "schedule": "Q4",
   "dueDate": "09/11/2022",
   "value": 100000,
-  "schemeId": 1,
+  "schemeId": 2,
   "ledger": "AP",
   "deliveryBody": "RP00"
   "invoiceLines": [{
