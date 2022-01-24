@@ -36,8 +36,9 @@ and
 | MESSAGE_QUEUE_SUFFIX | Developer initials |
 
 
-### Example inbound payment request
+### Example inbound payment requests
 
+With SBI and standard code
 ```
 {
   "sourceSystem": "SFIP",
@@ -52,6 +53,26 @@ and
   "value": 1000.00,
   "invoiceLines": [{
     "standardCode": "sfi-arable-soil",
+    "description": "G00 - Gross value of claim",
+    "value": 1000.00
+  }]
+}
+```
+With FRN and scheme code
+```
+{
+  "sourceSystem": "SFIP",
+  "frn": 123456789,
+  "marketingYear": 2022,
+  "paymentRequestNumber": 1,
+  "agreementNumber": "SFI12345",
+  "contractNumber": "SFI12345",
+  "currency": 'GBP",
+  "schedule": "Q4",
+  "dueDate": "09/11/2022",
+  "value": 1000.00,
+  "invoiceLines": [{
+    "schemeCode": "80001",
     "description": "G00 - Gross value of claim",
     "value": 1000.00
   }]
@@ -76,7 +97,7 @@ Notice that values are converted to pence for downstream processing and the invo
   "schedule": "Q4",
   "dueDate": "09/11/2022",
   "value": 100000,
-  "schemeId": "SFI",
+  "schemeId": 2,
   "ledger": "AP",
   "deliveryBody": "RP00"
   "invoiceLines": [{
