@@ -8,7 +8,7 @@ module.exports = Joi.object({
   invoiceNumber: Joi.string(),
   frn: Joi.number().greater(1000000000).less(9999999999).required(),
   sbi: Joi.number().integer().greater(105000000).less(999999999).optional(),
-  marketingYear: Joi.number().integer().greater(2021).less(2099).required(),
+  marketingYear: Joi.number().integer().greater(2020).less(2099).required(),
   paymentRequestNumber: Joi.number().required(),
   agreementNumber: Joi.string(),
   contractNumber: Joi.string(),
