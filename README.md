@@ -38,7 +38,7 @@ and
 
 ### Example inbound payment requests
 
-With SBI and standard code
+#### Future Farming Platform hosted services
 ```
 {
   "sourceSystem": "SFIP",
@@ -58,7 +58,8 @@ With SBI and standard code
   }]
 }
 ```
-With FRN and scheme code
+
+#### Siti Agri
 ```
 {
   "sourceSystem": "SFIP",
@@ -73,6 +74,8 @@ With FRN and scheme code
   "value": 1000.00,
   "invoiceLines": [{
     "schemeCode": "80001",
+    "accountCode": "SOS100",
+    "fundCode": "DRD10",
     "description": "G00 - Gross value of claim",
     "value": 1000.00
   }]
@@ -87,19 +90,20 @@ Notice that values are converted to pence for downstream processing and the invo
 {
   "sourceSystem": "SFIP",
   "sbi": 123456789,
-  "frn": 1234567890
+  "frn": 1234567890,
   "marketingYear": 2022,
   "paymentRequestNumber": 1,
   "invoiceNumber": "S123456789A123456V001",
   "agreementNumber": "SFI12345",
   "contractNumber": "SFI12345",
-  "currency": 'GBP",
+  "currency": "GBP",
   "schedule": "Q4",
   "dueDate": "09/11/2022",
   "value": 100000,
   "schemeId": 2,
   "ledger": "AP",
-  "deliveryBody": "RP00"
+  "deliveryBody": "RP00",
+  "schemeId": 2,
   "invoiceLines": [{
     "standardCode": "sfi-arable-soil",
     "description": "G00 - Gross value of claim",
