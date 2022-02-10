@@ -98,7 +98,7 @@ Notice that values are converted to pence for downstream processing and the invo
   "contractNumber": "SFI12345",
   "currency": "GBP",
   "schedule": "Q4",
-  "dueDate": "09/11/2022",
+  "dueDate": "2021-11-12",
   "value": 100000,
   "schemeId": 2,
   "ledger": "AP",
