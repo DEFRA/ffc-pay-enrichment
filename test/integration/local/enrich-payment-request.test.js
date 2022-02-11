@@ -1,10 +1,7 @@
 const db = require('../../../app/data')
 const enrichPaymentRequest = require('../../../app/enrichment')
 let scheme
-let sourceSystem
 let schemeCode
-let fundCode
-let deliveryBody
 let paymentRequest
 let frn
 
@@ -15,12 +12,9 @@ describe('enrich payment request', () => {
     scheme = {
       schemeId: 1,
       name: 'SFI',
-      active: true
-    }
-
-    deliveryBody = {
-      schemeId: 1,
-      deliveryBody: 'RP00'
+      deliveryBody: 'RP00',
+      sourceSystem: 'SFIP',
+      fundCode: 'DRD10'
     }
 
     frn = {
@@ -54,28 +48,14 @@ describe('enrich payment request', () => {
       ]
     }
 
-    sourceSystem = {
-      sourceSystemId: 1,
-      schemeId: 1,
-      name: 'SFIP'
-    }
-
     schemeCode = {
       schemeCodeId: 1,
       standardCode: '80001',
       schemeCode: '80001'
     }
 
-    fundCode = {
-      schemeId: 1,
-      fundCode: 'DRD10'
-    }
-
     await db.scheme.create(scheme)
-    await db.sourceSystem.create(sourceSystem)
     await db.schemeCode.create(schemeCode)
-    await db.fundCode.create(fundCode)
-    await db.deliveryBody.create(deliveryBody)
     await db.frn.create(frn)
   })
 

@@ -1,8 +1,8 @@
 const db = require('../data')
 
 const getDeliveryBody = async (schemeId, transaction) => {
-  const deliveryBody = await db.deliveryBody.findOne({ where: { schemeId } }, { transaction })
-  return deliveryBody?.deliveryBody
+  const scheme = await db.scheme.findOne({ where: { schemeId } }, { transaction })
+  return scheme?.deliveryBody
 }
 
 module.exports = getDeliveryBody

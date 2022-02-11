@@ -1,0 +1,29 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+  <changeSet author="John Watson" id="1">
+    <tagDatabase tag="v1.4.0" />
+  </changeSet>
+  <changeSet author="John Watson" id="2">
+    <dropForeignKeyConstraint baseColumnNames="schemeId" baseTableName="sourceSystems" constraintName="fk_sourceSystems_schemeCodeId" referencedColumnNames="schemeId" referencedTableName="schemes" />
+    <dropForeignKeyConstraint baseColumnNames="schemeId" baseTableName="deliveryBodies" constraintName="fk_deliveryBodies_schemeCodeId" referencedColumnNames="schemeId" referencedTableName="schemes" />
+    <dropForeignKeyConstraint baseColumnNames="schemeId" baseTableName="fundCodes" constraintName="fk_fundCodes_schemeCodeId" referencedColumnNames="schemeId" referencedTableName="schemes" />
+    <dropTable tableName="sourceSystems" />
+    <dropTable tableName="deliveryBodies" />
+    <dropTable tableName="fundCodes" />
+  </changeSet>
+  <changeSet author="John Watson" id="3">
+    <addColumn tableName="schemes">
+      <column name="sourceSystem" type="VARCHAR(50)" />
+      <column name="deliveryBody" type="VARCHAR(10)" />
+      <column name="fundCode" type="VARCHAR(10)" />
+    </addColumn>
+  </changeSet>
+  <changeSet author="John Watson" id="4">
+    <update tableName="schemes">
+      <column name="sourceSystem" value="SFIP" />
+      <column name="deliveryBody" value="RP00" />
+      <column name="fundCode" value="DRD10" />
+      <where>"schemeId" = 2</where> 
+    </update>
+  </changeSet>
+</databaseChangeLog>
