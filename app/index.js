@@ -1,4 +1,5 @@
 require('./insights').setup()
+require('log-timestamp')
 const messageService = require('./messaging')
 
 process.on('SIGTERM', async () => {
