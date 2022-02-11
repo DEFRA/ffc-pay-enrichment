@@ -20,6 +20,12 @@
   </changeSet>
   <changeSet author="John Watson" id="4">
     <update tableName="schemes">
+      <column name="sourceSystem" value="SFI" />
+      <column name="deliveryBody" value="RP00" />
+      <column name="fundCode" value="DRD10" />
+      <where>"schemeId" = 1</where>2where> 
+    </update>
+    <update tableName="schemes">
       <column name="sourceSystem" value="SFIP" />
       <column name="deliveryBody" value="RP00" />
       <column name="fundCode" value="DRD10" />
