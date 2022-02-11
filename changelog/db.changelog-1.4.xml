@@ -32,4 +32,17 @@
       <where>"schemeId" = 2</where> 
     </update>
   </changeSet>
+  <changeSet author="John Watson" id="5">
+    <dropPrimaryKey constraintName="sbi_pkey" dropIndex="true" tableName="frns" />
+    <addColumn tableName="frns">
+      <column name="id" autoIncrement="true" type="INTEGER">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="frnId_pkey" />
+      </column>
+    </addColumn>
+  </changeSet>
+  <changeSet author="John Watson" id="6">
+    <createIndex indexName="sbi" tableName="frns">
+      <column name="sbi"/>
+    </createIndex>
+  </changeSet>
 </databaseChangeLog>
