@@ -23,7 +23,7 @@
       <column name="sourceSystem" value="SFI" />
       <column name="deliveryBody" value="RP00" />
       <column name="fundCode" value="DRD10" />
-      <where>"schemeId" = 1</where>2where> 
+      <where>"schemeId" = 1</where> 
     </update>
     <update tableName="schemes">
       <column name="sourceSystem" value="SFIP" />
