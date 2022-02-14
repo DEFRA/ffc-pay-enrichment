@@ -1,8 +1,8 @@
 const db = require('../data')
 
 const getSchemeId = async (sourceSystem, transaction) => {
-  const source = await db.sourceSystem.findOne({ where: { name: sourceSystem } }, { transaction })
-  return source?.schemeId
+  const scheme = await db.scheme.findOne({ where: { sourceSystem } }, { transaction })
+  return scheme?.schemeId
 }
 
 module.exports = getSchemeId

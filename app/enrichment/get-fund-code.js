@@ -1,8 +1,8 @@
 const db = require('../data')
 
 const getFundCode = async (schemeId, transaction) => {
-  const fundCode = await db.fundCode.findOne({ where: { schemeId } }, { transaction })
-  return fundCode?.fundCode
+  const scheme = await db.scheme.findOne({ where: { schemeId } }, { transaction })
+  return scheme?.fundCode
 }
 
 module.exports = getFundCode

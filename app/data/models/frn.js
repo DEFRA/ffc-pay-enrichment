@@ -1,6 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
   return sequelize.define('frn', {
-    sbi: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: false },
+    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    sbi: DataTypes.INTEGER,
     frn: DataTypes.BIGINT
   },
   {
