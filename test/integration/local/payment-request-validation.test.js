@@ -16,7 +16,7 @@ describe('payment request validation', () => {
       marketingYear: 2022,
       currency: 'GBP',
       schedule: 'M12',
-      dueDate: '2021-08-15',
+      dueDate: '15/08/2021',
       value: 150.00,
       invoiceLines: [{
         standardCode: '80001',
@@ -63,7 +63,7 @@ describe('payment request validation', () => {
       marketingYear: 2022,
       currency: 'GBP',
       schedule: 'M12',
-      dueDate: '2021-08-15',
+      dueDate: '15/08/2021',
       value: 400.00
     }
 
@@ -86,7 +86,7 @@ describe('payment request validation', () => {
       marketingYear: 2022,
       currency: 'GBP',
       schedule: 'M12',
-      dueDate: '2021-08-15',
+      dueDate: '15/08/2021',
       value: 400.00
     }
 

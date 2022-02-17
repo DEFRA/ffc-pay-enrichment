@@ -14,7 +14,7 @@ module.exports = Joi.object({
   contractNumber: Joi.string().required(),
   currency: Joi.string().valid('GBP', 'EUR').required(),
   schedule: Joi.string().regex(/^[A-Z]{1}\d+$/),
-  dueDate: Joi.date().format('YYYY-MM-DD'),
+  dueDate: Joi.date().format('DD/MM/YYYY'),
   value: Joi.number().required(),
   invoiceLines: Joi.array().required(),
   debtType: Joi.string().allow(''),

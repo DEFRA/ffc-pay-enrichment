@@ -16,7 +16,7 @@ describe('validate header', () => {
       contractNumber: 'SFIP123456',
       currency: 'GBP',
       schedule: 'Q4',
-      dueDate: '2021-11-12',
+      dueDate: '12/11/2021',
       debtType: 'irr',
       recoveryDate: '01/03/2021',
       originalSettlementDate: '01/03/2021',
