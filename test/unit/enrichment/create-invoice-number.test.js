@@ -3,12 +3,12 @@ const createInvoiceNumber = require('../../../app/enrichment/create-invoice-numb
 const paymentRequest = {
   sourceSystem: 'SFIP',
   deliveryBody: 'RP00',
-  invoiceNumber: 'SFI00000001',
+  invoiceNumber: 'SFIP0695764',
   frn: 1234567890,
   sbi: 123456789,
   paymentRequestNumber: 1,
   agreementNumber: 'SIP00000000000011',
-  contractNumber: 'SFIP000001',
+  contractNumber: 'S1248977',
   marketingYear: 2022,
   currency: 'GBP',
   schedule: 'M12',
@@ -19,12 +19,12 @@ const paymentRequest = {
 describe('generate invoice number', () => {
   test('generate invoice number from invoice number', () => {
     const result = createInvoiceNumber(paymentRequest)
-    expect(result).toEqual('S00000001SFIP000001V001')
+    expect(result).toEqual('S0695764S1248977V001')
   })
 
   test('generate invoice number from agreement number', () => {
     paymentRequest.invoiceNumber = ''
     const result = createInvoiceNumber(paymentRequest)
-    expect(result).toEqual('S00000011SFIP000001V001')
+    expect(result).toEqual('S0000011S1248977V001')
   })
 })
