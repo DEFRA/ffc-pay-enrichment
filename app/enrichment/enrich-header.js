@@ -1,12 +1,10 @@
 const { convertToPence } = require('../currency-convert')
 const createInvoiceNumber = require('./create-invoice-number')
 const getFrn = require('./get-frn')
-const getScheme = require('./get-scheme')
 const { AP } = require('../ledgers')
 const { convertToDaxDate } = require('../date-convert')
 
-const enrichHeader = async (paymentRequest) => {
-  const scheme = await getScheme(paymentRequest.sourceSystem)
+const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.invoiceNumber = createInvoiceNumber(paymentRequest)
   paymentRequest.schemeId = scheme.schemeId
   paymentRequest.ledger = AP

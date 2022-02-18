@@ -4,12 +4,18 @@ const dbConfig = require('./db-config')
 
 // Define config schema
 const schema = Joi.object({
-  env: Joi.string().valid('development', 'test', 'production').default('development')
+  env: Joi.string().valid('development', 'test', 'production').default('development'),
+  cache: Joi.object({
+    ttl: Joi.number().default(3600)
+  })
 })
 
 // Build config
 const config = {
-  env: process.env.NODE_ENV
+  env: process.env.NODE_ENV,
+  cache: {
+    ttl: process.env.CACHE_TTL
+  }
 }
 
 // Validate config
