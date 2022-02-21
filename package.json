@@ -1,6 +1,6 @@
 {
   "name": "ffc-pay-enrichment",
-  "version": "1.4.11",
+  "version": "1.4.12",
   "description": "FFC Payment enrichment service",
   "homepage": "https://github.com/DEFRA/ffc-pay-enrichment",
   "main": "app/index.js",
@@ -27,6 +27,7 @@
     "joi": "^17.4.2",
     "log-timestamp": "^0.3.0",
     "moment": "^2.29.1",
+    "node-cache": "^5.1.2",
     "pg": "^8.6.0",
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.6.5"

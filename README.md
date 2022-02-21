@@ -63,14 +63,14 @@ and
 ```
 {
   "sourceSystem": "SFIP",
-  "frn": 123456789,
+  "frn": 1234567890,
   "marketingYear": 2022,
   "paymentRequestNumber": 1,
   "agreementNumber": "SFI12345",
   "contractNumber": "SFI12345",
   "currency": "GBP",
   "schedule": "Q4",
-  "dueDate": "09/11/2022",
+  "dueDate": "2022-05-15",
   "value": 1000.00,
   "invoiceLines": [{
     "schemeCode": "80001",
