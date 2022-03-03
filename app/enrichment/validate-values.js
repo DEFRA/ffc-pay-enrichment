@@ -1,7 +1,9 @@
 const validateValues = (value, invoiceLines) => {
   const lineValues = invoiceLines.reduce((x, y) => x + y.value, 0)
   if (lineValues !== value) {
-    throw new Error(`Payment request is invalid. Invoice line values (${lineValues}) do not match header (${value})`)
+    const error = new Error(`Payment request is invalid. Invoice line values (${lineValues}) do not match header (${value})`)
+    error.category = 'validation'
+    throw error
   }
 }
 

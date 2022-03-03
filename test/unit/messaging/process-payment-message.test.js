@@ -48,7 +48,23 @@ describe('process payment message', () => {
     expect(mockSendMessage).toHaveBeenCalled()
   })
 
-  test('dead letters invalid message', async () => {
+  test('dead letters if request fails validation', async () => {
+    mockEnrichPaymentRequest.mockImplementation(() => {
+      const error = new Error()
+      error.category = 'validation'
+      throw error
+    })
+    const message = {
+      body: {
+        frn: 1234567890
+      }
+    }
+    await processPaymentMessage(message, receiver)
+    expect(receiver.deadLetterMessage).toHaveBeenCalledWith(message)
+    expect(receiver.completeMessage).not.toHaveBeenCalledWith(message)
+  })
+
+  test('dead letters if request fails validation', async () => {
     mockEnrichPaymentRequest.mockImplementation(() => {
       throw new Error()
     })
@@ -58,6 +74,7 @@ describe('process payment message', () => {
       }
     }
     await processPaymentMessage(message, receiver)
-    expect(receiver.deadLetterMessage).toHaveBeenCalledWith(message)
+    expect(receiver.deadLetterMessage).not.toHaveBeenCalledWith(message)
+    expect(receiver.completeMessage).not.toHaveBeenCalledWith(message)
   })
 })
