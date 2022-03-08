@@ -1,6 +1,7 @@
 const enrichPaymentRequest = require('../enrichment')
 const sendProcessingMessage = require('./send-processing-message')
 const util = require('util')
+const { VALIDATION } = require('../errors')
 
 async function processPaymentMessage (message, receiver) {
   try {
@@ -12,7 +13,7 @@ async function processPaymentMessage (message, receiver) {
     console.log('Payment request enriched:', util.inspect(paymentRequest, false, null, true))
   } catch (err) {
     console.error('Unable to process payment request:', err)
-    if (err.category === 'validation') {
+    if (err.category === VALIDATION) {
       await receiver.deadLetterMessage(message)
     }
   }

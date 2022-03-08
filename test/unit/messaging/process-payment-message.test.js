@@ -13,6 +13,7 @@ jest.mock('ffc-messaging', () => {
 jest.mock('../../../app/data')
 jest.mock('../../../app/enrichment')
 const mockEnrichPaymentRequest = require('../../../app/enrichment')
+const { VALIDATION } = require('../../../app/errors')
 const processPaymentMessage = require('../../../app/messaging/process-payment-message')
 let receiver
 
@@ -51,7 +52,7 @@ describe('process payment message', () => {
   test('dead letters if request fails validation', async () => {
     mockEnrichPaymentRequest.mockImplementation(() => {
       const error = new Error()
-      error.category = 'validation'
+      error.category = VALIDATION
       throw error
     })
     const message = {
