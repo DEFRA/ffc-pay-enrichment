@@ -37,6 +37,7 @@ value.isTest = value.env === 'test'
 value.isProd = value.env === 'production'
 value.paymentSubscription = mqConfig.paymentSubscription
 value.processingTopic = mqConfig.processingTopic
+value.eventTopic = mqConfig.eventTopic
 value.dbConfig = dbConfig
 
 module.exports = value

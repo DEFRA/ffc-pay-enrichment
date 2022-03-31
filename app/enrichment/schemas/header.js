@@ -19,5 +19,6 @@ module.exports = Joi.object({
   invoiceLines: Joi.array().required(),
   debtType: Joi.string().allow(''),
   recoveryDate: Joi.string().allow(''),
-  originalSettlementDate: Joi.string().allow('')
+  originalSettlementDate: Joi.string().allow(''),
+  correlationId: Joi.string().required()
 })
