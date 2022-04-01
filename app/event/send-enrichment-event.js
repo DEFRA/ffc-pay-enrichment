@@ -4,7 +4,7 @@ const sendEnrichmentEvent = async (paymentRequestComparision) => {
   const paymentRequest = paymentRequestComparision.paymentRequest
   const event = {
     id: paymentRequest.correlationId,
-    name: 'payment-request-enrichment-event',
+    name: 'payment-request-enrichment',
     type: 'info',
     message: 'Payment request enriched',
     data: paymentRequestComparision

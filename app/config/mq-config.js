@@ -20,7 +20,6 @@ const mqSchema = joi.object({
     address: joi.string()
   },
   eventTopic: {
-    name: joi.string(),
     address: joi.string()
   }
 })
