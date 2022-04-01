@@ -43,7 +43,6 @@ const mqConfig = {
     address: process.env.PROCESSING_TOPIC_ADDRESS
   },
   eventTopic: {
-    name: process.env.EVENT_TOPIC_NAME,
     address: process.env.EVENT_TOPIC_ADDRESS
   }
 }
