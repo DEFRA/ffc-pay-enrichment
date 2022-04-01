@@ -4,6 +4,7 @@ let paymentRequest
 describe('payment request validation', () => {
   beforeEach(async () => {
     paymentRequest = {
+      correlationId: '1234567890',
       schemeId: 1,
       sourceSystem: 'SFIP',
       deliveryBody: 'RP00',

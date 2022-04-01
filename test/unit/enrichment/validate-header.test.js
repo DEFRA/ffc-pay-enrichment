@@ -3,6 +3,7 @@ const validateHeader = require('../../../app/enrichment/validate-header')
 describe('validate header', () => {
   test('does not error if all values present', () => {
     const paymentRequest = {
+      correlationId: '1234567890',
       sourceSystem: 'SFIP',
       schemeId: 1,
       ledger: 'AP',
