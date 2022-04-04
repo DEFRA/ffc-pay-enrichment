@@ -34,6 +34,9 @@ components:
           paymentRequestNumber:
             type: number
             description: Version of payment request starting with 1, anything greater than 1 is an adjustment
+          correlationId:
+            type: string
+            description: Identifier for event correlation
           invoiceNumber:
             type: string
             description: Unique request for payment, optional
@@ -87,6 +90,9 @@ components:
           paymentRequestNumber:
             type: number
             description: Version of payment request starting with 1, anything greater than 1 is an adjustment
+          correlationId:
+            type: string
+            description: Identifier for event correlation
           invoiceNumber:
             type: string
             description: Unique request for payment, optional
@@ -146,6 +152,9 @@ components:
           paymentRequestNumber:
             type: number
             description: Version of payment request starting with 1, anything greater than 1 is an adjustment
+          correlationId:
+            type: string
+            description: Identifier for event correlation
           invoiceNumber:
             type: string
             description: Unique request for payment

@@ -37,6 +37,7 @@ container:
   paymentTopicAddress: ffc-pay-request
   paymentSubscriptionAddress: ffc-pay-enrichment
   processingTopicAddress: ffc-pay-processing
+  eventTopicAddress: ffc-pay-event
 
 postgresService:
   postgresDb: ffc_pay_enrichment

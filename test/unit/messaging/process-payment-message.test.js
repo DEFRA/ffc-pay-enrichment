@@ -10,6 +10,15 @@ jest.mock('ffc-messaging', () => {
     })
   }
 })
+jest.mock('ffc-pay-event-publisher', () => {
+  return {
+    PublishEvent: jest.fn().mockImplementation(() => {
+      return {
+        sendEvent: jest.fn()
+      }
+    })
+  }
+})
 jest.mock('../../../app/data')
 jest.mock('../../../app/enrichment')
 const mockEnrichPaymentRequest = require('../../../app/enrichment')

@@ -18,6 +18,9 @@ const mqSchema = joi.object({
   processingTopic: {
     name: joi.string(),
     address: joi.string()
+  },
+  eventTopic: {
+    address: joi.string()
   }
 })
 const mqConfig = {
@@ -38,6 +41,9 @@ const mqConfig = {
   processingTopic: {
     name: process.env.PROCESSING_TOPIC_NAME,
     address: process.env.PROCESSING_TOPIC_ADDRESS
+  },
+  eventTopic: {
+    address: process.env.EVENT_TOPIC_ADDRESS
   }
 }
 
@@ -52,8 +58,10 @@ if (mqResult.error) {
 
 const paymentSubscription = { ...mqResult.value.messageQueue, ...mqResult.value.paymentSubscription }
 const processingTopic = { ...mqResult.value.messageQueue, ...mqResult.value.processingTopic }
+const eventTopic = { ...mqResult.value.messageQueue, ...mqResult.value.eventTopic }
 
 module.exports = {
   paymentSubscription,
-  processingTopic
+  processingTopic,
+  eventTopic
 }
