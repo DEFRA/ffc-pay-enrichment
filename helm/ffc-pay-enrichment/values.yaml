@@ -31,7 +31,7 @@ container:
   imagePullPolicy: IfNotPresent
   requestMemory: 120Mi
   requestCpu: 40m
-  limitMemory: 180Mi
+  limitMemory: 80Mi
   limitCpu: 120m
   messageQueueHost: namespace.servicebus.windows.net
   paymentTopicAddress: ffc-pay-request
