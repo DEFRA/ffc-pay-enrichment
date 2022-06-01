@@ -4,6 +4,7 @@ const createInvoiceNumber = require('./create-invoice-number')
 const getFrn = require('./get-frn')
 const { AP } = require('../ledgers')
 const { convertToDaxDate } = require('../date-convert')
+const GBP = 'GBP'
 
 const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.correlationId = paymentRequest.correlationId ?? uuidv4()
@@ -14,6 +15,7 @@ const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.frn = paymentRequest.frn ?? await getFrn(paymentRequest.sbi)
   paymentRequest.deliveryBody = scheme.deliveryBody
   paymentRequest.dueDate = convertToDaxDate(paymentRequest.dueDate)
+  paymentRequest.currency = paymentRequest.currency ?? GBP
 }
 
 module.exports = enrichHeader
