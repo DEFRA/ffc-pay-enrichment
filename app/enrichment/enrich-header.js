@@ -12,7 +12,7 @@ const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.ledger = AP
   paymentRequest.value = convertToPence(paymentRequest.value)
   paymentRequest.frn = paymentRequest.frn ?? await getFrn(paymentRequest.sbi)
-  paymentRequest.deliveryBody = scheme.deliveryBody
+  paymentRequest.deliveryBody = scheme?.deliveryBody
   paymentRequest.dueDate = convertToDaxDate(paymentRequest.dueDate)
 }
 
