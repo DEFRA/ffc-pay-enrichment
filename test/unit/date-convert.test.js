@@ -1,6 +1,6 @@
 const { convertToDaxDate } = require('../../app/date-convert')
 
-describe('convert currency', () => {
+describe('convert date', () => {
   beforeAll(() => {
     jest.useFakeTimers('modern')
     jest.setSystemTime(new Date(2021, 5, 1))
