@@ -1,7 +1,7 @@
-const createMessage = (paymentRequest) => {
+const createMessage = (body, type) => {
   return {
-    body: paymentRequest,
-    type: 'uk.gov.pay.enriched',
+    body,
+    type,
     source: 'ffc-pay-enrichment'
   }
 }

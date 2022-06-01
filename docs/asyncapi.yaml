@@ -14,6 +14,10 @@ channels:
     publish:
       message:
         $ref: '#/components/messages/EnrichedPaymentRequest'
+  payment/response:
+    publish:
+      message:
+        $ref: '#/components/messages/PaymentRequestResponse'
 
 components:
   messages:
@@ -209,3 +213,20 @@ components:
                 accountCode:
                   type: string
                   description: Unique account code for budgeting, optional
+    PaymentRequestResponse:
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          paymentRequest:
+            type: object
+            description: Submitted payment request with enriched values
+            properties:
+              $ref: '#/components/messages/EnrichedPaymentRequest'
+          accepted:
+            type: boolean
+            description: Whether the payment request was accepted by the payment service
+          error:
+            type: string
+            description: Only present if payment request was rejected detailing hte reason why
+

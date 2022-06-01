@@ -1,9 +1,9 @@
 const enrichPaymentRequest = require('../enrichment')
-const sendProcessingMessage = require('./send-processing-message')
-const sendResponseMessage = require('./send-response-message')
+const sendMessage = require('./send-message')
 const util = require('util')
 const { VALIDATION } = require('../errors')
 const { sendEnrichmentEvent, sendEnrichmentErrorEvent } = require('../event')
+const { ENRICHED, ACCEPTED, REJECTED } = require('./types')
 
 async function processPaymentMessage (message, receiver) {
   const paymentRequest = message.body
@@ -11,8 +11,8 @@ async function processPaymentMessage (message, receiver) {
     console.log('Payment request received:', util.inspect(paymentRequest, false, null, true))
     const originalPaymentRequest = JSON.parse(JSON.stringify(paymentRequest))
     await enrichPaymentRequest(paymentRequest)
-    await sendProcessingMessage(paymentRequest)
-    await sendResponseMessage(paymentRequest)
+    await sendMessage(paymentRequest, ENRICHED)
+    await sendMessage({ paymentRequest, accepted: true }, ACCEPTED)
     await receiver.completeMessage(message)
     console.log('Payment request enriched:', util.inspect(paymentRequest, false, null, true))
     await sendEnrichmentEvent({ originalPaymentRequest, paymentRequest })
@@ -20,7 +20,7 @@ async function processPaymentMessage (message, receiver) {
     console.error('Unable to process payment request:', err)
     await sendEnrichmentErrorEvent(message.body, err)
     if (err.category === VALIDATION) {
-      await sendResponseMessage(paymentRequest)
+      await sendMessage({ paymentRequest, accepted: false, error: err }, REJECTED)
       await receiver.deadLetterMessage(message)
     }
   }
