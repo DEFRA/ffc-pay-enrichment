@@ -40,7 +40,7 @@ components:
             description: Version of payment request starting with 1, anything greater than 1 is an adjustment
           correlationId:
             type: string
-            description: Identifier for event correlation
+            description: Identifier for event correlation, optional
           invoiceNumber:
             type: string
             description: Unique request for payment, optional
@@ -52,13 +52,13 @@ components:
             description: Contract reference number of agreement
           currency:
             type: string
-            description: Currency of values in request, eg GBP
+            description: Currency of values in request, eg GBP.  If not supplied will default to GBP.
           schedule:
             type: string
-            description: Payment frequency instruction for DAX, eg Q4 for quarterly payments
+            description: Payment frequency instruction for DAX, eg Q4 for quarterly payments, optional.
           dueDate:
             type: string
-            description: Date request should be issued from DAX in format DD/MM/YYYY
+            description: Date request should be issued from DAX in format DD/MM/YYYY.  If not supplied will default to current date.
           value:
             type: number
             description: Decimal net value of request, ie sum of all invoice lines
