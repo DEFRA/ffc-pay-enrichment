@@ -22,7 +22,9 @@ const updateCache = (sourceSystem, value) => {
 }
 
 const getSchemeFromDb = async (sourceSystem) => {
-  return db.scheme.findOne({ where: { sourceSystem }, raw: true })
+  if (sourceSystem) {
+    return db.scheme.findOne({ where: { sourceSystem }, raw: true })
+  }
 }
 
 module.exports = getScheme
