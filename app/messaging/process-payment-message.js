@@ -17,10 +17,10 @@ async function processPaymentMessage (message, receiver) {
     console.log('Payment request enriched:', util.inspect(paymentRequest, false, null, true))
     await sendEnrichmentEvent({ originalPaymentRequest, paymentRequest })
   } catch (err) {
-    console.error('Unable to process payment request:', err)
+    console.error('Unable to process payment request:', err.message)
     await sendEnrichmentErrorEvent(message.body, err)
     if (err.category === VALIDATION) {
-      await sendMessage({ paymentRequest, accepted: false, error: err }, REJECTED)
+      await sendMessage({ paymentRequest, accepted: false, error: err.message }, REJECTED)
       await receiver.deadLetterMessage(message)
     }
   }
