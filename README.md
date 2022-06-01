@@ -41,19 +41,16 @@ and
 #### Future Farming Platform hosted services
 ```
 {
-  "sourceSystem": "SFIP",
+  "sourceSystem": "AHWR",
   "sbi": 123456789,
   "marketingYear": 2022,
   "paymentRequestNumber": 1,
-  "correlationId":"9e016c50-046b-4597-b79a-ebe4f0bf8505",
   "agreementNumber": "SFI12345",
   "contractNumber": "SFI12345",
-  "currency": "GBP",
   "schedule": "Q4",
-  "dueDate": "09/11/2022",
   "value": 1000.00,
   "invoiceLines": [{
-    "standardCode": "sfi-arable-soil",
+    "standardCode": "ahwr-cows",
     "description": "G00 - Gross value of claim",
     "value": 1000.00
   }]
