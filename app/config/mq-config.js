@@ -10,13 +10,14 @@ const mqSchema = joi.object({
     appInsights: joi.object()
   },
   paymentSubscription: {
-    name: joi.string(),
     address: joi.string(),
     topic: joi.string(),
     numberOfReceivers: joi.number().default(1)
   },
   processingTopic: {
-    name: joi.string(),
+    address: joi.string()
+  },
+  responseTopic: {
     address: joi.string()
   },
   eventTopic: {
@@ -33,13 +34,14 @@ const mqConfig = {
     appInsights: process.env.NODE_ENV === 'production' ? require('applicationinsights') : undefined
   },
   paymentSubscription: {
-    name: process.env.PAYMENT_SUBSCRIPTION_NAME,
     address: process.env.PAYMENT_SUBSCRIPTION_ADDRESS,
     topic: process.env.PAYMENT_TOPIC_ADDRESS,
     numberOfReceivers: process.env.PAYMENT_SUBSCRIPTION_RECEIVERS
   },
   processingTopic: {
-    name: process.env.PROCESSING_TOPIC_NAME,
+    address: process.env.PROCESSING_TOPIC_ADDRESS
+  },
+  responseTopic: {
     address: process.env.PROCESSING_TOPIC_ADDRESS
   },
   eventTopic: {
@@ -58,10 +60,12 @@ if (mqResult.error) {
 
 const paymentSubscription = { ...mqResult.value.messageQueue, ...mqResult.value.paymentSubscription }
 const processingTopic = { ...mqResult.value.messageQueue, ...mqResult.value.processingTopic }
+const responseTopic = { ...mqResult.value.messageQueue, ...mqResult.value.responseTopic }
 const eventTopic = { ...mqResult.value.messageQueue, ...mqResult.value.eventTopic }
 
 module.exports = {
   paymentSubscription,
   processingTopic,
+  responseTopic,
   eventTopic
 }
