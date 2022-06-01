@@ -3,7 +3,7 @@ const { convertToDaxDate } = require('../../app/date-convert')
 describe('convert currency', () => {
   beforeAll(() => {
     jest.useFakeTimers('modern')
-    jest.setSystemTime(new Date(2022, 5, 1))
+    jest.setSystemTime(new Date(2021, 5, 1))
   })
 
   afterAll(() => {
@@ -22,6 +22,6 @@ describe('convert currency', () => {
 
   test('uses current date in correct format if no date supplied', () => {
     const result = convertToDaxDate()
-    expect(result).toMatch('01/06/2022')
+    expect(result).toMatch('01/06/2021')
   })
 })
