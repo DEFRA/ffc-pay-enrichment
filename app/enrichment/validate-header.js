@@ -2,7 +2,7 @@ const { VALIDATION } = require('../errors')
 const schema = require('./schemas/header')
 
 const validateHeader = (header) => {
-  const validationResult = schema.validate(header)
+  const validationResult = schema.validate(header, { abortEarly: false })
   if (validationResult.error) {
     const error = new Error('Header is invalid', { cause: validationResult.error })
     error.category = VALIDATION
