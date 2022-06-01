@@ -13,7 +13,7 @@ describe('create message', () => {
     const paymentRequest = {
       frn: 1234567890
     }
-    const message = createMessage(paymentRequest)
+    const message = createMessage(paymentRequest, 'uk.gov.pay.enriched')
     expect(message.type).toEqual('uk.gov.pay.enriched')
   })
 
