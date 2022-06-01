@@ -7,7 +7,9 @@ const getScheme = async (sourceSystem) => {
     return cachedScheme
   }
   const scheme = await getSchemeFromDb(sourceSystem)
-  updateCache(sourceSystem, scheme)
+  if (scheme) {
+    updateCache(sourceSystem, scheme)
+  }
   return scheme
 }
 

@@ -8,7 +8,7 @@ const { convertToDaxDate } = require('../date-convert')
 const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.correlationId = paymentRequest.correlationId ?? uuidv4()
   paymentRequest.invoiceNumber = createInvoiceNumber(paymentRequest)
-  paymentRequest.schemeId = scheme.schemeId
+  paymentRequest.schemeId = scheme?.schemeId
   paymentRequest.ledger = AP
   paymentRequest.value = convertToPence(paymentRequest.value)
   paymentRequest.frn = paymentRequest.frn ?? await getFrn(paymentRequest.sbi)
