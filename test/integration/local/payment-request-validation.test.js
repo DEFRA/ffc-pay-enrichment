@@ -4,7 +4,7 @@ let paymentRequest
 describe('payment request validation', () => {
   beforeEach(async () => {
     paymentRequest = {
-      correlationId: '1234567890',
+      correlationId: 'f9721145-e52f-4e8d-be8e-e6c219286a72',
       schemeId: 1,
       sourceSystem: 'SFIP',
       deliveryBody: 'RP00',
@@ -19,6 +19,7 @@ describe('payment request validation', () => {
       schedule: 'M12',
       dueDate: '15/08/2021',
       value: 150.00,
+      ledger: 'AP',
       invoiceLines: [{
         standardCode: '80001',
         accountCode: 'SOS273',
@@ -65,7 +66,8 @@ describe('payment request validation', () => {
       currency: 'GBP',
       schedule: 'M12',
       dueDate: '15/08/2021',
-      value: 400.00
+      value: 400.00,
+      ledger: 'AP'
     }
 
     const validationResult = await paymentRequestSchema.validate(paymentRequest)
@@ -112,6 +114,7 @@ describe('payment request validation', () => {
       schedule: 'M12',
       dueDate: '2021-08-15',
       value: '3242',
+      ledger: 'AP',
       invoiceLines: [
         {
           standardCode: '80001',

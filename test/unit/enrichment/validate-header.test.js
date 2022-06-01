@@ -3,7 +3,7 @@ const validateHeader = require('../../../app/enrichment/validate-header')
 describe('validate header', () => {
   test('does not error if all values present', () => {
     const paymentRequest = {
-      correlationId: '1234567890',
+      correlationId: 'f9721145-e52f-4e8d-be8e-e6c219286a72',
       sourceSystem: 'SFIP',
       schemeId: 1,
       ledger: 'AP',
@@ -166,5 +166,26 @@ describe('validate header', () => {
       value: 100
     }
     expect(() => validateHeader(paymentRequest)).toThrow()
+  })
+
+  test('does not error if all optional values not present', () => {
+    const paymentRequest = {
+      correlationId: 'f9721145-e52f-4e8d-be8e-e6c219286a72',
+      sourceSystem: 'SFIP',
+      schemeId: 1,
+      ledger: 'AP',
+      deliveryBody: 'RP00',
+      invoiceNumber: 'SFI12345678',
+      frn: 1111111111,
+      marketingYear: 2021,
+      paymentRequestNumber: 1,
+      agreementNumber: 'SIP00000000001',
+      contractNumber: 'SFIP123456',
+      currency: 'GBP',
+      dueDate: '12/11/2021',
+      value: 100,
+      invoiceLines: []
+    }
+    expect(() => validateHeader(paymentRequest)).not.toThrow()
   })
 })
