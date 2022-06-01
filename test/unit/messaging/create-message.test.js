@@ -1,4 +1,5 @@
 const createMessage = require('../../../app/messaging/create-message')
+const { ENRICHED } = require('../../../app/messaging/types')
 
 describe('create message', () => {
   test('sets payment request as body', () => {
@@ -13,8 +14,8 @@ describe('create message', () => {
     const paymentRequest = {
       frn: 1234567890
     }
-    const message = createMessage(paymentRequest, 'uk.gov.pay.enriched')
-    expect(message.type).toEqual('uk.gov.pay.enriched')
+    const message = createMessage(paymentRequest, ENRICHED)
+    expect(message.type).toEqual(ENRICHED)
   })
 
   test('sets source', () => {
