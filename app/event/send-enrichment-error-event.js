@@ -1,7 +1,7 @@
 const raiseEvent = require('./raise-event')
 
 const sendEnrichmentErrorEvent = async (paymentRequest, error) => {
-  const correlationId = paymentRequest.correlationId
+  const correlationId = paymentRequest.correlationId ?? 'UNKNOWN'
   const event = {
     id: correlationId,
     name: 'payment-request-enrichment-error',

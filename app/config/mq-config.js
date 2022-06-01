@@ -6,12 +6,12 @@ const mqSchema = joi.object({
     username: joi.string(),
     password: joi.string(),
     useCredentialChain: joi.bool().default(false),
-    type: joi.string().default('subscription'),
     appInsights: joi.object()
   },
   paymentSubscription: {
     address: joi.string(),
     topic: joi.string(),
+    type: joi.string().allow('subscription'),
     numberOfReceivers: joi.number().default(1)
   },
   processingTopic: {
@@ -30,19 +30,19 @@ const mqConfig = {
     username: process.env.MESSAGE_QUEUE_USER,
     password: process.env.MESSAGE_QUEUE_PASSWORD,
     useCredentialChain: process.env.NODE_ENV === 'production',
-    type: 'subscription',
     appInsights: process.env.NODE_ENV === 'production' ? require('applicationinsights') : undefined
   },
   paymentSubscription: {
     address: process.env.PAYMENT_SUBSCRIPTION_ADDRESS,
     topic: process.env.PAYMENT_TOPIC_ADDRESS,
+    type: 'subscription',
     numberOfReceivers: process.env.PAYMENT_SUBSCRIPTION_RECEIVERS
   },
   processingTopic: {
     address: process.env.PROCESSING_TOPIC_ADDRESS
   },
   responseTopic: {
-    address: process.env.PROCESSING_TOPIC_ADDRESS
+    address: process.env.RESPONSE_TOPIC_ADDRESS
   },
   eventTopic: {
     address: process.env.EVENT_TOPIC_ADDRESS
