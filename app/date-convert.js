@@ -8,7 +8,7 @@ const convertToDaxDate = (dateString) => {
 }
 
 const getCurrentDate = () => {
-  return moment(new Date(), 'DD/MM/YYYY')
+  return moment(new Date()).format('DD/MM/YYYY')
 }
 
 const formatDate = (dateString) => {

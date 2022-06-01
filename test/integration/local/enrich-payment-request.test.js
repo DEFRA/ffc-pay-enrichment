@@ -30,7 +30,7 @@ describe('enrich payment request', () => {
       agreementNumber: 'SIP00000000001',
       contractNumber: 'SFIP000001',
       marketingYear: 2022,
-      currency: 'GBP',
+      currency: 'EUR',
       schedule: 'M12',
       dueDate: '2021-08-15',
       value: 150.00,
@@ -117,5 +117,16 @@ describe('enrich payment request', () => {
     await enrichPaymentRequest(paymentRequest)
     expect(paymentRequest.invoiceLines[0].fundCode).toBe('DRD10')
     expect(paymentRequest.invoiceLines[1].fundCode).toBe('DRD10')
+  })
+
+  test('should retain currency if present', async () => {
+    await enrichPaymentRequest(paymentRequest)
+    expect(paymentRequest.currency).toBe('EUR')
+  })
+
+  test('should add default GBP currency if not present', async () => {
+    delete paymentRequest.currency
+    await enrichPaymentRequest(paymentRequest)
+    expect(paymentRequest.currency).toBe('GBP')
   })
 })
