@@ -52,7 +52,7 @@ components:
             description: Contract reference number of agreement
           currency:
             type: string
-            description: Currency of values in request, eg GBP.  If not supplied will default to GBP.
+            description: Currency of values in request, eg GBP, EUR.  If not supplied will default to GBP.
           schedule:
             type: string
             description: Payment frequency instruction for DAX, eg Q4 for quarterly payments, optional.

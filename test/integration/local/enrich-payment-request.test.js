@@ -1,5 +1,7 @@
+const { GBP } = require('../../../app/currency')
 const db = require('../../../app/data')
 const enrichPaymentRequest = require('../../../app/enrichment')
+const { M12 } = require('../../../app/schedules')
 let scheme
 let schemeCode
 let paymentRequest
@@ -31,7 +33,7 @@ describe('enrich payment request', () => {
       contractNumber: 'SFIP000001',
       marketingYear: 2022,
       currency: 'EUR',
-      schedule: 'M12',
+      schedule: M12,
       dueDate: '2021-08-15',
       value: 150.00,
       invoiceLines: [
@@ -127,6 +129,6 @@ describe('enrich payment request', () => {
   test('should add default GBP currency if not present', async () => {
     delete paymentRequest.currency
     await enrichPaymentRequest(paymentRequest)
-    expect(paymentRequest.currency).toBe('GBP')
+    expect(paymentRequest.currency).toBe(GBP)
   })
 })

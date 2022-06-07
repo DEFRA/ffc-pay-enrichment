@@ -4,7 +4,7 @@ const createInvoiceNumber = require('./create-invoice-number')
 const getFrn = require('./get-frn')
 const { AP } = require('../ledgers')
 const { convertToDaxDate } = require('../date-convert')
-const GBP = 'GBP'
+const { GBP } = require('../currency')
 
 const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.correlationId = paymentRequest.correlationId ?? uuidv4()

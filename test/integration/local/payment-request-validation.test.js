@@ -1,4 +1,6 @@
+const { GBP } = require('../../../app/currency')
 const paymentRequestSchema = require('../../../app/enrichment/schemas/header')
+const { M12 } = require('../../../app/schedules')
 let paymentRequest
 
 describe('payment request validation', () => {
@@ -15,8 +17,8 @@ describe('payment request validation', () => {
       agreementNumber: 'SIP00000000001',
       contractNumber: 'SFIP000001',
       marketingYear: 2022,
-      currency: 'GBP',
-      schedule: 'M12',
+      currency: GBP,
+      schedule: M12,
       dueDate: '15/08/2021',
       value: 150.00,
       ledger: 'AP',
@@ -63,8 +65,8 @@ describe('payment request validation', () => {
       agreementNumber: 'SIP00000000001',
       contractNumber: 'SFIP000001',
       marketingYear: 2022,
-      currency: 'GBP',
-      schedule: 'M12',
+      currency: GBP,
+      schedule: M12,
       dueDate: '15/08/2021',
       value: 400.00,
       ledger: 'AP'
@@ -87,8 +89,8 @@ describe('payment request validation', () => {
       agreementNumber: 'SIP00000000001',
       contractNumber: 'SFIP000001',
       marketingYear: 2022,
-      currency: 'GBP',
-      schedule: 'M12',
+      currency: GBP,
+      schedule: M12,
       dueDate: '15/08/2021',
       value: 400.00
     }
@@ -110,8 +112,8 @@ describe('payment request validation', () => {
       agreementNumber: 'SIP00000000001',
       contractNumber: 'SFIP000001',
       marketingYear: 2022,
-      currency: 'GBP',
-      schedule: 'M12',
+      currency: GBP,
+      schedule: M12,
       dueDate: '2021-08-15',
       value: '3242',
       ledger: 'AP',

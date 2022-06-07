@@ -1,3 +1,5 @@
+const { GBP } = require('../../../app/currency')
+const { IRREGULAR } = require('../../../app/debt-types')
 const validateHeader = require('../../../app/enrichment/validate-header')
 
 describe('validate header', () => {
@@ -15,10 +17,10 @@ describe('validate header', () => {
       paymentRequestNumber: 1,
       agreementNumber: 'SIP00000000001',
       contractNumber: 'SFIP123456',
-      currency: 'GBP',
+      currency: GBP,
       schedule: 'Q4',
       dueDate: '12/11/2021',
-      debtType: 'irr',
+      debtType: IRREGULAR,
       recoveryDate: '01/03/2021',
       originalSettlementDate: '01/03/2021',
       value: 100,
@@ -35,7 +37,7 @@ describe('validate header', () => {
       paymentRequestNumber: 1,
       agreementNumber: 'SIP00000000001',
       contractNumber: 'SFIP123456',
-      currency: 'GBP',
+      currency: GBP,
       value: 100,
       invoiceLines: []
     }
@@ -50,7 +52,7 @@ describe('validate header', () => {
       paymentRequestNumber: 1,
       agreementNumber: 'SIP00000000001',
       contractNumber: 'SFIP123456',
-      currency: 'GBP',
+      currency: GBP,
       value: 100,
       invoiceLines: []
     }
@@ -65,7 +67,7 @@ describe('validate header', () => {
       paymentRequestNumber: 1,
       agreementNumber: 'SIP00000000001',
       contractNumber: 'SFIP123456',
-      currency: 'GBP',
+      currency: GBP,
       value: 100,
       invoiceLines: []
     }
@@ -81,7 +83,7 @@ describe('validate header', () => {
       marketingYear: 2021,
       agreementNumber: 'SIP00000000001',
       contractNumber: 'SFIP123456',
-      currency: 'GBP',
+      currency: GBP,
       value: 100,
       invoiceLines: []
     }
@@ -97,7 +99,7 @@ describe('validate header', () => {
       marketingYear: 2021,
       paymentRequestNumber: 1,
       contractNumber: 'SFIP123456',
-      currency: 'GBP',
+      currency: GBP,
       value: 100,
       invoiceLines: []
     }
@@ -113,7 +115,7 @@ describe('validate header', () => {
       marketingYear: 2021,
       paymentRequestNumber: 1,
       agreementNumber: 'SIP00000000001',
-      currency: 'GBP',
+      currency: GBP,
       value: 100,
       invoiceLines: []
     }
@@ -146,7 +148,7 @@ describe('validate header', () => {
       paymentRequestNumber: 1,
       agreementNumber: 'SIP00000000001',
       contractNumber: 'SFIP123456',
-      currency: 'GBP',
+      currency: GBP,
       invoiceLines: []
     }
     expect(() => validateHeader(paymentRequest)).toThrow()
@@ -162,7 +164,7 @@ describe('validate header', () => {
       paymentRequestNumber: 1,
       agreementNumber: 'SIP00000000001',
       contractNumber: 'SFIP123456',
-      currency: 'GBP',
+      currency: GBP,
       value: 100
     }
     expect(() => validateHeader(paymentRequest)).toThrow()
@@ -181,7 +183,7 @@ describe('validate header', () => {
       paymentRequestNumber: 1,
       agreementNumber: 'SIP00000000001',
       contractNumber: 'SFIP123456',
-      currency: 'GBP',
+      currency: GBP,
       dueDate: '12/11/2021',
       value: 100,
       invoiceLines: []

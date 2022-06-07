@@ -1,3 +1,5 @@
+const { GBP } = require('../../../app/currency')
+const { M12 } = require('../../../app/schedules')
 const createInvoiceNumber = require('../../../app/enrichment/create-invoice-number')
 
 const paymentRequest = {
@@ -10,8 +12,8 @@ const paymentRequest = {
   agreementNumber: 'SIP00000000000011',
   contractNumber: 'S1248977',
   marketingYear: 2022,
-  currency: 'GBP',
-  schedule: 'M12',
+  currency: GBP,
+  schedule: M12,
   dueDate: '2021-08-15',
   value: 400.00
 }
