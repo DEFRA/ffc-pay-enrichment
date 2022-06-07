@@ -1,6 +1,7 @@
 const { GBP } = require('../../../app/currency')
 const db = require('../../../app/data')
 const enrichPaymentRequest = require('../../../app/enrichment')
+const { AP } = require('../../../app/ledgers')
 const { M12 } = require('../../../app/schedules')
 let scheme
 let schemeCode
@@ -96,7 +97,7 @@ describe('enrich payment request', () => {
 
   test('should add ledger', async () => {
     await enrichPaymentRequest(paymentRequest)
-    expect(paymentRequest.ledger).toBe('AP')
+    expect(paymentRequest.ledger).toBe(AP)
   })
 
   test('should add delivery body', async () => {

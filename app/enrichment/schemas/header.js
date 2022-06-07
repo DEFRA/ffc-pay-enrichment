@@ -8,7 +8,7 @@ const Joi = require('joi').extend(require('@joi/date'))
 
 module.exports = Joi.object({
   sourceSystem: Joi.string().required(),
-  schemeId: Joi.number().integer().required(),
+  schemeId: Joi.number().integer().required().messages({ '*': 'Could not map sourceSystem to schemeId' }),
   ledger: Joi.string().valid(AP, AR).required(),
   deliveryBody: Joi.string().required(),
   invoiceNumber: Joi.string().required(),
