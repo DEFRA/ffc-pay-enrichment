@@ -1,27 +1,27 @@
-const joi = require('joi')
+const Joi = require('joi')
 
-const mqSchema = joi.object({
+const mqSchema = Joi.object({
   messageQueue: {
-    host: joi.string(),
-    username: joi.string(),
-    password: joi.string(),
-    useCredentialChain: joi.bool().default(false),
-    appInsights: joi.object()
+    host: Joi.string(),
+    username: Joi.string(),
+    password: Joi.string(),
+    useCredentialChain: Joi.bool().default(false),
+    appInsights: Joi.object()
   },
   paymentSubscription: {
-    address: joi.string(),
-    topic: joi.string(),
-    type: joi.string().allow('subscription'),
-    numberOfReceivers: joi.number().default(1)
+    address: Joi.string(),
+    topic: Joi.string(),
+    type: Joi.string().allow('subscription'),
+    numberOfReceivers: Joi.number().default(1)
   },
   processingTopic: {
-    address: joi.string()
+    address: Joi.string()
   },
   responseTopic: {
-    address: joi.string()
+    address: Joi.string()
   },
   eventTopic: {
-    address: joi.string()
+    address: Joi.string()
   }
 })
 const mqConfig = {
