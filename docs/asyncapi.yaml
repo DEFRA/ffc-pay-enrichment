@@ -4,36 +4,39 @@ info:
   version: '1.0.0'
   description: Validate and enrichment of payment requests for downstream payment processing
 channels:
-  payment/request/platform:
+  payment/request:
     subscribe:
       message:
-        $ref: '#/components/messages/PaymentRequest'
-  payment/request/sitiAgri:
-    subscribe:
-      message:
-        $ref: '#/components/messages/PaymentRequestSitiAgri'
-    publish:
-      message:
-        $ref: '#/components/messages/PaymentRequestEnriched'
+        oneOf:
+        - $ref: '#/components/messages/PaymentRequest'
+        - $ref: '#/components/messages/PaymentRequestSitiAgri'
   payment/response:
     publish:
       message:
         $ref: '#/components/messages/PaymentRequestResponse'
+  payment/enriched:
+    publish:
+      message:
+        $ref: '#/components/messages/PaymentRequestEnriched'
 components:
   messages:
     PaymentRequest:
+      name: Payment request
       contentType: application/json
       payload:
         $ref: '#/components/schemas/PaymentRequest'
     PaymentRequestSitiAgri:
+      name: Siti Agri payment request
       contentType: application/json
       payload:
         $ref: '#/components/schemas/PaymentRequestSitiAgri'
     PaymentRequestEnriched:
+      name: Enriched payment request
       contentType: application/json
       payload:
         $ref: '#/components/schemas/PaymentRequestEnriched'
     PaymentRequestResponse:
+      name: Payment request response
       contentType: application/json
       payload:
         type: object
