@@ -22,7 +22,6 @@ describe('validate header', () => {
       dueDate: '12/11/2021',
       debtType: IRREGULAR,
       recoveryDate: '01/03/2021',
-      originalSettlementDate: '01/03/2021',
       value: 100,
       invoiceLines: []
     }

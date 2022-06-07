@@ -10,7 +10,7 @@ module.exports = Joi.object({
   sourceSystem: Joi.string().required(),
   schemeId: Joi.number().integer().required(),
   ledger: Joi.string().valid(AP, AR).required(),
-  deliveryBody: Joi.string().regex(/^[A-Z]{2}\d{2}$/).required(),
+  deliveryBody: Joi.string().required(),
   invoiceNumber: Joi.string().required(),
   frn: Joi.number().integer().min(1000000000).max(9999999999).required(),
   sbi: Joi.number().integer().min(105000000).max(999999999).optional(),
@@ -24,7 +24,6 @@ module.exports = Joi.object({
   value: Joi.number().integer().required(),
   invoiceLines: Joi.array().required(),
   debtType: Joi.string().valid(IRREGULAR, ADMINISTRATIVE).optional(),
-  recoveryDate: Joi.string().optional(),
-  originalSettlementDate: Joi.date().format(DAX_DATE_FORMAT).optional(),
+  recoveryDate: Joi.date().format(DAX_DATE_FORMAT).optional(),
   correlationId: Joi.string().guid().optional()
 })
