@@ -6,11 +6,16 @@ const get = (key) => {
   return cache.get(key)
 }
 
-const set = async (key, value) => {
+const set = (key, value) => {
   cache.set(key, value, config.ttl)
+}
+
+const flush = () => {
+  cache.flushAll()
 }
 
 module.exports = {
   get,
-  set
+  set,
+  flush
 }
