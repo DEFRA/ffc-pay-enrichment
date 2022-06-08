@@ -45,7 +45,6 @@ describe('convert currency', () => {
     const result = convertToPence('100.1')
     expect(result).toEqual(10010)
   })
-  
 
   test('returns undefined if no value', () => {
     const result = convertToPence()

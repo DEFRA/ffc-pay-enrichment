@@ -14,7 +14,6 @@ describe('Payment requests requiring debt data with none to attach', () => {
     error = {
       message: 'Cannot enrich'
     }
-
   })
 
   afterEach(async () => {
