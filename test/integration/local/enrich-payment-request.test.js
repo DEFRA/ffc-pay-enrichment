@@ -81,7 +81,7 @@ describe('enrich payment request', () => {
       await enrichPaymentRequest(undefined)
     } catch (error) {
       expect(error.message).toBeDefined()
-      expect(error.category).not.toBe('validation')
+      expect(error.category).toBe('validation')
     }
   })
 
@@ -90,7 +90,7 @@ describe('enrich payment request', () => {
       await enrichPaymentRequest(null)
     } catch (error) {
       expect(error.message).toBeDefined()
-      expect(error.category).not.toBe('validation')
+      expect(error.category).toBe('validation')
     }
   })
 
