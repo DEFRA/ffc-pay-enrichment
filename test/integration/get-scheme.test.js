@@ -1,6 +1,6 @@
-const db = require('../../../app/data')
-const getScheme = require('../../../app/enrichment/get-scheme')
-const cache = require('../../../app/cache')
+const db = require('../../app/data')
+const getScheme = require('../../app/enrichment/get-scheme')
+const cache = require('../../app/cache')
 let scheme
 
 describe('get scheme', () => {
