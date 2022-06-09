@@ -68,11 +68,83 @@ describe('enrich payment request', () => {
   })
 
   test('should error for empty payment request', async () => {
-    paymentRequest = {}
     try {
-      await enrichPaymentRequest(paymentRequest)
+      await enrichPaymentRequest({})
     } catch (error) {
       expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
+    }
+  })
+
+  test('should error for undefined as payment request', async () => {
+    try {
+      await enrichPaymentRequest(undefined)
+    } catch (error) {
+      expect(error.message).toBeDefined()
+      expect(error.category).not.toBe('validation')
+    }
+  })
+
+  test('should error for null as payment request', async () => {
+    try {
+      await enrichPaymentRequest(null)
+    } catch (error) {
+      expect(error.message).toBeDefined()
+      expect(error.category).not.toBe('validation')
+    }
+  })
+
+  test('should error for array as payment request', async () => {
+    try {
+      await enrichPaymentRequest([])
+    } catch (error) {
+      expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
+    }
+  })
+
+  test('should error for string as payment request', async () => {
+    try {
+      await enrichPaymentRequest('')
+    } catch (error) {
+      expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
+    }
+  })
+
+  test('should error for false as payment request', async () => {
+    try {
+      await enrichPaymentRequest(false)
+    } catch (error) {
+      expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
+    }
+  })
+
+  test('should error for true as payment request', async () => {
+    try {
+      await enrichPaymentRequest(true)
+    } catch (error) {
+      expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
+    }
+  })
+
+  test('should error for 0 as payment request', async () => {
+    try {
+      await enrichPaymentRequest(0)
+    } catch (error) {
+      expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
+    }
+  })
+
+  test('should error for 1 as payment request', async () => {
+    try {
+      await enrichPaymentRequest(1)
+    } catch (error) {
+      expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
     }
   })
 
@@ -82,6 +154,7 @@ describe('enrich payment request', () => {
       await enrichPaymentRequest(paymentRequest)
     } catch (error) {
       expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
     }
   })
 
