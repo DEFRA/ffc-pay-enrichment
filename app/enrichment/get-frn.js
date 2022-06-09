@@ -3,7 +3,7 @@ const db = require('../data')
 const getFrn = async (sbi, transaction) => {
   if (sbi) {
     const frn = await db.frn.findOne({ where: { sbi } }, { transaction })
-    return Number(frn?.frn ?? 0)
+    return frn ? Number(frn.frn) : undefined
   }
 }
 
