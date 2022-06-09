@@ -1,0 +1,32 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+  <changeSet author="John Watson" id="1">
+    <tagDatabase tag="v1.6.0" />
+  </changeSet>
+  <changeSet author="John Watson" id="2">
+    <update tableName="schemes">
+      <column name="fundCode" value="DOM10" />
+      <where>"schemeId" IN (3, 4)</where>
+    </update>
+    <insert tableName="schemeCodes">
+      <column name="schemeCodeId" value="1" />
+      <column name="standardCode" value="AHWR-Sheep" />
+      <column name="schemeCode" value="18001" />
+    </insert>
+    <insert tableName="schemeCodes">
+      <column name="schemeCodeId" value="2" />
+      <column name="standardCode" value="AHWR-Beef" />
+      <column name="schemeCode" value="18002" />
+    </insert>
+    <insert tableName="schemeCodes">
+      <column name="schemeCodeId" value="3" />
+      <column name="standardCode" value="AHWR-Dairy" />
+      <column name="schemeCode" value="18003" />
+    </insert>
+    <insert tableName="schemeCodes">
+      <column name="schemeCodeId" value="4" />
+      <column name="standardCode" value="AHWR-Pigs" />
+      <column name="schemeCode" value="18004" />
+    </insert>
+  </changeSet>
+</databaseChangeLog>
