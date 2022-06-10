@@ -27,6 +27,14 @@ const processPaymentMessage = require('../../../app/messaging/process-payment-me
 const { ENRICHED, ACCEPTED, REJECTED } = require('../../../app/messaging/types')
 let receiver
 
+const mockErrorInProcessing = (validation = false) => {
+  mockEnrichPaymentRequest.mockImplementation(() => {
+    const error = new Error()
+    error.category = validation ? VALIDATION : undefined
+    throw error
+  })
+}
+
 describe('process payment message', () => {
   beforeEach(() => {
     receiver = {
@@ -37,6 +45,7 @@ describe('process payment message', () => {
 
   afterEach(() => {
     jest.clearAllMocks()
+    mockEnrichPaymentRequest.mockReset()
   })
 
   test('completes valid message', async () => {
@@ -70,11 +79,7 @@ describe('process payment message', () => {
   })
 
   test('dead letters and sends rejected response if request fails validation', async () => {
-    mockEnrichPaymentRequest.mockImplementation(() => {
-      const error = new Error()
-      error.category = VALIDATION
-      throw error
-    })
+    mockErrorInProcessing(true)
     const message = {
       body: {
         frn: 1234567890
@@ -87,9 +92,7 @@ describe('process payment message', () => {
   })
 
   test('does not dead letter or send response if non-validation error', async () => {
-    mockEnrichPaymentRequest.mockImplementation(() => {
-      throw new Error()
-    })
+    mockErrorInProcessing()
     const message = {
       body: {
         frn: 1234567890
@@ -99,5 +102,39 @@ describe('process payment message', () => {
     expect(receiver.deadLetterMessage).not.toHaveBeenCalledWith(message)
     expect(receiver.completeMessage).not.toHaveBeenCalledWith(message)
     expect(mockSendMessage).not.toHaveBeenCalled()
+  })
+
+  test('sends response with source system metadata if valid', async () => {
+    const message = {
+      body: {
+        frn: 1234567890,
+        sourceSystem: 'SFIP'
+      }
+    }
+    await processPaymentMessage(message, receiver)
+    expect(mockSendMessage.mock.calls[1][0].metadata.sourceSystem).toBe(message.body.sourceSystem)
+  })
+
+  test('sends response with source system metadata if invalid', async () => {
+    mockErrorInProcessing(true)
+    const message = {
+      body: {
+        frn: 1234567890,
+        sourceSystem: 'SFIP'
+      }
+    }
+    await processPaymentMessage(message, receiver)
+    expect(mockSendMessage.mock.calls[0][0].metadata.sourceSystem).toBe(message.body.sourceSystem)
+  })
+
+  test('sends response without source system metadata if fails validation and no source system', async () => {
+    mockErrorInProcessing(true)
+    const message = {
+      body: {
+        frn: 1234567890
+      }
+    }
+    await processPaymentMessage(message, receiver)
+    expect(mockSendMessage.mock.calls[0][0].metadata.sourceSystem).toBeUndefined()
   })
 })

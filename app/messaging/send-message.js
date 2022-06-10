@@ -3,8 +3,8 @@ const { MessageSender } = require('ffc-messaging')
 const createMessage = require('./create-message')
 const { ENRICHED } = require('./types')
 
-const sendMessage = async (body, type) => {
-  const message = createMessage(body, type)
+const sendMessage = async (body, type, metadata) => {
+  const message = createMessage(body, type, metadata)
   const topic = getTopic(type)
   const sender = new MessageSender(topic)
   await sender.sendMessage(message)
