@@ -1,9 +1,9 @@
-const createMessage = (body, type, metadata) => {
+const createMessage = (body, type, options) => {
   return {
     body,
     type,
     source: 'ffc-pay-enrichment',
-    metadata
+    ...options
   }
 }
 

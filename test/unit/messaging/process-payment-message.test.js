@@ -112,7 +112,7 @@ describe('process payment message', () => {
       }
     }
     await processPaymentMessage(message, receiver)
-    expect(mockSendMessage.mock.calls[1][0].metadata.sourceSystem).toBe(message.body.sourceSystem)
+    expect(mockSendMessage.mock.calls[1][0].to).toBe(message.body.sourceSystem)
   })
 
   test('sends response with source system metadata if invalid', async () => {
@@ -124,7 +124,7 @@ describe('process payment message', () => {
       }
     }
     await processPaymentMessage(message, receiver)
-    expect(mockSendMessage.mock.calls[0][0].metadata.sourceSystem).toBe(message.body.sourceSystem)
+    expect(mockSendMessage.mock.calls[0][0].to).toBe(message.body.sourceSystem)
   })
 
   test('sends response without source system metadata if fails validation and no source system', async () => {
@@ -135,6 +135,6 @@ describe('process payment message', () => {
       }
     }
     await processPaymentMessage(message, receiver)
-    expect(mockSendMessage.mock.calls[0][0].metadata.sourceSystem).toBeUndefined()
+    expect(mockSendMessage.mock.calls[0][0].to).toBeUndefined()
   })
 })
