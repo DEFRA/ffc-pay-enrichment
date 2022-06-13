@@ -5,7 +5,7 @@ const sendEnrichErrorEvent = require('../../../app/event/send-enrichment-error-e
 let paymentRequest
 let error
 
-describe('Payment requests requiring debt data with none to attach', () => {
+describe('Payment requests that cannot be enriched', () => {
   beforeEach(async () => {
     paymentRequest = {
       paymentRequestId: 1
