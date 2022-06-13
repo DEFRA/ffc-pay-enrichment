@@ -284,7 +284,7 @@ components:
     ValueDecimal:
       type: number
       format: decimal
-      description: Decimal net value of request, ie sum of all invoice lines in specified currency
+      description: Decimal net value of request before enrichment, ie decimal value in specified currency
       minimum: 0.00
       maximum: 999999999999.99
       example: 500.00
