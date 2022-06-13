@@ -1,15 +1,14 @@
 jest.mock('../../../app/event/raise-event')
 const raiseEvent = require('../../../app/event/raise-event')
 const sendEnrichErrorEvent = require('../../../app/event/send-enrichment-error-event')
+const mockPaymentRequest = require('../../mock-payment-request')
 
 let paymentRequest
 let error
 
 describe('Payment requests that cannot be enriched', () => {
   beforeEach(async () => {
-    paymentRequest = {
-      paymentRequestId: 1
-    }
+    paymentRequest = mockPaymentRequest
 
     error = {
       message: 'Cannot enrich'
