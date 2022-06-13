@@ -50,7 +50,7 @@ and
   "schedule": "Q4",
   "value": 1000.00,
   "invoiceLines": [{
-    "standardCode": "ahwr-cows",
+    "standardCode": "AHWR-Beef",
     "description": "G00 - Gross value of claim",
     "value": 1000.00
   }]
