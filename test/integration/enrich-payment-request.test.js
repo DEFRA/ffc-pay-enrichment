@@ -1,5 +1,8 @@
-const db = require('../../../app/data')
-const enrichPaymentRequest = require('../../../app/enrichment')
+const { GBP } = require('../../app/currency')
+const db = require('../../app/data')
+const enrichPaymentRequest = require('../../app/enrichment')
+const { AP } = require('../../app/ledgers')
+const { M12 } = require('../../app/schedules')
 let scheme
 let schemeCode
 let paymentRequest
@@ -31,7 +34,7 @@ describe('enrich payment request', () => {
       contractNumber: 'SFIP000001',
       marketingYear: 2022,
       currency: 'EUR',
-      schedule: 'M12',
+      schedule: M12,
       dueDate: '2021-08-15',
       value: 150.00,
       invoiceLines: [
@@ -65,11 +68,83 @@ describe('enrich payment request', () => {
   })
 
   test('should error for empty payment request', async () => {
-    paymentRequest = {}
     try {
-      await enrichPaymentRequest(paymentRequest)
+      await enrichPaymentRequest({})
     } catch (error) {
       expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
+    }
+  })
+
+  test('should error for undefined as payment request', async () => {
+    try {
+      await enrichPaymentRequest(undefined)
+    } catch (error) {
+      expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
+    }
+  })
+
+  test('should error for null as payment request', async () => {
+    try {
+      await enrichPaymentRequest(null)
+    } catch (error) {
+      expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
+    }
+  })
+
+  test('should error for array as payment request', async () => {
+    try {
+      await enrichPaymentRequest([])
+    } catch (error) {
+      expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
+    }
+  })
+
+  test('should error for string as payment request', async () => {
+    try {
+      await enrichPaymentRequest('')
+    } catch (error) {
+      expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
+    }
+  })
+
+  test('should error for false as payment request', async () => {
+    try {
+      await enrichPaymentRequest(false)
+    } catch (error) {
+      expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
+    }
+  })
+
+  test('should error for true as payment request', async () => {
+    try {
+      await enrichPaymentRequest(true)
+    } catch (error) {
+      expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
+    }
+  })
+
+  test('should error for 0 as payment request', async () => {
+    try {
+      await enrichPaymentRequest(0)
+    } catch (error) {
+      expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
+    }
+  })
+
+  test('should error for 1 as payment request', async () => {
+    try {
+      await enrichPaymentRequest(1)
+    } catch (error) {
+      expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
     }
   })
 
@@ -79,6 +154,7 @@ describe('enrich payment request', () => {
       await enrichPaymentRequest(paymentRequest)
     } catch (error) {
       expect(error.message).toBeDefined()
+      expect(error.category).toBe('validation')
     }
   })
 
@@ -94,7 +170,7 @@ describe('enrich payment request', () => {
 
   test('should add ledger', async () => {
     await enrichPaymentRequest(paymentRequest)
-    expect(paymentRequest.ledger).toBe('AP')
+    expect(paymentRequest.ledger).toBe(AP)
   })
 
   test('should add delivery body', async () => {
@@ -127,6 +203,6 @@ describe('enrich payment request', () => {
   test('should add default GBP currency if not present', async () => {
     delete paymentRequest.currency
     await enrichPaymentRequest(paymentRequest)
-    expect(paymentRequest.currency).toBe('GBP')
+    expect(paymentRequest.currency).toBe(GBP)
   })
 })

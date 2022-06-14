@@ -1,26 +1,27 @@
-const joi = require('joi')
+const Joi = require('joi')
 
-const mqSchema = joi.object({
+const mqSchema = Joi.object({
   messageQueue: {
-    host: joi.string(),
-    username: joi.string(),
-    password: joi.string(),
-    useCredentialChain: joi.bool().default(false),
-    type: joi.string().default('subscription'),
-    appInsights: joi.object()
+    host: Joi.string(),
+    username: Joi.string(),
+    password: Joi.string(),
+    useCredentialChain: Joi.bool().default(false),
+    appInsights: Joi.object()
   },
   paymentSubscription: {
-    name: joi.string(),
-    address: joi.string(),
-    topic: joi.string(),
-    numberOfReceivers: joi.number().default(1)
+    address: Joi.string(),
+    topic: Joi.string(),
+    type: Joi.string().allow('subscription'),
+    numberOfReceivers: Joi.number().default(1)
   },
   processingTopic: {
-    name: joi.string(),
-    address: joi.string()
+    address: Joi.string()
+  },
+  responseTopic: {
+    address: Joi.string()
   },
   eventTopic: {
-    address: joi.string()
+    address: Joi.string()
   }
 })
 const mqConfig = {
@@ -29,18 +30,19 @@ const mqConfig = {
     username: process.env.MESSAGE_QUEUE_USER,
     password: process.env.MESSAGE_QUEUE_PASSWORD,
     useCredentialChain: process.env.NODE_ENV === 'production',
-    type: 'subscription',
     appInsights: process.env.NODE_ENV === 'production' ? require('applicationinsights') : undefined
   },
   paymentSubscription: {
-    name: process.env.PAYMENT_SUBSCRIPTION_NAME,
     address: process.env.PAYMENT_SUBSCRIPTION_ADDRESS,
     topic: process.env.PAYMENT_TOPIC_ADDRESS,
+    type: 'subscription',
     numberOfReceivers: process.env.PAYMENT_SUBSCRIPTION_RECEIVERS
   },
   processingTopic: {
-    name: process.env.PROCESSING_TOPIC_NAME,
     address: process.env.PROCESSING_TOPIC_ADDRESS
+  },
+  responseTopic: {
+    address: process.env.RESPONSE_TOPIC_ADDRESS
   },
   eventTopic: {
     address: process.env.EVENT_TOPIC_ADDRESS
@@ -58,10 +60,12 @@ if (mqResult.error) {
 
 const paymentSubscription = { ...mqResult.value.messageQueue, ...mqResult.value.paymentSubscription }
 const processingTopic = { ...mqResult.value.messageQueue, ...mqResult.value.processingTopic }
+const responseTopic = { ...mqResult.value.messageQueue, ...mqResult.value.responseTopic }
 const eventTopic = { ...mqResult.value.messageQueue, ...mqResult.value.eventTopic }
 
 module.exports = {
   paymentSubscription,
   processingTopic,
+  responseTopic,
   eventTopic
 }

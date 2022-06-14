@@ -1,39 +1,13 @@
-const paymentRequestSchema = require('../../../app/enrichment/schemas/header')
+const { GBP } = require('../../app/currency')
+const paymentRequestSchema = require('../../app/enrichment/schemas/header')
+const { AP } = require('../../app/ledgers')
+const { M12 } = require('../../app/schedules')
+const mockPaymentRequest = require('../mock-payment-request')
 let paymentRequest
 
 describe('payment request validation', () => {
   beforeEach(async () => {
-    paymentRequest = {
-      correlationId: '1234567890',
-      schemeId: 1,
-      sourceSystem: 'SFIP',
-      deliveryBody: 'RP00',
-      invoiceNumber: 'SFI00000001',
-      frn: 1234567890,
-      sbi: 123456789,
-      paymentRequestNumber: 1,
-      agreementNumber: 'SIP00000000001',
-      contractNumber: 'SFIP000001',
-      marketingYear: 2022,
-      currency: 'GBP',
-      schedule: 'M12',
-      dueDate: '15/08/2021',
-      value: 150.00,
-      invoiceLines: [{
-        standardCode: '80001',
-        accountCode: 'SOS273',
-        fundCode: 'DRD10',
-        description: 'G00 - Gross value of claim',
-        value: 250.00
-      },
-      {
-        standardCode: '80001',
-        accountCode: 'SOS273',
-        fundCode: 'DRD10',
-        description: 'P02 - Over declaration penalty',
-        value: -100.00
-      }]
-    }
+    paymentRequest = mockPaymentRequest
   })
 
   test('should validate payment request', async () => {
@@ -62,10 +36,11 @@ describe('payment request validation', () => {
       agreementNumber: 'SIP00000000001',
       contractNumber: 'SFIP000001',
       marketingYear: 2022,
-      currency: 'GBP',
-      schedule: 'M12',
+      currency: GBP,
+      schedule: M12,
       dueDate: '15/08/2021',
-      value: 400.00
+      value: 400.00,
+      ledger: AP
     }
 
     const validationResult = await paymentRequestSchema.validate(paymentRequest)
@@ -85,8 +60,8 @@ describe('payment request validation', () => {
       agreementNumber: 'SIP00000000001',
       contractNumber: 'SFIP000001',
       marketingYear: 2022,
-      currency: 'GBP',
-      schedule: 'M12',
+      currency: GBP,
+      schedule: M12,
       dueDate: '15/08/2021',
       value: 400.00
     }
@@ -108,10 +83,11 @@ describe('payment request validation', () => {
       agreementNumber: 'SIP00000000001',
       contractNumber: 'SFIP000001',
       marketingYear: 2022,
-      currency: 'GBP',
-      schedule: 'M12',
+      currency: GBP,
+      schedule: M12,
       dueDate: '2021-08-15',
       value: '3242',
+      ledger: AP,
       invoiceLines: [
         {
           standardCode: '80001',

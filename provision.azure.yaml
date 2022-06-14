@@ -2,4 +2,5 @@ resources:
   topics:
     - name: payment
     - name: processing
+    - name: response
     - name: event
