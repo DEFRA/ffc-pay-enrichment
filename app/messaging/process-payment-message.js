@@ -18,7 +18,7 @@ async function processPaymentMessage (message, receiver) {
     await sendEnrichmentEvent({ originalPaymentRequest, paymentRequest })
   } catch (err) {
     console.error('Unable to process payment request:', err.message)
-    await sendEnrichmentErrorEvent(message.body, err)
+    await sendEnrichmentErrorEvent(paymentRequest, err)
     if (err.category === VALIDATION) {
       await sendMessage({ paymentRequest, accepted: false, error: err.message }, REJECTED, { subject: paymentRequest?.sourceSystem })
       await receiver.deadLetterMessage(message)
