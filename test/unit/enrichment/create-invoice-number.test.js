@@ -1,5 +1,3 @@
-const { GBP } = require('../../../app/currency')
-const { M12 } = require('../../../app/schedules')
 const createInvoiceNumber = require('../../../app/enrichment/create-invoice-number')
 
 let paymentRequest
