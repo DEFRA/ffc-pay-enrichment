@@ -40,43 +40,6 @@ and
 
 All message schemas are fully documented in an [AsyncAPI specification](docs/asyncapi.yaml).
 
-### Example response message
-
-An acknowledgement response message is published after enrichment of every payment request to be optionally consumed by source systems.
-This message includes the enriched payment request and whether not the service accepted the request.
-
-{
-  "paymentRequest": {
-    "sourceSystem": "SFIP",
-    "sbi": 123456789,
-    "frn": 1234567890,
-    "marketingYear": 2022,
-    "paymentRequestNumber": 1,
-    "correlationId":"9e016c50-046b-4597-b79a-ebe4f0bf8505",
-    "invoiceNumber": "S123456789A123456V001",
-    "agreementNumber": "SFI12345",
-    "contractNumber": "SFI12345",
-    "currency": "GBP",
-    "schedule": "Q4",
-    "dueDate": "2021-11-12",
-    "value": 100000,
-    "schemeId": 2,
-    "ledger": "AP",
-    "deliveryBody": "RP00",
-    "schemeId": 2,
-    "invoiceLines": [{
-      "standardCode": "sfi-arable-soil",
-      "description": "G00 - Gross value of claim",
-      "value": 100000,
-      "schemeCode": "80001",
-      "fundCode": "DOM00"
-    }]
-  },
-  "accepted": false,
-  "error": "This is the reason for rejection"
-}
-
-
 ## Running the application
 
 The application is designed to run in containerised environments, using Docker Compose in development and Kubernetes in production.
