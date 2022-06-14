@@ -267,10 +267,10 @@ components:
       enum:
       - GBP
       - EUR
+      default: GBP
     Schedule:
       type: string
       description: Payment frequency instruction for DAX, eg Q4 for quarterly payments, optional.
-      example: Q4
       enum:
       - Q4
       - M12
@@ -280,17 +280,18 @@ components:
       format: DD/MM/YYYY, YYYY/MM/DD, DD-MM-YYYY or YYYY-MM-DD
       description: Date request should be issued from.  If not supplied will default to current date.
       example: 09/11/2022
+      default: Current date
     ValueDecimal:
       type: number
       format: decimal
-      description: Decimal net value of request, ie sum of all invoice lines
-      minimum: 0
-      maximum: 999999999999
+      description: Decimal net value of request before enrichment, ie decimal value in specified currency
+      minimum: 0.00
+      maximum: 999999999999.99
       example: 500.00
     ValueInteger:
       type: number
       format: integer
-      description: value of request or invoice line
+      description: value of request or invoice line after enrichment with main and fractional currency combined
       minimum: 0
       maximum: 999999999999
       example: 50000

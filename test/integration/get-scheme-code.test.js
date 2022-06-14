@@ -1,11 +1,11 @@
 const db = require('../../app/data')
-const getScheme = require('../../app/enrichment/get-scheme')
+const getSchemeCode = require('../../app/enrichment/get-scheme-code')
 const cache = require('../../app/cache')
 let scheme
+let schemeCode
 
 describe('get scheme', () => {
   beforeEach(async () => {
-    await cache.flush()
     await db.sequelize.truncate({ cascade: true })
 
     scheme = {
@@ -14,67 +14,72 @@ describe('get scheme', () => {
       sourceSystem: 'SFIP'
     }
 
+    schemeCode = {
+      schemeCodeId: 1,
+      schemeId: 1,
+      standardCode: 'SFIP-1',
+      schemeCode: '80001'
+    }
+
     await db.scheme.create(scheme)
+    await db.schemeCode.create(schemeCode)
   })
 
-  test('should return scheme for source system', async () => {
-    const result = await getScheme('SFIP')
-    expect(result.schemeId).toBe(1)
-    expect(result.name).toBe('SFI Pilot')
+  test('should return schemeCode for standardCode', async () => {
+    const result = await getSchemeCode('SFIP-1')
+    expect(result).toBe('80001')
   })
 
-  test('should return undefined if no scheme for source system', async () => {
-    const result = await getScheme('NOT A THING')
+  test('should return undefined if no schemeCode match', async () => {
+    const result = await getSchemeCode('NOT A THING')
     expect(result).toBeUndefined()
   })
 
   test('should cache result from database', async () => {
-    await getScheme('SFIP')
-    const result = cache.get('scheme-SFIP')
-    expect(result.schemeId).toBe(1)
-    expect(result.name).toBe('SFI Pilot')
+    await getSchemeCode('SFIP-1')
+    const result = cache.get('standard-code-SFIP-1')
+    expect(result).toBe('80001')
   })
 
   test('should use cache if available', async () => {
-    await getScheme('SFIP')
+    await getSchemeCode('SFIP-1')
     await db.sequelize.truncate({ cascade: true })
-    const result = await getScheme('SFIP')
-    expect(result.schemeId).toBe(1)
-    expect(result.name).toBe('SFI Pilot')
+    const result = await getSchemeCode('SFIP-1')
+    expect(result).toBe('80001')
   })
 
   test('should return undefined if object provided', async () => {
-    const result = await getScheme({})
+    const result = await getSchemeCode({})
     expect(result).toBeUndefined()
   })
 
   test('should return undefined if array provided', async () => {
-    const result = await getScheme([])
+    const result = await getSchemeCode([])
     expect(result).toBeUndefined()
   })
 
   test('should return undefined if empty string provided', async () => {
-    const result = await getScheme('')
+    const result = await getSchemeCode('')
     expect(result).toBeUndefined()
   })
 
   test('should return undefined if false provided', async () => {
-    const result = await getScheme(false)
+    const result = await getSchemeCode(false)
     expect(result).toBeUndefined()
   })
 
   test('should return undefined if true provided', async () => {
-    const result = await getScheme(true)
+    const result = await getSchemeCode(true)
     expect(result).toBeUndefined()
   })
 
   test('should return undefined if 1 provided', async () => {
-    const result = await getScheme(1)
+    const result = await getSchemeCode(1)
     expect(result).toBeUndefined()
   })
 
   test('should return undefined if 0 provided', async () => {
-    const result = await getScheme(0)
+    const result = await getSchemeCode(0)
     expect(result).toBeUndefined()
   })
 })

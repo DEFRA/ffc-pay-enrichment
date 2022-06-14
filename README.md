@@ -36,83 +36,9 @@ and
 | MESSAGE_QUEUE_SUFFIX | Developer initials |
 
 
-### Example inbound payment requests
+## Message schemas
 
-#### Future Farming Platform hosted services
-```
-{
-  "sourceSystem": "AHWR",
-  "sbi": 123456789,
-  "marketingYear": 2022,
-  "paymentRequestNumber": 1,
-  "agreementNumber": "SFI12345",
-  "contractNumber": "SFI12345",
-  "schedule": "Q4",
-  "value": 1000.00,
-  "invoiceLines": [{
-    "standardCode": "ahwr-cows",
-    "description": "G00 - Gross value of claim",
-    "value": 1000.00
-  }]
-}
-```
-
-#### Siti Agri
-```
-{
-  "sourceSystem": "SFIP",
-  "frn": 1234567890,
-  "marketingYear": 2022,
-  "paymentRequestNumber": 1,
-  "correlationId":"9e016c50-046b-4597-b79a-ebe4f0bf8505",
-  "agreementNumber": "SFI12345",
-  "contractNumber": "SFI12345",
-  "currency": "GBP",
-  "schedule": "Q4",
-  "dueDate": "2022-05-15",
-  "value": 1000.00,
-  "invoiceLines": [{
-    "schemeCode": "80001",
-    "accountCode": "SOS100",
-    "fundCode": "DRD10",
-    "description": "G00 - Gross value of claim",
-    "value": 1000.00
-  }]
-}
-```
-
-### Example enriched payment request
-
-Notice that values are converted to pence for downstream processing and the invoice number is transformed to DAX format.
-
-```
-{
-  "sourceSystem": "SFIP",
-  "sbi": 123456789,
-  "frn": 1234567890,
-  "marketingYear": 2022,
-  "paymentRequestNumber": 1,
-  "correlationId":"9e016c50-046b-4597-b79a-ebe4f0bf8505",
-  "invoiceNumber": "S123456789A123456V001",
-  "agreementNumber": "SFI12345",
-  "contractNumber": "SFI12345",
-  "currency": "GBP",
-  "schedule": "Q4",
-  "dueDate": "2021-11-12",
-  "value": 100000,
-  "schemeId": 2,
-  "ledger": "AP",
-  "deliveryBody": "RP00",
-  "schemeId": 2,
-  "invoiceLines": [{
-    "standardCode": "sfi-arable-soil",
-    "description": "G00 - Gross value of claim",
-    "value": 100000,
-    "schemeCode": "80001",
-    "fundCode": "DOM00"
-  }]
-}
-```
+All message schemas are fully documented in an [AsyncAPI specification](docs/asyncapi.yaml).
 
 ### Example response message
 
