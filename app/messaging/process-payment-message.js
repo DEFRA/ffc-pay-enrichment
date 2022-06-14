@@ -12,7 +12,7 @@ async function processPaymentMessage (message, receiver) {
     const originalPaymentRequest = JSON.parse(JSON.stringify(paymentRequest))
     await enrichPaymentRequest(paymentRequest)
     await sendMessage(paymentRequest, ENRICHED)
-    await sendMessage({ paymentRequest, accepted: true }, ACCEPTED, { to: paymentRequest.sourceSystem })
+    await sendMessage({ paymentRequest, accepted: true }, ACCEPTED, { subject: paymentRequest.sourceSystem })
     await receiver.completeMessage(message)
     console.log('Payment request enriched:', util.inspect(paymentRequest, false, null, true))
     await sendEnrichmentEvent({ originalPaymentRequest, paymentRequest })
@@ -20,7 +20,7 @@ async function processPaymentMessage (message, receiver) {
     console.error('Unable to process payment request:', err.message)
     await sendEnrichmentErrorEvent(message.body, err)
     if (err.category === VALIDATION) {
-      await sendMessage({ paymentRequest, accepted: false, error: err.message }, REJECTED, { to: paymentRequest?.sourceSystem })
+      await sendMessage({ paymentRequest, accepted: false, error: err.message }, REJECTED, { subject: paymentRequest?.sourceSystem })
       await receiver.deadLetterMessage(message)
     }
   }
