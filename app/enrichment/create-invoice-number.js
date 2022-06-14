@@ -14,8 +14,9 @@ const createInvoiceNumber = (paymentRequest) => {
 }
 
 const createSitiAgriInvoiceNumber = (paymentRequest) => {
-  if (paymentRequest.invoiceNumber.length >= 7 && paymentRequest.contractNumber && paymentRequest.paymentRequestNumber) {
-    return `S${paymentRequest.invoiceNumber.slice(-7)}${paymentRequest.contractNumber}V${paymentRequest.paymentRequestNumber.toString().padStart(3, '0')}`
+  const sitiInvoiceNumberElementLength = 7
+  if (paymentRequest.invoiceNumber.length >= sitiInvoiceNumberElementLength && paymentRequest.contractNumber && paymentRequest.paymentRequestNumber) {
+    return `S${paymentRequest.invoiceNumber.slice(-sitiInvoiceNumberElementLength)}${paymentRequest.contractNumber}V${paymentRequest.paymentRequestNumber.toString().padStart(3, '0')}`
   }
 }
 
