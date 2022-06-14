@@ -2,15 +2,19 @@ const db = require('../data')
 const cache = require('../cache')
 
 const getScheme = async (sourceSystem) => {
-  const cachedScheme = getSchemeFromCache(sourceSystem)
-  if (cachedScheme) {
-    return cachedScheme
+  try {
+    const cachedScheme = getSchemeFromCache(sourceSystem)
+    if (cachedScheme) {
+      return cachedScheme
+    }
+    const scheme = await getSchemeFromDb(sourceSystem)
+    if (scheme) {
+      updateCache(sourceSystem, scheme)
+    }
+    return scheme
+  } catch {
+    return undefined
   }
-  const scheme = await getSchemeFromDb(sourceSystem)
-  if (scheme) {
-    updateCache(sourceSystem, scheme)
-  }
-  return scheme
 }
 
 const getSchemeFromCache = (sourceSystem) => {
@@ -23,7 +27,8 @@ const updateCache = (sourceSystem, value) => {
 
 const getSchemeFromDb = async (sourceSystem) => {
   if (sourceSystem) {
-    return db.scheme.findOne({ where: { sourceSystem }, raw: true })
+    const scheme = await db.scheme.findOne({ where: { sourceSystem }, raw: true })
+    return scheme || undefined
   }
 }
 

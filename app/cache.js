@@ -7,7 +7,7 @@ const get = (key) => {
 }
 
 const set = (key, value) => {
-  cache.set(key, value, config.ttl)
+  return cache.set(key, value, config.ttl)
 }
 
 const flush = () => {
