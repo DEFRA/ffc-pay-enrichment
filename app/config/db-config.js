@@ -28,7 +28,7 @@ const dbConfig = {
   dialect: 'postgres',
   dialectOptions: {
     ssl: isProd()
-  }
+  },
   hooks,
   host: process.env.POSTGRES_HOST || 'ffc-pay-enrichment-postgres',
   password: process.env.POSTGRES_PASSWORD,
