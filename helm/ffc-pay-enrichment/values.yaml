@@ -43,7 +43,7 @@ container:
 
 postgresService:
   postgresDb: ffc_pay_enrichment
-  postgresHost: ffc-pay-enrichment-postgres
+  postgresqlHost: ffc-pay-enrichment-postgres
   postgresPort: 5432
   postgresSchema: public
   postgresUser: postgres
