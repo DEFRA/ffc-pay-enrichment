@@ -1,6 +1,6 @@
 {
   "name": "ffc-pay-enrichment",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "FFC Payment enrichment service",
   "homepage": "https://github.com/DEFRA/ffc-pay-enrichment",
   "main": "app/index.js",
@@ -23,7 +23,7 @@
     "@azure/identity": "^2.0.1",
     "@joi/date": "^2.1.0",
     "applicationinsights": "^1.8.2",
-    "ffc-messaging": "^2.4.2",
+    "ffc-messaging": "^2.5.1",
     "ffc-pay-event-publisher": "^1.0.1",
     "joi": "^17.4.2",
     "log-timestamp": "^0.3.0",
