@@ -7,6 +7,6 @@
     <update tableName="schemes">
       <column name="name" value="Vet Visits" />
       <where>"schemeId" = 4</where>
-    </update>   
+    </update>
   </changeSet>
 </databaseChangeLog>
