@@ -30,6 +30,7 @@ describe('enrich payment request', () => {
       deliveryBody: 'RP00',
       sbi: 123456789,
       paymentRequestNumber: 1,
+      invoiceNumber: 'SFIP0695764',
       agreementNumber: 'SIP00000000001',
       contractNumber: 'SFIP000001',
       marketingYear: 2022,
