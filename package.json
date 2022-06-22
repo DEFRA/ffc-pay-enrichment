@@ -1,6 +1,6 @@
 {
   "name": "ffc-pay-enrichment",
-  "version": "1.8.3",
+  "version": "1.8.4",
   "description": "FFC Payment enrichment service",
   "homepage": "https://github.com/DEFRA/ffc-pay-enrichment",
   "main": "app/index.js",
@@ -37,7 +37,7 @@
   "devDependencies": {
     "jest": "^27.0.6",
     "jest-junit": "^13.0.0",
-    "nodemon": "^2.0.12",
+    "nodemon": "^2.0.16",
     "standard": "^16.0.3"
   },
   "standard": {
