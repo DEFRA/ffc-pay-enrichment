@@ -30,7 +30,7 @@ describe('generate invoice number', () => {
     expect(result).toEqual('S0695764S1248977V001')
   })
 
-  test('generate invoice number for Vets Visits', () => {
+  test('generate invoice number for Vet Visits', () => {
     paymentRequest.schemeId = 4
     const result = createInvoiceNumber(paymentRequest)
     expect(result).toEqual('SIP00000000000011V001')
