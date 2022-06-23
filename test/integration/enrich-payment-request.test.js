@@ -206,4 +206,10 @@ describe('enrich payment request', () => {
     await enrichPaymentRequest(paymentRequest)
     expect(paymentRequest.currency).toBe(GBP)
   })
+
+  test('should add contract number as agreement number if not present', async () => {
+    delete paymentRequest.agreementNumber
+    await enrichPaymentRequest(paymentRequest)
+    expect(paymentRequest.agreementNumber).toBe(paymentRequest.contractNumber)
+  })
 })
