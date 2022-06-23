@@ -1,4 +1,5 @@
 const createInvoiceNumber = require('../../../app/enrichment/create-invoice-number')
+const { SFI_PILOT, SFI, LUMP_SUMS, VET_VISITS, LNR } = require('../../../app/schemes')
 
 let paymentRequest
 
@@ -13,31 +14,31 @@ describe('generate invoice number', () => {
   })
 
   test('generate invoice number for SFI', () => {
-    paymentRequest.schemeId = 1
+    paymentRequest.schemeId = SFI
     const result = createInvoiceNumber(paymentRequest)
     expect(result).toEqual('S0695764S1248977V001')
   })
 
   test('generate invoice number for SFI Pilot', () => {
-    paymentRequest.schemeId = 2
+    paymentRequest.schemeId = SFI_PILOT
     const result = createInvoiceNumber(paymentRequest)
     expect(result).toEqual('S0695764S1248977V001')
   })
 
   test('generate invoice number for Lump sums', () => {
-    paymentRequest.schemeId = 3
+    paymentRequest.schemeId = LUMP_SUMS
     const result = createInvoiceNumber(paymentRequest)
     expect(result).toEqual('S0695764S1248977V001')
   })
 
   test('generate invoice number for Vet Visits', () => {
-    paymentRequest.schemeId = 4
+    paymentRequest.schemeId = VET_VISITS
     const result = createInvoiceNumber(paymentRequest)
     expect(result).toEqual('SIP00000000000011V001')
   })
 
   test('generate invoice number for LNR', () => {
-    paymentRequest.schemeId = 5
+    paymentRequest.schemeId = LNR
     const result = createInvoiceNumber(paymentRequest)
     expect(result).toEqual('SIP00000000000011V001')
   })
@@ -54,7 +55,7 @@ describe('generate invoice number', () => {
   })
 
   test('return undefined if invoice number missing when needed', () => {
-    paymentRequest.schemeId = 1
+    paymentRequest.schemeId = SFI
     delete paymentRequest.invoiceNumber
     const result = createInvoiceNumber(paymentRequest)
     expect(result).toBeUndefined()
@@ -73,7 +74,7 @@ describe('generate invoice number', () => {
   })
 
   test('return undefined if invoice number missing for Siti Agri invoice', () => {
-    paymentRequest.schemeId = 1
+    paymentRequest.schemeId = SFI
     delete paymentRequest.paymentRequestNumber
     const result = createInvoiceNumber(paymentRequest)
     expect(result).toBeUndefined()

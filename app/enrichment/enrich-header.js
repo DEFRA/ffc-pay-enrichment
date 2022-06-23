@@ -9,6 +9,7 @@ const { GBP } = require('../currency')
 const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.correlationId = paymentRequest.correlationId ?? uuidv4()
   paymentRequest.schemeId = scheme?.schemeId
+  paymentRequest.agreementNumber = paymentRequest.agreementNumber ?? paymentRequest.contractNumber
   paymentRequest.invoiceNumber = createInvoiceNumber(paymentRequest)
   paymentRequest.ledger = AP
   paymentRequest.value = convertToPence(paymentRequest.value)

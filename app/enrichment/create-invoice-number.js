@@ -1,9 +1,11 @@
+const { SFI, SFI_PILOT, LUMP_SUMS } = require('../schemes')
+
 const createInvoiceNumber = (paymentRequest) => {
   try {
     switch (paymentRequest.schemeId) {
-      case 1:
-      case 2:
-      case 3:
+      case SFI:
+      case SFI_PILOT:
+      case LUMP_SUMS:
         return createSitiAgriInvoiceNumber(paymentRequest)
       default:
         return createDefaultInvoiceNumber(paymentRequest)
