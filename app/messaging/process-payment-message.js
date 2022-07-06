@@ -3,7 +3,8 @@ const sendMessage = require('./send-message')
 const util = require('util')
 const { VALIDATION } = require('../errors')
 const { sendEnrichmentEvent, sendEnrichmentErrorEvent } = require('../event')
-const { ENRICHED, ACCEPTED, REJECTED } = require('./types')
+// const { ENRICHED, ACCEPTED, REJECTED } = require('./types')
+const { ENRICHED } = require('./types')
 
 async function processPaymentMessage (message, receiver) {
   const paymentRequest = message.body
