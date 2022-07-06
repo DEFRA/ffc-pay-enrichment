@@ -7,7 +7,8 @@ const schema = Joi.object({
   env: Joi.string().valid('development', 'test', 'production').default('development'),
   cache: Joi.object({
     ttl: Joi.number().default(3600)
-  })
+  }),
+  sendResponses: Joi.boolean().default(true)
 })
 
 // Build config
@@ -15,7 +16,8 @@ const config = {
   env: process.env.NODE_ENV,
   cache: {
     ttl: process.env.CACHE_TTL
-  }
+  },
+  sendResponses: process.env.SEND_RESPONSES
 }
 
 // Validate config

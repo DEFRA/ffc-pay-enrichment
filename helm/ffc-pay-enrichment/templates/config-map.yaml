@@ -20,4 +20,5 @@ data:
   POSTGRES_HOST: {{ quote .Values.postgresService.postgresqlHost }}
   POSTGRES_PORT: {{ quote .Values.postgresService.postgresPort }}
   POSTGRES_SCHEMA_NAME: {{ quote .Values.postgresService.postgresSchema }}
+  SEND_RESPONSES: {{ quote .Values.container.sendResponses }}
 {{- end -}}

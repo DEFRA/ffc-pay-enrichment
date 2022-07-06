@@ -40,6 +40,7 @@ container:
   processingTopicAddress: ffc-pay-processing
   responseTopicAddress: ffc-pay-request-response
   eventTopicAddress: ffc-pay-event
+  sendResponses: false
 
 postgresService:
   postgresDb: ffc_pay_enrichment
