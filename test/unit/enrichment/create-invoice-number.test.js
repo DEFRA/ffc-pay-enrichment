@@ -6,7 +6,6 @@ let paymentRequest
 describe('generate invoice number', () => {
   beforeEach(() => {
     paymentRequest = {
-      invoiceNumber: 'SFIP0695764',
       paymentRequestNumber: 1,
       agreementNumber: 'SIP00000000000011',
       contractNumber: 'S1248977'
@@ -15,20 +14,23 @@ describe('generate invoice number', () => {
 
   test('generate invoice number for SFI', () => {
     paymentRequest.schemeId = SFI
+    paymentRequest.invoiceNumber = 'SFI0123456'
     const result = createInvoiceNumber(paymentRequest)
-    expect(result).toEqual('S0695764S1248977V001')
+    expect(result).toEqual('S0123456S1248977V001')
   })
 
   test('generate invoice number for SFI Pilot', () => {
     paymentRequest.schemeId = SFI_PILOT
+    paymentRequest.invoiceNumber = 'SFIP0123456'
     const result = createInvoiceNumber(paymentRequest)
-    expect(result).toEqual('S0695764S1248977V001')
+    expect(result).toEqual('S0123456S1248977V001')
   })
 
   test('generate invoice number for Lump sums', () => {
     paymentRequest.schemeId = LUMP_SUMS
+    paymentRequest.invoiceNumber = 'LSES0123456'
     const result = createInvoiceNumber(paymentRequest)
-    expect(result).toEqual('S0695764S1248977V001')
+    expect(result).toEqual('S0123456S1248977V001')
   })
 
   test('generate invoice number for Vet Visits', () => {
