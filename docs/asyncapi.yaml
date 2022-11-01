@@ -1,10 +1,10 @@
-asyncapi: 2.4.0
+asyncapi: 2.5.0
 info:
   title: FFC Payment Enrichment Service
   version: '1.0.0'
   description: Validate and enrichment of payment requests for downstream payment processing
 channels:
-  payment/request:
+  ffc-pay-request:
     subscribe:
       message:
         oneOf:
@@ -14,7 +14,7 @@ channels:
     publish:
       message:
         $ref: '#/components/messages/PaymentRequestResponse'
-  payment/enriched:
+  ffc-pay-processing:
     publish:
       message:
         $ref: '#/components/messages/PaymentRequestEnriched'
@@ -48,19 +48,19 @@ components:
             description: Whether the payment request was accepted by the payment service
           error:
             type: string
-            description: Only present if payment request was rejected detailing hte reason why
+            description: Only present if payment request was rejected detailing the reason why
   schemas:
     PaymentRequest:
       type: object
       required:
-      - sourceSystem
-      - sbi
-      - marketingYear
-      - paymentRequestNumber
-      - invoiceNumber
-      - agreementNumber
-      - value
-      - invoiceLines
+        - sourceSystem
+        - sbi
+        - marketingYear
+        - paymentRequestNumber
+        - invoiceNumber
+        - agreementNumber
+        - value
+        - invoiceLines
       properties:
         sourceSystem:
           $ref: '#/components/schemas/SourceSystem'
@@ -96,9 +96,9 @@ components:
           items:
             type: object
             required:
-            - standardCode
-            - description
-            - value
+              - standardCode
+              - description
+              - value
             properties:
               standardCode:
                 $ref: '#/components/schemas/StandardCode'
@@ -109,15 +109,15 @@ components:
     PaymentRequestSitiAgri:
       type: object
       required:
-      - sourceSystem
-      - frn
-      - marketingYear
-      - paymentRequestNumber
-      - invoiceNumber
-      - agreementNumber
-      - contractNumber
-      - value
-      - invoiceLines
+        - sourceSystem
+        - frn
+        - marketingYear
+        - paymentRequestNumber
+        - invoiceNumber
+        - agreementNumber
+        - contractNumber
+        - value
+        - invoiceLines
       properties:
         sourceSystem:
           $ref: '#/components/schemas/SourceSystem'
@@ -149,9 +149,9 @@ components:
           items:
             type: object
             required:
-            - schemeCode
-            - description
-            - value
+              - schemeCode
+              - description
+              - value
             properties:
               schemeCode:
                 $ref: '#/components/schemas/SchemeCode'                
@@ -163,6 +163,16 @@ components:
                 $ref: '#/components/schemas/ValueDecimal'
     PaymentRequestEnriched:
       type: object
+      required:
+        - sourceSystem
+        - frn
+        - marketingYear
+        - paymentRequestNumber
+        - invoiceNumber
+        - agreementNumber
+        - contractNumber
+        - value
+        - invoiceLines
       properties:
         sourceSystem:
           $ref: '#/components/schemas/SourceSystem'          
@@ -243,6 +253,7 @@ components:
       description: Version of payment request starting with 1, anything greater than 1 is an adjustment
       minimum: 1
       maximum: 99
+      example: 1
     CorrelationId:
       type: string
       format: uuid
@@ -263,18 +274,18 @@ components:
     Currency:
       type: string
       description: Currency of values in request. If not supplied will default to GBP.
-      example: GBP
       enum:
-      - GBP
-      - EUR
+        - GBP
+        - EUR
+      example: GBP
       default: GBP
     Schedule:
       type: string
       description: Payment frequency instruction for DAX, eg Q4 for quarterly payments, optional.
       enum:
-      - Q4
-      - M12
-      - T4
+        - Q4
+        - M12
+        - T4
     DueDate:
       type: string
       format: DD/MM/YYYY, YYYY/MM/DD, DD-MM-YYYY or YYYY-MM-DD
@@ -317,7 +328,16 @@ components:
       example: RP00
     Description:
       type: string
-      description: Description of what line relates to, eg gross or penalty
+      description: Description of what line relates to
+      enum:
+        - G00 - Gross value of claim
+        - P02 - Over declaration penalty
+        - P05 - Late claim submission penalty
+        - P06 - Late change penalty
+        - P08 - Non declaration of land penalty
+        - P22 - Rural Development refusals
+        - P23 - Rural Development withdrawals
+        - P24 - Over Declaration reduction
       example: G00 - Gross value of claim
     SchemeId:
       type: number
@@ -327,17 +347,17 @@ components:
     Ledger:
       type: string
       description: Target ledger for settlement, AP for Accounts Payable and AR for Accounts Receivable
-      example: AP
       enum:
-      - AP
-      - AR
+        - AP
+        - AR
+      example: AP
     DebtType:
       type: string
       description: Only for recoveries, reason for recovery. adm for administrative and irr for irregular debt
-      example: irr
       enum:
         - irr
         - adm
+      example: irr
     RecoveryDate:
       type: string
       format: DD/MM/YYYY, YYYY/MM/DD, DD-MM-YYYY or YYYY-MM-DD
