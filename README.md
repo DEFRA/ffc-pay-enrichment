@@ -33,13 +33,13 @@ This service publishes responses as messages to Azure Service Bus topics.
 
 | Name | Description |
 | ---| --- |
-| MESSAGE_QUEUE_HOST | Azure Service Bus hostname, e.g. `myservicebus.servicebus.windows.net` |
-| MESSAGE_QUEUE_USER | Azure Service Bus SAS policy name, e.g. `RootManageSharedAccessKey`    |
-| MESSAGE_QUEUE_PASSWORD | Azure Service Bus SAS policy key |
-| MESSAGE_QUEUE_SUFFIX | Developer initials, optional, will be |automatically added to topic names, e.g. `-jw `|
-| PAYMENT_TOPIC_ADDRESS | Azure Service Bus topic name for payment messages, e.g. `ffc-pay-request` |
-| PROCESSING_TOPIC_ADDRESS | Azure Service Bus topic name for processing messages, e.g. `ffc-pay-processing`
-| EVENT_TOPIC_ADDRESS | Azure Service Bus topic name for event messages, e.g. `ffc-pay-event` |
+| `MESSAGE_QUEUE_HOST` | Azure Service Bus hostname, e.g. `myservicebus.servicebus.windows.net` |
+| `MESSAGE_QUEUE_USER` | Azure Service Bus SAS policy name, e.g. `RootManageSharedAccessKey`    |
+| `MESSAGE_QUEUE_PASSWORD` | Azure Service Bus SAS policy key |
+| `MESSAGE_QUEUE_SUFFIX` | Developer initials, optional, will be |automatically added to topic names, e.g. `-jw `|
+| `PAYMENT_TOPIC_ADDRESS` | Azure Service Bus topic name for payment messages, e.g. `ffc-pay-request` |
+| `PROCESSING_TOPIC_ADDRESS` | Azure Service Bus topic name for processing messages, e.g. `ffc-pay-processing`
+| `EVENT_TOPIC_ADDRESS` | Azure Service Bus topic name for event messages, e.g. `ffc-pay-event` |
 
 ##### Message schemas
 
@@ -49,12 +49,12 @@ All message schemas are fully documented in an [AsyncAPI specification](docs/asy
 
 ### Configuration
 
-These configuration values should be set in the docker-compose.yaml file or Helm values file if running Kubernetes.
+These configuration values should be set in the [docker-compose.yaml](docker-compose.yaml) file or Helm [values file](helm/ffc-pay-responses/values.yaml) if running Kubernetes.
 
 | Name | Description |
 | ---| --- |
-| APPINSIGHTS_CLOUDROLE | Azure App Insights cloud role |
-| APPINSIGHTS_INSTRUMENTATIONKEY | Azure App Insights instrumentation key |
+| `APPINSIGHTS_CLOUDROLE` | Azure App Insights cloud role |
+| `APPINSIGHTS_INSTRUMENTATIONKEY` | Azure App Insights instrumentation key |
 
 #### Docker
 
