@@ -38,7 +38,7 @@ This service publishes responses as messages to Azure Service Bus topics.
 | `MESSAGE_QUEUE_HOST` | Azure Service Bus hostname, e.g. `myservicebus.servicebus.windows.net` |
 | `MESSAGE_QUEUE_USER` | Azure Service Bus SAS policy name, e.g. `RootManageSharedAccessKey`    |
 | `MESSAGE_QUEUE_PASSWORD` | Azure Service Bus SAS policy key |
-| `MESSAGE_QUEUE_SUFFIX` | Developer initials, optional, will be |automatically added to topic names, e.g. `-jw `|
+| `MESSAGE_QUEUE_SUFFIX` | Developer initials, optional, will be automatically added to topic names, e.g. `-jw `|
 | `PAYMENT_TOPIC_ADDRESS` | Azure Service Bus topic name for payment messages, e.g. `ffc-pay-request` |
 | `PROCESSING_TOPIC_ADDRESS` | Azure Service Bus topic name for processing messages, e.g. `ffc-pay-processing`
 | `EVENT_TOPIC_ADDRESS` | Azure Service Bus topic name for event messages, e.g. `ffc-pay-event` |
@@ -120,7 +120,7 @@ The script accepts the following arguments:
 
 ## CI pipeline
 
-This service uses the [FFC CI pipeline](https://github.com/DEFRA/ffc-jenkins-pipeline-library)
+This service uses the [FFC CI pipeline](https://github.com/DEFRA/ffc-jenkins-pipeline-library).
 
 ## Licence
 
