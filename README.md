@@ -9,8 +9,10 @@ flowchart LR
 ffc-pay-enrichment(Kubernetes - ffc-pay-enrichment)
 topic-request[Azure Service Bus Topic - ffc-pay-request]
 topic-processing[Azure Service Bus Topic - ffc-pay-processing]
+topic-event[Azure Service Bus Topic - ffc-pay-event]
 topic-request ==> ffc-pay-enrichment
 ffc-pay-enrichment ==> topic-processing
+ffc-pay-enrichment ==> topic-event
 ```
 
 ## Prerequisites
@@ -81,6 +83,14 @@ A debugger can be attached to the running application using port `9241`.
 
 ## How to get an output
 
+There are 2 different possible outputs:
+
+1. Enrich a valid payment request.
+  **Input**: Submit a [payment request](./docs/asyncapi.yaml) onto the `PAYMENT_TOPIC_ADDRESS` Topic.
+  **Output**: An [enrichment payment request](./docs//asyncapi.yaml) is put onto the `PROCESSING_TOPIC_ADDRESS` Topic and an [successful event](./docs/asyncapi.yaml) is put onto the `EVENT_TOPIC_ADDRESS`
+2. Enrich an invalid payment request.
+  **Input**: Submit an invalid payment request missing a required field or an invalid value onto the `PAYMENT_TOPIC_ADDRESS` Topic.
+  **Output**: An [unsuccessful event](./docs/asyncapi.yaml) is put onto the `EVENT_TOPIC_ADDRESS` and the message is dead lettered.
 
 ## How to stop the service
 

@@ -8,23 +8,27 @@ channels:
     subscribe:
       message:
         oneOf:
-        - $ref: '#/components/messages/PaymentRequest'
+        - $ref: '#/components/messages/PaymentRequestAHWR'
         - $ref: '#/components/messages/PaymentRequestSitiAgri'
-  payment/response:
-    publish:
-      message:
-        $ref: '#/components/messages/PaymentRequestResponse'
   ffc-pay-processing:
     publish:
       message:
         $ref: '#/components/messages/PaymentRequestEnriched'
+  ffc-pay-request-response:
+    publish:
+      message:
+        $ref: '#/components/messages/PaymentRequestResponse'
+  ffc-pay-event:
+    publish:
+      message:
+        $ref: '#/components/messages/PaymentRequestEvent'
 components:
   messages:
-    PaymentRequest:
-      name: Payment request
+    PaymentRequestAHWR:
+      name: AHWR payment request //TODO fix
       contentType: application/json
       payload:
-        $ref: '#/components/schemas/PaymentRequest'
+        $ref: '#/components/schemas/PaymentRequestAHWR'
     PaymentRequestSitiAgri:
       name: Siti Agri payment request
       contentType: application/json
@@ -36,7 +40,7 @@ components:
       payload:
         $ref: '#/components/schemas/PaymentRequestEnriched'
     PaymentRequestResponse:
-      name: Payment request response
+      name: AHWR payment request response
       contentType: application/json
       payload:
         type: object
@@ -49,11 +53,22 @@ components:
           error:
             type: string
             description: Only present if payment request was rejected detailing the reason why
+    PaymentRequestEvent:
+      name: Success enrichment event
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/PaymentRequestEvent'
+    PaymentRequestEventError:
+      name: Success enrichment event
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/PaymentRequestEventError'
   schemas:
-    PaymentRequest:
+    PaymentRequestAHWR:
       type: object
       required:
         - sourceSystem
+        - frn
         - sbi
         - marketingYear
         - paymentRequestNumber
@@ -64,6 +79,8 @@ components:
       properties:
         sourceSystem:
           $ref: '#/components/schemas/SourceSystem'
+        frn:
+          $ref: '#/components/schemas/FRN'
         sbi:
           $ref: '#/components/schemas/SBI'
         marketingYear:
@@ -226,6 +243,16 @@ components:
                 $ref: '#/components/schemas/FundCode'
               accountCode:
                 $ref: '#/components/schemas/AccountCode'
+    PaymentRequestEvent:
+      type: object
+      properties:
+        sourceSystem:
+          $ref: '#/components/schemas/SourceSystem'
+    PaymentRequestEventError:
+      type: object
+      properties:
+        sourceSystem:
+          $ref: '#/components/schemas/SourceSystem' 
     SourceSystem:
       type: string
       description: System identifier request originates from
