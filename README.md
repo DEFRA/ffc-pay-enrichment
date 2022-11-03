@@ -1,116 +1,126 @@
-# FFC Payment Enrichment 
+# Pay Enrichment 
 
-FFC service to enrich payment requests with mandatory data.
+Microservice to enrich payment requests with mandatory data.
+
+This service is part of the [Strategic Payment Service](https://github.com/DEFRA/ffc-pay-core).
+
+```mermaid
+flowchart LR
+ffc-pay-enrichment(Kubernetes - ffc-pay-enrichment)
+topic-request[Azure Service Bus Topic - ffc-pay-request]
+topic-processing[Azure Service Bus Topic - ffc-pay-processing]
+topic-event[Azure Service Bus Topic - ffc-pay-event]
+topic-request ==> ffc-pay-enrichment
+ffc-pay-enrichment ==> topic-processing
+ffc-pay-enrichment ==> topic-event
+```
 
 ## Prerequisites
 
-- Access to an instance of an
-[Azure Service Bus](https://docs.microsoft.com/en-us/azure/service-bus-messaging/)(ASB).
-- Docker
-- Docker Compose
+- [Azure Service Bus](https://docs.microsoft.com/en-us/azure/service-bus-messaging/)
+- [Docker](https://www.docker.com/)
+- Either:
+  - [Docker Compose](https://docs.docker.com/compose/install/linux/#install-the-plugin-manually)
+  - [Docker-Compose (standalone)](https://docs.docker.com/compose/install/other/)
 
 Optional:
-- Kubernetes
-- Helm
+- [Kubernetes](https://kubernetes.io/)
+- [Helm](https://helm.sh/)
 
-## Azure Service Bus
+### Configuration
 
-This service depends on a valid Azure Service Bus connection string for
-asynchronous communication.  The following environment variables need to be set
-in any non-production (`!config.isProd`) environment before the Docker
-container is started or tests are run. 
+#### Azure Service Bus
 
-When deployed into an appropriately configured AKS
-cluster (where [AAD Pod Identity](https://github.com/Azure/aad-pod-identity) is
-configured) the microservice will use AAD Pod Identity through the manifests
-for
-[azure-identity](./helm/ffc-pay-enrichment/templates/azure-identity.yaml)
-and
-[azure-identity-binding](./helm/ffc-pay-enrichment/templates/azure-identity-binding.yaml).
+This service publishes responses as messages to Azure Service Bus topics.
 
 | Name | Description |
 | ---| --- |
-| MESSAGE_QUEUE_HOST | Azure Service Bus hostname, e.g. `myservicebus.servicebus.windows.net` |
-| MESSAGE_QUEUE_PASSWORD | Azure Service Bus SAS policy key |
-| MESSAGE_QUEUE_USER | Azure Service Bus SAS policy name, e.g. `RootManageSharedAccessKey`    |
-| MESSAGE_QUEUE_SUFFIX | Developer initials |
+| `MESSAGE_QUEUE_HOST` | Azure Service Bus hostname, e.g. `myservicebus.servicebus.windows.net` |
+| `MESSAGE_QUEUE_USER` | Azure Service Bus SAS policy name, e.g. `RootManageSharedAccessKey`    |
+| `MESSAGE_QUEUE_PASSWORD` | Azure Service Bus SAS policy key |
+| `MESSAGE_QUEUE_SUFFIX` | Developer initials, optional, will be automatically added to topic names, e.g. `-jw `|
+| `PAYMENT_TOPIC_ADDRESS` | Azure Service Bus topic name for payment messages, e.g. `ffc-pay-request` |
+| `PROCESSING_TOPIC_ADDRESS` | Azure Service Bus topic name for processing messages, e.g. `ffc-pay-processing`
+| `EVENT_TOPIC_ADDRESS` | Azure Service Bus topic name for event messages, e.g. `ffc-pay-event` |
 
-
-## Message schemas
+##### Message schemas
 
 All message schemas are fully documented in an [AsyncAPI specification](docs/asyncapi.yaml).
 
-## Running the application
+## Setup
 
-The application is designed to run in containerised environments, using Docker Compose in development and Kubernetes in production.
+### Configuration
 
-- A Helm chart is provided for production deployments to Kubernetes.
+These configuration values should be set in the [docker-compose.yaml](docker-compose.yaml) file or Helm [values file](helm/ffc-pay-responses/values.yaml) if running Kubernetes.
 
-### Build container image
+| Name | Description |
+| ---| --- |
+| `APPINSIGHTS_CLOUDROLE` | Azure App Insights cloud role |
+| `APPINSIGHTS_INSTRUMENTATIONKEY` | Azure App Insights instrumentation key |
 
-Container images are built using Docker Compose, with the same images used to run the service with either Docker Compose or Kubernetes.
+#### Docker
 
-When using the Docker Compose files in development the local `app` folder will
-be mounted on top of the `app` folder within the Docker container, hiding the CSS files that were generated during the Docker build.  For the site to render correctly locally `npm run build` must be run on the host system.
-
-
-By default, the start script will build (or rebuild) images so there will
-rarely be a need to build images manually. However, this can be achieved
-through the Docker Compose
-[build](https://docs.docker.com/compose/reference/build/) command:
+Docker Compose can be used to build the container image.
 
 ```
-# Build container images
 docker-compose build
 ```
 
-### Start
+The service will file watch application and test files so no need to rebuild the container unless a change to an npm package is made.
 
-Use Docker Compose to run service locally.
+## How to start the service
 
-The service uses [Liquibase](https://www.liquibase.org/) to manage database migrations. To ensure the appropriate migrations have been run the utility script `scripts/start` may be run to execute the migrations, then the application.
-
-Alternatively the steps can be run manually:
-* run migrations
-  * `docker-compose -f docker-compose.migrate.yaml run --rm database-up`
-* start
-  * `docker-compose up`
-* stop
-  * `docker-compose down` or CTRL-C
-
-Additional Docker Compose files are provided for scenarios such as linking to other running services.
-
-Link to other services:
+The service can be run using the [start](scripts/start) script.
 ```
-docker-compose -f docker-compose.yaml -f docker-compose.link.yaml up
+./scripts/start
 ```
 
-## Test structure
+This script accepts any Docker Compose [Up](https://docs.docker.com/engine/reference/commandline/compose_up/) argument.
 
-The tests have been structured into subfolders of `./test` as per the
-[Microservice test approach and repository structure](https://eaflood.atlassian.net/wiki/spaces/FPS/pages/1845396477/Microservice+test+approach+and+repository+structure)
+### Debugging
 
-### Running tests
+A debugger can be attached to the running application using port `9241`.
 
-A convenience script is provided to run automated tests in a containerised
-environment. This will rebuild images before running tests via docker-compose,
-using a combination of `docker-compose.yaml` and `docker-compose.test.yaml`.
-The command given to `docker-compose run` may be customised by passing
-arguments to the test script.
+## How to get an output
 
-Examples:
+There are 2 different possible outputs:
 
+1. **Enrich a valid payment request**<br>
+  **Input**: Submit a [payment request](./docs/asyncapi.yaml) onto the `PAYMENT_TOPIC_ADDRESS` Topic.<br>
+  **Output**: An [enrichment payment request](./docs//asyncapi.yaml) is put onto the `PROCESSING_TOPIC_ADDRESS` Topic and an [successful event](./docs/asyncapi.yaml) is put onto the `EVENT_TOPIC_ADDRESS`
+2. **Enrich an invalid payment request**<br>
+  **Input**: Submit an invalid payment request missing a required field or an invalid value onto the `PAYMENT_TOPIC_ADDRESS` Topic.<br>
+  **Output**: An [unsuccessful event](./docs/asyncapi.yaml) is put onto the `EVENT_TOPIC_ADDRESS` and the message is dead lettered.
+
+## How to stop the service
+
+The service can be stopped using the [stop](scripts/stop) script.
 ```
-# Run all tests
-scripts/test
-
-# Run tests with file watch
-scripts/test -w
+./scripts/stop
 ```
+
+The script accepts any Docker Compose [Down](https://docs.docker.com/engine/reference/commandline/compose_down/) argument.
+
+For example, to stop the service and clear all data volumes.
+```
+./scripts/stop -v
+```
+
+## How to test the service
+
+The service can be tested using the [test](scripts/test) script.
+```
+./scripts/test
+```
+
+The script accepts the following arguments:
+
+- `--watch/-w` - run tests with file watching to support Test Driven Development scenarios (TDD)
+- `--debug/-d` - run tests in debug mode. Same as watch mode but will wait for a debugger to be attached before running tests.
 
 ## CI pipeline
 
-This service uses the [FFC CI pipeline](https://github.com/DEFRA/ffc-jenkins-pipeline-library)
+This service uses the [FFC CI pipeline](https://github.com/DEFRA/ffc-jenkins-pipeline-library).
 
 ## Licence
 

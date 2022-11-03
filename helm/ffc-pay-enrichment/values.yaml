@@ -1,4 +1,4 @@
-environment: development
+environment: production
 environmentCode:
 name: ffc-pay-enrichment
 namespace: ffc-pay
@@ -19,17 +19,12 @@ containerSecret:
   type: Opaque
 
 deployment:
-  restartPolicy: Always
-  priorityClassName: default
-  replicas: 1
   minReplicas: 1
   maxReplicas: 16
   cpuThreshold: 80
   memoryThreshold: 80
-  minReadySeconds: 0
 
 container:
-  imagePullPolicy: Always
   requestMemory: 80Mi
   requestCpu: 40m
   limitMemory: 80Mi
