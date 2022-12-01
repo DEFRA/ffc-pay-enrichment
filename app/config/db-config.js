@@ -1,8 +1,6 @@
 const { DefaultAzureCredential } = require('@azure/identity')
 
-function isProd () {
-  return process.env.NODE_ENV === 'production'
-}
+const isProd = () => process.env.NODE_ENV === 'production';
 
 const hooks = {
   beforeConnect: async (cfg) => {
