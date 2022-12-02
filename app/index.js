@@ -12,8 +12,6 @@ process.on('SIGINT', async () => {
   process.exit(0)
 })
 
-const startService = async () => {
+module.exports = (async () => {
   await messageService.start()
-}
-
-module.exports = { startService }
+})()
