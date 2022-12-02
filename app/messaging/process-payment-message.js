@@ -5,7 +5,7 @@ const { VALIDATION } = require('../errors')
 const { sendEnrichmentEvent, sendEnrichmentErrorEvent } = require('../event')
 const { ENRICHED, ACCEPTED, REJECTED } = require('./types')
 
-async function processPaymentMessage (message, receiver) {
+const processPaymentMessage = async (message, receiver) => {
   const paymentRequest = message.body
   try {
     console.log('Payment request received:', util.inspect(paymentRequest, false, null, true))
