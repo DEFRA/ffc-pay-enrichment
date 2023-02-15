@@ -1,13 +1,10 @@
 const raiseEvent = require('./raise-event')
 
-const sendEnrichmentEvent = async (paymentRequestComparison) => {
-  const paymentRequest = paymentRequestComparison.paymentRequest
+const sendEnrichmentEvent = async (paymentRequest) => {
   const event = {
-    id: paymentRequest.correlationId,
-    name: 'payment-request-enrichment',
-    type: 'info',
-    message: 'Payment request enriched',
-    data: paymentRequestComparison
+    source: 'ffc-pay-enrichment',
+    type: 'uk.gov.defra.ffc.pay.payment.enriched',
+    data: paymentRequest
   }
   await raiseEvent(event)
 }
