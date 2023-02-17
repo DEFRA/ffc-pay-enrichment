@@ -7,7 +7,9 @@ const schema = Joi.object({
   env: Joi.string().valid('development', 'test', 'production').default('development'),
   cache: Joi.object({
     ttl: Joi.number().default(3600)
-  })
+  }),
+  useV1Events: Joi.boolean().default(true),
+  useV2Events: Joi.boolean().default(true)
 })
 
 // Build config
@@ -15,7 +17,9 @@ const config = {
   env: process.env.NODE_ENV,
   cache: {
     ttl: process.env.CACHE_TTL
-  }
+  },
+  useV1Events: process.env.USE_V1_EVENTS,
+  useV2Events: process.env.USE_V2_EVENTS
 }
 
 // Validate config

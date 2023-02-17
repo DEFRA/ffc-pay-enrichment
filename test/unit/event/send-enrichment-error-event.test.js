@@ -1,5 +1,5 @@
 jest.mock('../../../app/event/raise-event')
-const raiseEvent = require('../../../app/event/raise-event')
+const raiseEvent = require('../../../app/event/raise-v2-event')
 const sendEnrichErrorEvent = require('../../../app/event/send-enrichment-error-event')
 const mockPaymentRequest = require('../../mock-payment-request')
 
