@@ -33,7 +33,7 @@ const sendV2EnrichmentErrorEvent = async (paymentRequest, error) => {
       paymentRequest
     }
   }
-  const eventPublisher = new EventPublisher(config.eventTopic)
+  const eventPublisher = new EventPublisher(config.eventsTopic)
   await eventPublisher.publishEvent(event)
 }
 

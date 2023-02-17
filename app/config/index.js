@@ -43,6 +43,7 @@ value.paymentSubscription = mqConfig.paymentSubscription
 value.processingTopic = mqConfig.processingTopic
 value.responseTopic = mqConfig.responseTopic
 value.eventTopic = mqConfig.eventTopic
+value.eventsTopic = mqConfig.eventsTopic
 value.dbConfig = dbConfig
 
 module.exports = value

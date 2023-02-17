@@ -29,7 +29,7 @@ const sendV2EnrichmentEvent = async (paymentRequest) => {
     type: 'uk.gov.defra.ffc.pay.payment.enriched',
     data: paymentRequest
   }
-  const eventPublisher = new EventPublisher(config.eventTopic)
+  const eventPublisher = new EventPublisher(config.eventsTopic)
   await eventPublisher.publishEvent(event)
 }
 
