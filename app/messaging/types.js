@@ -1,5 +1,5 @@
 module.exports = {
-  ENRICHED: 'uk.gov.pay.enriched',
-  ACCEPTED: 'uk.gov.pay.accepted',
-  REJECTED: 'uk.gov.pay.rejected'
+  ENRICHED: 'uk.gov.defra.ffc.pay.enriched',
+  ACCEPTED: 'uk.gov.defra.ffc.pay.accepted',
+  REJECTED: 'uk.gov.defra.ffc.pay.rejected'
 }
