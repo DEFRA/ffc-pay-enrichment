@@ -1,4 +1,4 @@
-const { VALIDATION } = require('../errors')
+const { VALIDATION } = require('../constants/errors')
 
 const validateType = (paymentRequest) => {
   if (typeof paymentRequest !== 'object' || Array.isArray(paymentRequest) || !paymentRequest) {

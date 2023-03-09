@@ -1,4 +1,4 @@
-const { VALIDATION } = require('../errors')
+const { VALIDATION } = require('../constants/errors')
 const schema = require('./schemas/header')
 
 const validateHeader = (header) => {

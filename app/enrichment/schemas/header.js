@@ -1,8 +1,8 @@
-const { GBP, EUR } = require('../../currency')
-const { DAX_DATE_FORMAT } = require('../../date-formats')
-const { IRREGULAR, ADMINISTRATIVE } = require('../../debt-types')
-const { AP, AR } = require('../../ledgers')
-const { Q4, M12, T4 } = require('../../schedules')
+const { GBP, EUR } = require('../../constants/currency')
+const { DAX_DATE_FORMAT } = require('../../constants/date-formats')
+const { IRREGULAR, ADMINISTRATIVE } = require('../../constants/debt-types')
+const { AP, AR } = require('../../constants/ledgers')
+const { Q4, M12, T4 } = require('../../constants/schedules')
 
 const Joi = require('joi').extend(require('@joi/date'))
 

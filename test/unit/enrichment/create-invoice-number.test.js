@@ -1,5 +1,5 @@
 const createInvoiceNumber = require('../../../app/enrichment/create-invoice-number')
-const { SFI_PILOT, SFI, LUMP_SUMS, VET_VISITS, LNR } = require('../../../app/schemes')
+const { SFI_PILOT, SFI, LUMP_SUMS, VET_VISITS, LNR } = require('../../../app/constants/schemes')
 
 let paymentRequest
 

@@ -1,4 +1,4 @@
-const { SFI, SFI_PILOT, LUMP_SUMS } = require('../schemes')
+const { SFI, SFI_PILOT, LUMP_SUMS } = require('../constants/schemes')
 
 const createInvoiceNumber = (paymentRequest) => {
   try {

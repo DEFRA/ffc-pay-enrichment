@@ -2,6 +2,8 @@ const { EventPublisher } = require('ffc-pay-event-publisher')
 const config = require('../config')
 const raiseEvent = require('./raise-event')
 const { v4: uuidv4 } = require('uuid')
+const { REJECTED } = require('../constants/events')
+const { SOURCE } = require('../constants/source')
 
 const sendEnrichmentErrorEvent = async (paymentRequest, error) => {
   if (config.useV1Events) {
@@ -26,8 +28,8 @@ const sendV1EnrichmentErrorEvent = async (paymentRequest, error) => {
 
 const sendV2EnrichmentErrorEvent = async (paymentRequest, error) => {
   const event = {
-    source: 'ffc-pay-enrichment',
-    type: 'uk.gov.defra.ffc.pay.warning.payment.rejected',
+    source: SOURCE,
+    type: REJECTED,
     data: {
       message: error.message,
       paymentRequest

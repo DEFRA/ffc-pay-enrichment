@@ -1,7 +1,7 @@
 const enrichPaymentRequest = require('../enrichment')
 const sendMessage = require('./send-message')
 const util = require('util')
-const { VALIDATION } = require('../errors')
+const { VALIDATION } = require('../constants/errors')
 const { sendEnrichmentEvent, sendEnrichmentErrorEvent } = require('../event')
 const { ENRICHED, ACCEPTED, REJECTED } = require('./types')
 

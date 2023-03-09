@@ -1,6 +1,6 @@
-const { GBP } = require('../app/currency')
-const { AP } = require('../app/ledgers')
-const { M12 } = require('../app/schedules')
+const { GBP } = require('../../app/constants/currency')
+const { AP } = require('../../app/constants/ledgers')
+const { M12 } = require('../../app/constants/schedules')
 
 module.exports = {
   correlationId: 'f9721145-e52f-4e8d-be8e-e6c219286a72',

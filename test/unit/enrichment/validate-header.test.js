@@ -1,8 +1,8 @@
-const { GBP } = require('../../../app/currency')
-const { IRREGULAR } = require('../../../app/debt-types')
+const { GBP } = require('../../../app/constants/currency')
+const { IRREGULAR } = require('../../../app/constants/debt-types')
 const validateHeader = require('../../../app/enrichment/validate-header')
-const { AP } = require('../../../app/ledgers')
-const { Q4 } = require('../../../app/schedules')
+const { AP } = require('../../../app/constants/ledgers')
+const { Q4 } = require('../../../app/constants/schedules')
 
 describe('validate header', () => {
   test('does not error if all values present', () => {

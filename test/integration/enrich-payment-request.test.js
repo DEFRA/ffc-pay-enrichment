@@ -1,8 +1,8 @@
-const { GBP } = require('../../app/currency')
+const { GBP } = require('../../app/constants/currency')
 const db = require('../../app/data')
 const enrichPaymentRequest = require('../../app/enrichment')
-const { AP } = require('../../app/ledgers')
-const { M12 } = require('../../app/schedules')
+const { AP } = require('../../app/constants/ledgers')
+const { M12 } = require('../../app/constants/schedules')
 let scheme
 let schemeCode
 let paymentRequest
