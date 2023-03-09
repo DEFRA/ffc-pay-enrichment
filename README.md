@@ -56,7 +56,7 @@ These configuration values should be set in the [docker-compose.yaml](docker-com
 | Name | Description |
 | ---| --- |
 | `APPINSIGHTS_CLOUDROLE` | Azure App Insights cloud role |
-| `APPINSIGHTS_INSTRUMENTATIONKEY` | Azure App Insights instrumentation key |
+| `APPINSIGHTS_CONNECTIONSTRING` | Azure App Insights connection string |
 
 #### Docker
 
