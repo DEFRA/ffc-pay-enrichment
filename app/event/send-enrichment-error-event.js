@@ -2,7 +2,7 @@ const { EventPublisher } = require('ffc-pay-event-publisher')
 const config = require('../config')
 const raiseEvent = require('./raise-event')
 const { v4: uuidv4 } = require('uuid')
-const { REJECTED } = require('../constants/events')
+const { PAYMENT_REJECTED } = require('../constants/events')
 const { SOURCE } = require('../constants/source')
 
 const sendEnrichmentErrorEvent = async (paymentRequest, error) => {
@@ -29,7 +29,7 @@ const sendV1EnrichmentErrorEvent = async (paymentRequest, error) => {
 const sendV2EnrichmentErrorEvent = async (paymentRequest, error) => {
   const event = {
     source: SOURCE,
-    type: REJECTED,
+    type: PAYMENT_REJECTED,
     data: {
       message: error.message,
       paymentRequest

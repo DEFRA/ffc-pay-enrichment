@@ -18,7 +18,7 @@ jest.mock('ffc-pay-event-publisher', () => {
 })
 jest.mock('../../../app/config')
 const config = require('../../../app/config')
-const { ENRICHED } = require('../../../app/constants/events')
+const { PAYMENT_ENRICHED } = require('../../../app/constants/events')
 const { SOURCE } = require('../../../app/constants/source')
 const sendEnrichmentEvent = require('../../../app/event/send-enrichment-event')
 
@@ -116,7 +116,7 @@ describe('V2 enrichment event', () => {
 
   test('should raise rejected payment event type', async () => {
     await sendEnrichmentEvent(paymentRequestComparison)
-    expect(mockPublishEvent.mock.calls[0][0].type).toBe(ENRICHED)
+    expect(mockPublishEvent.mock.calls[0][0].type).toBe(PAYMENT_ENRICHED)
   })
 
   test('should include payment request in event data', async () => {

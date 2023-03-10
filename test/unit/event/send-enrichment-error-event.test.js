@@ -18,7 +18,7 @@ jest.mock('ffc-pay-event-publisher', () => {
 })
 jest.mock('../../../app/config')
 const config = require('../../../app/config')
-const { REJECTED } = require('../../../app/constants/events')
+const { PAYMENT_REJECTED } = require('../../../app/constants/events')
 const { SOURCE } = require('../../../app/constants/source')
 const sendEnrichmentErrorEvent = require('../../../app/event/send-enrichment-error-event')
 
@@ -124,7 +124,7 @@ describe('V2 enrichment error event', () => {
 
   test('should raise rejected payment event type', async () => {
     await sendEnrichmentErrorEvent(paymentRequest, error)
-    expect(mockPublishEvent.mock.calls[0][0].type).toBe(REJECTED)
+    expect(mockPublishEvent.mock.calls[0][0].type).toBe(PAYMENT_REJECTED)
   })
 
   test('should include error message in event data', async () => {

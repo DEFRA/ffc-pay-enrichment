@@ -1,6 +1,6 @@
 const { EventPublisher } = require('ffc-pay-event-publisher')
 const config = require('../config')
-const { ENRICHED } = require('../constants/events')
+const { PAYMENT_ENRICHED } = require('../constants/events')
 const { SOURCE } = require('../constants/source')
 const raiseEvent = require('./raise-event')
 
@@ -28,7 +28,7 @@ const sendV1EnrichmentEvent = async (paymentRequestComparison) => {
 const sendV2EnrichmentEvent = async (paymentRequest) => {
   const event = {
     source: SOURCE,
-    type: ENRICHED,
+    type: PAYMENT_ENRICHED,
     data: paymentRequest
   }
   const eventPublisher = new EventPublisher(config.eventsTopic)
