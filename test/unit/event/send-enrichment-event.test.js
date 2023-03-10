@@ -26,7 +26,7 @@ let paymentRequestComparison
 
 beforeEach(() => {
   const paymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-request')))
-  paymentRequestComparison = { paymentRequest: paymentRequest, originalPaymentRequest: paymentRequest }
+  paymentRequestComparison = { paymentRequest, originalPaymentRequest: paymentRequest }
   config.useV1Events = true
   config.useV2Events = true
   config.eventTopic = 'v1-events'
