@@ -9,15 +9,19 @@ data:
   PROCESSING_TOPIC_ADDRESS: {{ .Values.container.processingTopicAddress }}-{{ .Values.environmentCode }}
   RESPONSE_TOPIC_ADDRESS: {{ .Values.container.responseTopicAddress }}-{{ .Values.environmentCode }}
   EVENT_TOPIC_ADDRESS: {{ .Values.container.eventTopicAddress }}-{{ .Values.environmentCode }}
+  EVENTS_TOPIC_ADDRESS: {{ .Values.container.eventsTopicAddress }}-{{ .Values.environmentCode }}
   {{ else }}
   PAYMENT_TOPIC_ADDRESS: {{ quote .Values.container.paymentTopicAddress }}
   PROCESSING_TOPIC_ADDRESS: {{ quote .Values.container.processingTopicAddress }}
   RESPONSE_TOPIC_ADDRESS: {{ quote .Values.container.responseTopicAddress }}
   EVENT_TOPIC_ADDRESS: {{ quote .Values.container.eventTopicAddress }}
+  EVENTS_TOPIC_ADDRESS: {{ quote .Values.container.eventsTopicAddress }}
   {{- end }}
   PAYMENT_SUBSCRIPTION_ADDRESS: {{ quote .Values.container.paymentSubscriptionAddress }}
   POSTGRES_DB: {{ quote .Values.postgresService.postgresDb }}
   POSTGRES_HOST: {{ quote .Values.postgresService.postgresqlHost }}
   POSTGRES_PORT: {{ quote .Values.postgresService.postgresPort }}
   POSTGRES_SCHEMA_NAME: {{ quote .Values.postgresService.postgresSchema }}
+  USE_V1_EVENTS: {{ quote .Values.container.useV1Events }}
+  USE_V2_EVENTS: {{ quote .Values.container.useV2Events }}
 {{- end -}}

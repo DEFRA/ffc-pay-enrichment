@@ -2,9 +2,9 @@ const { v4: uuidv4 } = require('uuid')
 const { convertToPence } = require('../currency-convert')
 const createInvoiceNumber = require('./create-invoice-number')
 const getFrn = require('./get-frn')
-const { AP } = require('../ledgers')
+const { AP } = require('../constants/ledgers')
 const { convertToDaxDate } = require('../date-convert')
-const { GBP } = require('../currency')
+const { GBP } = require('../constants/currency')
 
 const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.correlationId = paymentRequest.correlationId ?? uuidv4()

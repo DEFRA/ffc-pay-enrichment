@@ -16,13 +16,18 @@ jest.mock('ffc-pay-event-publisher', () => {
       return {
         sendEvent: jest.fn()
       }
+    }),
+    EventPublisher: jest.fn().mockImplementation(() => {
+      return {
+        publishEvent: jest.fn()
+      }
     })
   }
 })
 jest.mock('../../../app/data')
 jest.mock('../../../app/enrichment')
 const mockEnrichPaymentRequest = require('../../../app/enrichment')
-const { VALIDATION } = require('../../../app/errors')
+const { VALIDATION } = require('../../../app/constants/errors')
 const processPaymentMessage = require('../../../app/messaging/process-payment-message')
 const { ENRICHED, ACCEPTED, REJECTED } = require('../../../app/messaging/types')
 let receiver
