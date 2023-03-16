@@ -1,4 +1,4 @@
-const { SFI, SFI_PILOT, LUMP_SUMS } = require('../constants/schemes')
+const { SFI, SFI_PILOT, LUMP_SUMS, CS, BPS } = require('../constants/schemes')
 
 const createInvoiceNumber = (paymentRequest) => {
   try {
@@ -6,6 +6,8 @@ const createInvoiceNumber = (paymentRequest) => {
       case SFI:
       case SFI_PILOT:
       case LUMP_SUMS:
+      case CS:
+      case BPS:
         return createSitiAgriInvoiceNumber(paymentRequest)
       default:
         return createDefaultInvoiceNumber(paymentRequest)

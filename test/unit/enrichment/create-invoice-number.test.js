@@ -1,5 +1,5 @@
 const createInvoiceNumber = require('../../../app/enrichment/create-invoice-number')
-const { SFI_PILOT, SFI, LUMP_SUMS, VET_VISITS, LNR } = require('../../../app/constants/schemes')
+const { SFI_PILOT, SFI, LUMP_SUMS, VET_VISITS, CS, BPS } = require('../../../app/constants/schemes')
 
 let paymentRequest
 
@@ -12,14 +12,14 @@ describe('generate invoice number', () => {
     }
   })
 
-  test('generate invoice number for SFI', () => {
+  test('generate invoice number for Sustainable Farming Incentive', () => {
     paymentRequest.schemeId = SFI
     paymentRequest.invoiceNumber = 'SFI0123456'
     const result = createInvoiceNumber(paymentRequest)
     expect(result).toEqual('S0123456S1248977V001')
   })
 
-  test('generate invoice number for SFI Pilot', () => {
+  test('generate invoice number for Sustainable Farming Incentive Pilot', () => {
     paymentRequest.schemeId = SFI_PILOT
     paymentRequest.invoiceNumber = 'SFIP0123456'
     const result = createInvoiceNumber(paymentRequest)
@@ -39,14 +39,22 @@ describe('generate invoice number', () => {
     expect(result).toEqual('SIP00000000000011V001')
   })
 
-  test('generate invoice number for LNR', () => {
-    paymentRequest.schemeId = LNR
+  test('generate invoice number for Countryside Stewardship', () => {
+    paymentRequest.schemeId = CS
+    paymentRequest.invoiceNumber = 'CS00123456'
     const result = createInvoiceNumber(paymentRequest)
-    expect(result).toEqual('SIP00000000000011V001')
+    expect(result).toEqual('S0123456S1248977V001')
+  })
+
+  test('generate invoice number for Basic Payment Scheme', () => {
+    paymentRequest.schemeId = BPS
+    paymentRequest.invoiceNumber = 'SITI0123456'
+    const result = createInvoiceNumber(paymentRequest)
+    expect(result).toEqual('S0123456S1248977V001')
   })
 
   test('generate default invoice format for unknown scheme', () => {
-    paymentRequest.schemeId = 6
+    paymentRequest.schemeId = -1
     const result = createInvoiceNumber(paymentRequest)
     expect(result).toEqual('SIP00000000000011V001')
   })

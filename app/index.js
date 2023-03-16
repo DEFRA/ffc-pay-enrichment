@@ -2,12 +2,7 @@ require('./insights').setup()
 require('log-timestamp')
 const messageService = require('./messaging')
 
-process.on('SIGTERM', async () => {
-  await messageService.stop()
-  process.exit(0)
-})
-
-process.on('SIGINT', async () => {
+process.on(['SIGTERM', 'SIGINT', 'SIGKILL'], async () => {
   await messageService.stop()
   process.exit(0)
 })
