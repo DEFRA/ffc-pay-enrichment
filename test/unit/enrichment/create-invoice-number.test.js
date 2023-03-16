@@ -64,13 +64,6 @@ describe('generate invoice number', () => {
     expect(result).toEqual('SIP00000000000011V001')
   })
 
-  test('return undefined if invoice number missing when needed', () => {
-    paymentRequest.schemeId = SFI
-    delete paymentRequest.invoiceNumber
-    const result = createInvoiceNumber(paymentRequest)
-    expect(result).toBeUndefined()
-  })
-
   test('return undefined if agreement number missing when needed', () => {
     delete paymentRequest.agreementNumber
     const result = createInvoiceNumber(paymentRequest)
@@ -83,8 +76,71 @@ describe('generate invoice number', () => {
     expect(result).toBeUndefined()
   })
 
-  test('return undefined if invoice number missing for Siti Agri invoice', () => {
+  test('return undefined if invoice number missing for SFI', () => {
     paymentRequest.schemeId = SFI
+    delete paymentRequest.invoiceNumber
+    const result = createInvoiceNumber(paymentRequest)
+    expect(result).toBeUndefined()
+  })
+
+  test('return undefined if payment request number missing for SFI invoice', () => {
+    paymentRequest.schemeId = SFI
+    delete paymentRequest.paymentRequestNumber
+    const result = createInvoiceNumber(paymentRequest)
+    expect(result).toBeUndefined()
+  })
+
+  test('return undefined if invoice number missing for SFI Pilot', () => {
+    paymentRequest.schemeId = SFI_PILOT
+    delete paymentRequest.invoiceNumber
+    const result = createInvoiceNumber(paymentRequest)
+    expect(result).toBeUndefined()
+  })
+
+  test('return undefined if payment request number missing for SFI Pilot invoice', () => {
+    paymentRequest.schemeId = SFI_PILOT
+    delete paymentRequest.paymentRequestNumber
+    const result = createInvoiceNumber(paymentRequest)
+    expect(result).toBeUndefined()
+  })
+
+  test('return undefined if invoice number missing for Lump Sums', () => {
+    paymentRequest.schemeId = LUMP_SUMS
+    delete paymentRequest.invoiceNumber
+    const result = createInvoiceNumber(paymentRequest)
+    expect(result).toBeUndefined()
+  })
+
+  test('return undefined if payment request number missing for Lump Sums', () => {
+    paymentRequest.schemeId = LUMP_SUMS
+    delete paymentRequest.paymentRequestNumber
+    const result = createInvoiceNumber(paymentRequest)
+    expect(result).toBeUndefined()
+  })
+
+  test('return undefined if invoice number missing for CS', () => {
+    paymentRequest.schemeId = CS
+    delete paymentRequest.invoiceNumber
+    const result = createInvoiceNumber(paymentRequest)
+    expect(result).toBeUndefined()
+  })
+
+  test('return undefined if payment request number missing for CS invoice', () => {
+    paymentRequest.schemeId = CS
+    delete paymentRequest.paymentRequestNumber
+    const result = createInvoiceNumber(paymentRequest)
+    expect(result).toBeUndefined()
+  })
+
+  test('return undefined if invoice number missing for BPS', () => {
+    paymentRequest.schemeId = BPS
+    delete paymentRequest.invoiceNumber
+    const result = createInvoiceNumber(paymentRequest)
+    expect(result).toBeUndefined()
+  })
+
+  test('return undefined if payment request number missing for BPS invoice', () => {
+    paymentRequest.schemeId = BPS
     delete paymentRequest.paymentRequestNumber
     const result = createInvoiceNumber(paymentRequest)
     expect(result).toBeUndefined()
