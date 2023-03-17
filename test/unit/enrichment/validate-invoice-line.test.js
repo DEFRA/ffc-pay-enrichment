@@ -8,7 +8,8 @@ describe('validate invoice line', () => {
       accountCode: 'SOS273',
       fundCode: 'DRD10',
       description: 'G00 - Gross value of claim',
-      value: 100
+      value: 100,
+      convergence: true
     }
     expect(() => validateInvoiceLine(line)).not.toThrow()
   })
