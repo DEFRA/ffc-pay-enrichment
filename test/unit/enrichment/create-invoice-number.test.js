@@ -1,5 +1,5 @@
 const createInvoiceNumber = require('../../../app/enrichment/create-invoice-number')
-const { SFI_PILOT, SFI, LUMP_SUMS, VET_VISITS, CS, BPS } = require('../../../app/constants/schemes')
+const { SFI_PILOT, SFI, LUMP_SUMS, VET_VISITS, CS, BPS, FDMR } = require('../../../app/constants/schemes')
 
 let paymentRequest
 
@@ -51,6 +51,13 @@ describe('generate invoice number', () => {
     paymentRequest.invoiceNumber = 'SITI0123456'
     const result = createInvoiceNumber(paymentRequest)
     expect(result).toEqual('S0123456S1248977V001')
+  })
+
+  test('generate invoice number for FDMR', () => {
+    paymentRequest.schemeId = FDMR
+    paymentRequest.invoiceNumber = 'FDMR0123456'
+    const result = createInvoiceNumber(paymentRequest)
+    expect(result).toEqual('F0123456S1248977V001')
   })
 
   test('generate default invoice format for unknown scheme', () => {
@@ -141,6 +148,13 @@ describe('generate invoice number', () => {
 
   test('return undefined if payment request number missing for BPS invoice', () => {
     paymentRequest.schemeId = BPS
+    delete paymentRequest.paymentRequestNumber
+    const result = createInvoiceNumber(paymentRequest)
+    expect(result).toBeUndefined()
+  })
+
+  test('return undefined if payment request number missing for FDMR invoice', () => {
+    paymentRequest.schemeId = FDMR
     delete paymentRequest.paymentRequestNumber
     const result = createInvoiceNumber(paymentRequest)
     expect(result).toBeUndefined()
