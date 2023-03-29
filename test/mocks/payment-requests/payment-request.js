@@ -1,6 +1,7 @@
 const { GBP } = require('../../../app/constants/currency')
 const { AP } = require('../../../app/constants/ledgers')
 const { M12 } = require('../../../app/constants/schedules')
+const { SFI } = require('../../../app/constants/schemes')
 const { ACCOUNT_CODE } = require('../values/account-code')
 const { AGREEMENT_NUMBER } = require('../values/agreement-number')
 const { CONTRACT_NUMBER } = require('../values/contract-number')
@@ -10,7 +11,7 @@ const { GROSS_DESCRIPTION, PENALTY_DESCRIPTION } = require('../values/descriptio
 const { DUE_DATE } = require('../values/due-date')
 const { FRN } = require('../values/frn')
 const { FUND_CODE } = require('../values/fund-code')
-const { INVOICE_NUMBER } = require('../values/invoice-number')
+const { SFI_INVOICE_NUMBER } = require('../values/invoice-number')
 const { MARKETING_YEAR } = require('../values/marketing-year')
 const { PAYMENT_REQUEST_NUMBER } = require('../values/payment-request-number')
 const { SBI } = require('../values/sbi')
@@ -19,10 +20,10 @@ const { STANDARD_CODE } = require('../values/standard-code')
 
 module.exports = {
   correlationId: CORRELATION_ID,
-  schemeId: 1,
+  schemeId: SFI,
   sourceSystem: SOURCE_SYSTEM,
   deliveryBody: DELIVERY_BODY_RPA,
-  invoiceNumber: INVOICE_NUMBER,
+  invoiceNumber: SFI_INVOICE_NUMBER,
   frn: FRN,
   sbi: SBI,
   paymentRequestNumber: PAYMENT_REQUEST_NUMBER,
