@@ -1,18 +1,18 @@
-# Pay Enrichment 
+# Payment Hub Enrichment 
 
 Microservice to enrich payment requests with mandatory data.
 
-This service is part of the [Strategic Payment Service](https://github.com/DEFRA/ffc-pay-core).
+This service is part of the [Payment Hub](https://github.com/DEFRA/ffc-pay-core).
 
 ```mermaid
 flowchart LR
 ffc-pay-enrichment(Kubernetes - ffc-pay-enrichment)
 topic-request[Azure Service Bus Topic - ffc-pay-request]
 topic-processing[Azure Service Bus Topic - ffc-pay-processing]
-topic-event[Azure Service Bus Topic - ffc-pay-event]
+topic-events[Azure Service Bus Topic - ffc-pay-events]
 topic-request ==> ffc-pay-enrichment
 ffc-pay-enrichment ==> topic-processing
-ffc-pay-enrichment ==> topic-event
+ffc-pay-enrichment ==> topic-events
 ```
 
 ## Prerequisites
@@ -40,8 +40,9 @@ This service publishes responses as messages to Azure Service Bus topics.
 | `MESSAGE_QUEUE_PASSWORD` | Azure Service Bus SAS policy key |
 | `MESSAGE_QUEUE_SUFFIX` | Developer initials, optional, will be automatically added to topic names, e.g. `-jw `|
 | `PAYMENT_TOPIC_ADDRESS` | Azure Service Bus topic name for payment messages, e.g. `ffc-pay-request` |
+| `RESPONSE_TOPIC_ADDRESS` | Azure Service Bus topic name for response messages, e.g. `ffc-pay-request-response` |
 | `PROCESSING_TOPIC_ADDRESS` | Azure Service Bus topic name for processing messages, e.g. `ffc-pay-processing`
-| `EVENT_TOPIC_ADDRESS` | Azure Service Bus topic name for event messages, e.g. `ffc-pay-event` |
+| `EVENTS_TOPIC_ADDRESS` | Azure Service Bus topic name for event messages, e.g. `ffc-pay-events` |
 
 ##### Message schemas
 
@@ -87,10 +88,12 @@ There are 2 different possible outputs:
 
 1. **Enrich a valid payment request**<br>
   **Input**: Submit a [payment request](./docs/asyncapi.yaml) onto the `PAYMENT_TOPIC_ADDRESS` Topic.<br>
-  **Output**: An [enrichment payment request](./docs//asyncapi.yaml) is put onto the `PROCESSING_TOPIC_ADDRESS` Topic and an [successful event](./docs/asyncapi.yaml) is put onto the `EVENT_TOPIC_ADDRESS`
+  **Output**: An [enriched payment request](./docs//asyncapi.yaml) is put onto the `PROCESSING_TOPIC_ADDRESS` Topic and an [event](./docs/asyncapi.yaml) is put onto the `EVENTS_TOPIC_ADDRESS`
 2. **Enrich an invalid payment request**<br>
   **Input**: Submit an invalid payment request missing a required field or an invalid value onto the `PAYMENT_TOPIC_ADDRESS` Topic.<br>
-  **Output**: An [unsuccessful event](./docs/asyncapi.yaml) is put onto the `EVENT_TOPIC_ADDRESS` and the message is dead lettered.
+  **Output**: An [event](./docs/asyncapi.yaml) is put onto the `EVENTS_TOPIC_ADDRESS` and the message is dead lettered.
+
+With both scenarios a [response](./docs/asyncapi.yaml) is put onto the `RESPONSE_TOPIC_ADDRESS` Topic addressed to the source system.
 
 ## How to stop the service
 
