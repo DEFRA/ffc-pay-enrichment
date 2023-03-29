@@ -5,6 +5,8 @@ const mockSchema = require('../../../app/enrichment/schemas/header')
 
 const validateHeader = require('../../../app/enrichment/validate-header')
 
+const paymentRequest = require('../../mocks/payment-requests/payment-request')
+
 describe('validate header', () => {
   beforeEach(() => {
     jest.clearAllMocks()
@@ -12,18 +14,18 @@ describe('validate header', () => {
   })
 
   test('should not throw error if schema validates successfully', () => {
-    expect(() => validateHeader()).not.toThrow()
+    expect(() => validateHeader(paymentRequest)).not.toThrow()
   })
 
   test('should throw error if schema validation fails', () => {
     mockSchema.validate.mockReturnValue({ error: 'validation failed' })
-    expect(() => validateHeader()).toThrow()
+    expect(() => validateHeader(paymentRequest)).toThrow()
   })
 
   test('should throw error with validation category', () => {
     mockSchema.validate.mockReturnValue({ error: 'validation failed' })
     try {
-      validateHeader()
+      validateHeader(paymentRequest)
     } catch (error) {
       expect(error.category).toBe(VALIDATION)
     }
