@@ -3,6 +3,7 @@ const { AP } = require('../../../app/constants/ledgers')
 const { M12 } = require('../../../app/constants/schedules')
 const { SFI } = require('../../../app/constants/schemes')
 const { AGREEMENT_NUMBER } = require('../values/agreement-number')
+const { BATCH } = require('../values/batch')
 const { CONTRACT_NUMBER } = require('../values/contract-number')
 const { CORRELATION_ID } = require('../values/correlation-id')
 const { DELIVERY_BODY_RPA } = require('../values/delivery-body')
@@ -20,6 +21,7 @@ module.exports = {
   correlationId: CORRELATION_ID,
   schemeId: SFI,
   sourceSystem: SOURCE_SYSTEM,
+  batch: BATCH,
   deliveryBody: DELIVERY_BODY_RPA,
   invoiceNumber: SFI_INVOICE_NUMBER,
   frn: FRN,
