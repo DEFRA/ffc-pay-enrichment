@@ -1,5 +1,6 @@
+const { VALIDATION } = require('../../../app/constants/errors')
+
 jest.mock('../../../app/enrichment/schemas/header')
-const {VALIDATION} = require('../../../app/constants/errors')
 const mockSchema = require('../../../app/enrichment/schemas/header')
 
 const validateHeader = require('../../../app/enrichment/validate-header')
