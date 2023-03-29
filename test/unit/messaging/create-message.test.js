@@ -1,5 +1,5 @@
 const { SOURCE } = require('../../../app/constants/source')
-const { ENRICHED } = require('../../../app/messaging/types')
+const { ENRICHED } = require('../../../app/constants/types')
 const { FRN } = require('../../mocks/values/frn')
 
 const createMessage = require('../../../app/messaging/create-message')
