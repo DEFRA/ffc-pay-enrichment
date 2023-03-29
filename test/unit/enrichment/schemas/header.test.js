@@ -2,9 +2,9 @@ const { GBP, EUR } = require('../../../../app/constants/currency')
 const { IRREGULAR, ADMINISTRATIVE } = require('../../../../app/constants/debt-types')
 const { AP, AR } = require('../../../../app/constants/ledgers')
 const { Q4, M12, T4 } = require('../../../../app/constants/schedules')
+const { DUE_DATE_DAX } = require('../../../mocks/values/due-date')
 
 const schema = require('../../../../app/enrichment/schemas/header')
-const { DUE_DATE_DAX } = require('../../../mocks/values/due-date')
 
 let paymentRequest
 

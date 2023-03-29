@@ -53,4 +53,16 @@ describe('enrich header', () => {
     await enrichInvoiceLine(invoiceLine, undefined)
     expect(invoiceLine.fundCode).toBeUndefined()
   })
+
+  test('should retain convergence if already set', async () => {
+    invoiceLine.convergence = true
+    await enrichInvoiceLine(invoiceLine, fundCode)
+    expect(invoiceLine.convergence).toBe(true)
+  })
+
+  test('should set convergence to false if not already set', async () => {
+    delete invoiceLine.convergence
+    await enrichInvoiceLine(invoiceLine, fundCode)
+    expect(invoiceLine.convergence).toBe(false)
+  })
 })
