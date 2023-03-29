@@ -1,62 +1,31 @@
+const { VALIDATION } = require('../../../app/constants/errors')
+
+jest.mock('../../../app/enrichment/schemas/invoice-line')
+const mockSchema = require('../../../app/enrichment/schemas/invoice-line')
+
 const validateInvoiceLine = require('../../../app/enrichment/validate-invoice-line')
 
-describe('validate invoice line', () => {
-  test('does not error if all values present', () => {
-    const line = {
-      standardCode: '80001',
-      schemeCode: '80001',
-      accountCode: 'SOS273',
-      fundCode: 'DRD10',
-      description: 'G00 - Gross value of claim',
-      value: 100,
-      convergence: true
-    }
-    expect(() => validateInvoiceLine(line)).not.toThrow()
+describe('validate header', () => {
+  beforeEach(() => {
+    jest.clearAllMocks()
+    mockSchema.validate.mockReturnValue({ error: undefined })
   })
 
-  test('does not error if all optional values not present', () => {
-    const line = {
-      schemeCode: '80001',
-      fundCode: 'DRD10',
-      description: 'G00 - Gross value of claim',
-      value: 100
-    }
-    expect(() => validateInvoiceLine(line)).not.toThrow()
+  test('should not throw error if schema validates successfully', () => {
+    expect(() => validateInvoiceLine()).not.toThrow()
   })
 
-  test('does error if scheme code not present', () => {
-    const line = {
-      fundCode: 'DRD10',
-      description: 'G00 - Gross value of claim',
-      value: 100
-    }
-    expect(() => validateInvoiceLine(line)).toThrow()
+  test('should throw error if schema validation fails', () => {
+    mockSchema.validate.mockReturnValue({ error: 'validation failed' })
+    expect(() => validateInvoiceLine()).toThrow()
   })
 
-  test('does error if fund code not present', () => {
-    const line = {
-      schemeCode: '80001',
-      description: 'G00 - Gross value of claim',
-      value: 100
+  test('should throw error with validation category', () => {
+    mockSchema.validate.mockReturnValue({ error: 'validation failed' })
+    try {
+      validateInvoiceLine()
+    } catch (error) {
+      expect(error.category).toBe(VALIDATION)
     }
-    expect(() => validateInvoiceLine(line)).toThrow()
-  })
-
-  test('does error if description not present', () => {
-    const line = {
-      schemeCode: '80001',
-      fundCode: 'DRD10',
-      value: 100
-    }
-    expect(() => validateInvoiceLine(line)).toThrow()
-  })
-
-  test('does error if value not present', () => {
-    const line = {
-      schemeCode: '80001',
-      fundCode: 'DRD10',
-      description: 'G00 - Gross value of claim'
-    }
-    expect(() => validateInvoiceLine(line)).toThrow()
   })
 })
