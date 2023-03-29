@@ -5,7 +5,7 @@ let scheme
 
 describe('get scheme', () => {
   beforeEach(async () => {
-    await cache.flush()
+    cache.flush()
     await db.sequelize.truncate({ cascade: true })
 
     scheme = {
