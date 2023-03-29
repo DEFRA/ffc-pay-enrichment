@@ -1,36 +1,51 @@
 const { GBP } = require('../../../app/constants/currency')
 const { AP } = require('../../../app/constants/ledgers')
 const { M12 } = require('../../../app/constants/schedules')
+const { ACCOUNT_CODE } = require('../values/account-code')
+const { AGREEMENT_NUMBER } = require('../values/agreement-number')
+const { CONTRACT_NUMBER } = require('../values/contract-number')
+const { CORRELATION_ID } = require('../values/correlation-id')
+const { DELIVERY_BODY_RPA } = require('../values/delivery-body')
+const { GROSS_DESCRIPTION, PENALTY_DESCRIPTION } = require('../values/description')
+const { DUE_DATE } = require('../values/due-date')
+const { FRN } = require('../values/frn')
+const { FUND_CODE } = require('../values/fund-code')
+const { INVOICE_NUMBER } = require('../values/invoice-number')
+const { MARKETING_YEAR } = require('../values/marketing-year')
+const { PAYMENT_REQUEST_NUMBER } = require('../values/payment-request-number')
+const { SBI } = require('../values/sbi')
+const { SOURCE_SYSTEM } = require('../values/source-system')
+const { STANDARD_CODE } = require('../values/standard-code')
 
 module.exports = {
-  correlationId: 'f9721145-e52f-4e8d-be8e-e6c219286a72',
+  correlationId: CORRELATION_ID,
   schemeId: 1,
-  sourceSystem: 'SFIP',
-  deliveryBody: 'RP00',
-  invoiceNumber: 'SFI00000001',
-  frn: 1234567890,
-  sbi: 123456789,
-  paymentRequestNumber: 1,
-  agreementNumber: 'SIP00000000001',
-  contractNumber: 'SFIP000001',
-  marketingYear: 2022,
+  sourceSystem: SOURCE_SYSTEM,
+  deliveryBody: DELIVERY_BODY_RPA,
+  invoiceNumber: INVOICE_NUMBER,
+  frn: FRN,
+  sbi: SBI,
+  paymentRequestNumber: PAYMENT_REQUEST_NUMBER,
+  agreementNumber: AGREEMENT_NUMBER,
+  contractNumber: CONTRACT_NUMBER,
+  marketingYear: MARKETING_YEAR,
   currency: GBP,
   schedule: M12,
-  dueDate: '15/08/2021',
+  dueDate: DUE_DATE,
   value: 150.00,
   ledger: AP,
   invoiceLines: [{
-    standardCode: '80001',
-    accountCode: 'SOS273',
-    fundCode: 'DRD10',
-    description: 'G00 - Gross value of claim',
+    standardCode: STANDARD_CODE,
+    accountCode: ACCOUNT_CODE,
+    fundCode: FUND_CODE,
+    description: GROSS_DESCRIPTION,
     value: 250.00
   },
   {
-    standardCode: '80001',
-    accountCode: 'SOS273',
-    fundCode: 'DRD10',
-    description: 'P02 - Over declaration penalty',
+    standardCode: STANDARD_CODE,
+    accountCode: ACCOUNT_CODE,
+    fundCode: FUND_CODE,
+    description: PENALTY_DESCRIPTION,
     value: -100.00
   }]
 }
