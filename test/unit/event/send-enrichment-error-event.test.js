@@ -26,7 +26,7 @@ let paymentRequest
 let error
 
 beforeEach(() => {
-  paymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-request')))
+  paymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/payment-request')))
   error = {
     message: 'Cannot enrich'
   }

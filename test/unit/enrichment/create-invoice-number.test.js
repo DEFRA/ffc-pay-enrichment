@@ -3,7 +3,7 @@ const { SFI_PILOT, SFI, LUMP_SUMS, VET_VISITS, CS, BPS, FDMR } = require('../../
 
 let paymentRequest
 
-describe('generate invoice number', () => {
+describe('create invoice number', () => {
   beforeEach(() => {
     paymentRequest = {
       paymentRequestNumber: 1,

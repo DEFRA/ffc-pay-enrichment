@@ -2,7 +2,7 @@ const { GBP } = require('../../app/constants/currency')
 const paymentRequestSchema = require('../../app/enrichment/schemas/header')
 const { AP } = require('../../app/constants/ledgers')
 const { M12 } = require('../../app/constants/schedules')
-const mockPaymentRequest = require('../mocks/payment-request')
+const mockPaymentRequest = require('../mocks/payment-requests/payment-request')
 let paymentRequest
 
 describe('payment request validation', () => {
