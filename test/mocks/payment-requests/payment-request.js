@@ -8,7 +8,7 @@ const { CONTRACT_NUMBER } = require('../values/contract-number')
 const { CORRELATION_ID } = require('../values/correlation-id')
 const { DELIVERY_BODY_RPA } = require('../values/delivery-body')
 const { GROSS_DESCRIPTION, PENALTY_DESCRIPTION } = require('../values/description')
-const { DUE_DATE } = require('../values/due-date')
+const { DUE_DATE_DAX } = require('../values/due-date')
 const { FRN } = require('../values/frn')
 const { FUND_CODE } = require('../values/fund-code')
 const { SFI_INVOICE_NUMBER } = require('../values/invoice-number')
@@ -32,7 +32,7 @@ module.exports = {
   marketingYear: MARKETING_YEAR,
   currency: GBP,
   schedule: M12,
-  dueDate: DUE_DATE,
+  dueDate: DUE_DATE_DAX,
   value: 150.00,
   ledger: AP,
   invoiceLines: [{
