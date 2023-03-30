@@ -11,7 +11,7 @@ const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.schemeId = scheme?.schemeId
   paymentRequest.agreementNumber = paymentRequest.agreementNumber ?? paymentRequest.contractNumber
   paymentRequest.invoiceNumber = createInvoiceNumber(paymentRequest)
-  paymentRequest.ledger = AP
+  paymentRequest.ledger = paymentRequest.ledger ?? AP
   paymentRequest.value = convertToPence(paymentRequest.value)
   paymentRequest.frn = paymentRequest.frn ?? await getFrn(paymentRequest.sbi)
   paymentRequest.deliveryBody = scheme?.deliveryBody

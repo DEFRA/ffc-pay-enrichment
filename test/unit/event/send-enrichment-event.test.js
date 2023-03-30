@@ -25,7 +25,7 @@ const sendEnrichmentEvent = require('../../../app/event/send-enrichment-event')
 let paymentRequestComparison
 
 beforeEach(() => {
-  const paymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-request')))
+  const paymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/payment-request')))
   paymentRequestComparison = { paymentRequest, originalPaymentRequest: paymentRequest }
   config.useV1Events = true
   config.useV2Events = true

@@ -1,3 +1,8 @@
+const { VALIDATION } = require('../../../app/constants/errors')
+const { ENRICHED, ACCEPTED, REJECTED } = require('../../../app/constants/types')
+const { FRN } = require('../../mocks/values/frn')
+const { SOURCE_SYSTEM } = require('../../mocks/values/source-system')
+
 jest.mock('ffc-messaging')
 const mockSendMessage = jest.fn()
 jest.mock('ffc-messaging', () => {
@@ -27,9 +32,9 @@ jest.mock('ffc-pay-event-publisher', () => {
 jest.mock('../../../app/data')
 jest.mock('../../../app/enrichment')
 const mockEnrichPaymentRequest = require('../../../app/enrichment')
-const { VALIDATION } = require('../../../app/constants/errors')
+
 const processPaymentMessage = require('../../../app/messaging/process-payment-message')
-const { ENRICHED, ACCEPTED, REJECTED } = require('../../../app/messaging/types')
+
 let receiver
 
 const mockErrorInProcessing = (validation = false) => {
@@ -56,7 +61,7 @@ describe('process payment message', () => {
   test('completes valid message', async () => {
     const message = {
       body: {
-        frn: 1234567890
+        frn: FRN
       }
     }
     await processPaymentMessage(message, receiver)
@@ -66,7 +71,7 @@ describe('process payment message', () => {
   test('sends enriched message if valid', async () => {
     const message = {
       body: {
-        frn: 1234567890
+        frn: FRN
       }
     }
     await processPaymentMessage(message, receiver)
@@ -76,7 +81,7 @@ describe('process payment message', () => {
   test('sends response message if valid', async () => {
     const message = {
       body: {
-        frn: 1234567890
+        frn: FRN
       }
     }
     await processPaymentMessage(message, receiver)
@@ -87,7 +92,7 @@ describe('process payment message', () => {
     mockErrorInProcessing(true)
     const message = {
       body: {
-        frn: 1234567890
+        frn: FRN
       }
     }
     await processPaymentMessage(message, receiver)
@@ -100,7 +105,7 @@ describe('process payment message', () => {
     mockErrorInProcessing()
     const message = {
       body: {
-        frn: 1234567890
+        frn: FRN
       }
     }
     await processPaymentMessage(message, receiver)
@@ -112,8 +117,8 @@ describe('process payment message', () => {
   test('sends response with source system metadata if valid', async () => {
     const message = {
       body: {
-        frn: 1234567890,
-        sourceSystem: 'SFIP'
+        frn: FRN,
+        sourceSystem: SOURCE_SYSTEM
       }
     }
     await processPaymentMessage(message, receiver)
@@ -124,8 +129,8 @@ describe('process payment message', () => {
     mockErrorInProcessing(true)
     const message = {
       body: {
-        frn: 1234567890,
-        sourceSystem: 'SFIP'
+        frn: FRN,
+        sourceSystem: SOURCE_SYSTEM
       }
     }
     await processPaymentMessage(message, receiver)
@@ -136,7 +141,7 @@ describe('process payment message', () => {
     mockErrorInProcessing(true)
     const message = {
       body: {
-        frn: 1234567890
+        frn: FRN
       }
     }
     await processPaymentMessage(message, receiver)

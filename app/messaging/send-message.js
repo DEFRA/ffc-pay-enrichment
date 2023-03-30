@@ -1,7 +1,7 @@
 const config = require('../config')
 const { MessageSender } = require('ffc-messaging')
 const createMessage = require('./create-message')
-const { ENRICHED } = require('./types')
+const { ENRICHED } = require('../constants/types')
 
 const sendMessage = async (body, type, metadata) => {
   const message = createMessage(body, type, metadata)

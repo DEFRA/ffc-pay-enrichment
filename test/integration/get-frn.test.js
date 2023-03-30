@@ -14,6 +14,11 @@ describe('get frn', () => {
     await db.frn.create(frn)
   })
 
+  afterAll(async () => {
+    await db.sequelize.truncate({ cascade: true })
+    await db.sequelize.close()
+  })
+
   test('should return frn for sbi', async () => {
     const result = await getFrn(123456789)
     expect(result).toBe(1234567890)

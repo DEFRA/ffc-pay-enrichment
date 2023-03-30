@@ -25,6 +25,11 @@ describe('get scheme', () => {
     await db.schemeCode.create(schemeCode)
   })
 
+  afterAll(async () => {
+    await db.sequelize.truncate({ cascade: true })
+    await db.sequelize.close()
+  })
+
   test('should return schemeCode for standardCode', async () => {
     const result = await getSchemeCode('SFIP-1')
     expect(result).toBe('80001')

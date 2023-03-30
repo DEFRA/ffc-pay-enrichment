@@ -5,7 +5,7 @@ let scheme
 
 describe('get scheme', () => {
   beforeEach(async () => {
-    await cache.flush()
+    cache.flush()
     await db.sequelize.truncate({ cascade: true })
 
     scheme = {
@@ -15,6 +15,11 @@ describe('get scheme', () => {
     }
 
     await db.scheme.create(scheme)
+  })
+
+  afterAll(async () => {
+    await db.sequelize.truncate({ cascade: true })
+    await db.sequelize.close()
   })
 
   test('should return scheme for source system', async () => {
