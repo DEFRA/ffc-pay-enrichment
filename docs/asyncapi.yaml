@@ -64,6 +64,8 @@ components:
           $ref: "#/components/schemas/MarketingYear"
         paymentRequestNumber:
           $ref: "#/components/schemas/PaymentRequestNumber"
+        paymentType:
+          $ref: "#/components/schemas/PaymentType"  
         correlationId:
           $ref: "#/components/schemas/CorrelationId"
         invoiceNumber:
@@ -114,6 +116,7 @@ components:
         - marketingYear
         - agreementNumber
         - paymentRequestNumber
+        - paymentType
         - value
         - invoiceNumber
         - ledger
@@ -132,6 +135,8 @@ components:
           $ref: "#/components/schemas/MarketingYear"
         paymentRequestNumber:
           $ref: "#/components/schemas/PaymentRequestNumber"
+        paymentType:
+          $ref: "#/components/schemas/PaymentType"
         correlationId:
           $ref: "#/components/schemas/CorrelationId"
         invoiceNumber:
@@ -308,6 +313,12 @@ components:
       description: Version of payment request starting with 1, anything greater than 1 is an adjustment
       minimum: 1
       maximum: 99
+      example: 1
+    PaymentType:
+      type: number
+      description: Defines type of payment request either Balance or Advance
+      minimum: 1
+      maximum: 3
       example: 1
     AgreementNumber:
       type: string

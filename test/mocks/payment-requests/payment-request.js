@@ -15,6 +15,7 @@ const { MARKETING_YEAR } = require('../values/marketing-year')
 const { PAYMENT_REQUEST_NUMBER } = require('../values/payment-request-number')
 const { SBI } = require('../values/sbi')
 const { SOURCE_SYSTEM } = require('../values/source-system')
+const { BALANCE } = require('../values/payment-type')
 const invoiceLine = require('./invoice-line')
 
 module.exports = {
@@ -29,6 +30,7 @@ module.exports = {
   paymentRequestNumber: PAYMENT_REQUEST_NUMBER,
   agreementNumber: AGREEMENT_NUMBER,
   contractNumber: CONTRACT_NUMBER,
+  paymentType: BALANCE,
   marketingYear: MARKETING_YEAR,
   currency: GBP,
   schedule: M12,
