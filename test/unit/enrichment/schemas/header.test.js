@@ -3,6 +3,7 @@ const { IRREGULAR, ADMINISTRATIVE } = require('../../../../app/constants/debt-ty
 const { AP, AR } = require('../../../../app/constants/ledgers')
 const { Q4, M12, T4 } = require('../../../../app/constants/schedules')
 const { DUE_DATE_DAX } = require('../../../mocks/values/due-date')
+const { BALANCE, ADVANCE_PAYMENT } = require('../../../mocks/values/payment-type')
 
 const schema = require('../../../../app/enrichment/schemas/header')
 
@@ -299,6 +300,36 @@ describe('header schema', () => {
 
   test('should fail if correlation id is not a valid uuid', () => {
     paymentRequest.correlationId = 'INVALID'
+    expect(schema.validate(paymentRequest).error).toBeDefined()
+  })
+
+  test('should pass if paymentType is valid Balance payment', () => {
+    paymentRequest.paymentType = BALANCE
+    expect(schema.validate(paymentRequest)).toBeTruthy()
+  })
+
+  test('should pass if paymentType is valid Advane payment ', () => {
+    paymentRequest.paymentType = ADVANCE_PAYMENT
+    expect(schema.validate(paymentRequest)).toBeTruthy()
+  })
+
+  test('should pass if paymentType is undefined ', () => {
+    paymentRequest.paymentType = undefined
+    expect(schema.validate(paymentRequest)).toBeTruthy()
+  })
+
+  test('should fail if paymentType is a string ', () => {
+    paymentRequest.paymentType = 'not a valid payment type'
+    expect(schema.validate(paymentRequest).error).toBeDefined()
+  })
+
+  test('should fail if paymentType is NaN ', () => {
+    paymentRequest.paymentType = NaN
+    expect(schema.validate(paymentRequest).error).toBeDefined()
+  })
+
+  test('should fail if paymentType is null ', () => {
+    paymentRequest.paymentType = null
     expect(schema.validate(paymentRequest).error).toBeDefined()
   })
 })
