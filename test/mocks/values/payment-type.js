@@ -1,4 +1,4 @@
 module.exports = {
-  BALANCE: 0,
-  ADVANCE_PAYMENT: 1
+  ADVANCE_PAYMENT: 1,
+  BALANCE: 2
 }
