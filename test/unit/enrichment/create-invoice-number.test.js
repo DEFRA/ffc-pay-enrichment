@@ -7,6 +7,7 @@ let vetVisitsPaymentRequest
 let csPaymentRequest
 let bpsPaymentRequest
 let fdmrPaymentRequest
+let manualPaymentRequest
 let unknownPaymentRequest
 
 describe('create invoice number', () => {
@@ -18,6 +19,7 @@ describe('create invoice number', () => {
     csPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/cs')))
     bpsPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/bps')))
     fdmrPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/fdmr')))
+    manualPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/manual')))
     unknownPaymentRequest = {
       schemeId: -1,
       paymentRequestNumber: 1,
@@ -59,6 +61,11 @@ describe('create invoice number', () => {
   test('generate invoice number for FDMR', () => {
     const result = createInvoiceNumber(fdmrPaymentRequest)
     expect(result).toEqual('F000000100000001V001')
+  })
+
+  test('generate invoice number for Manual Invoice', () => {
+    const result = createInvoiceNumber(manualPaymentRequest)
+    expect(result).toEqual(manualPaymentRequest.invoiceNumber)
   })
 
   test('generate default invoice format for unknown scheme', () => {
@@ -114,7 +121,7 @@ describe('create invoice number', () => {
     expect(result).toBeUndefined()
   })
 
-  test('return undefined if payment request number missing for Lump Sums', () => {
+  test('return undefined if payment request number missing for Lump Sums invoice', () => {
     delete lumpSumsPaymentRequest.paymentRequestNumber
     const result = createInvoiceNumber(lumpSumsPaymentRequest)
     expect(result).toBeUndefined()
@@ -144,9 +151,21 @@ describe('create invoice number', () => {
     expect(result).toBeUndefined()
   })
 
+  test('return undefined if invoice number missing for FDMR', () => {
+    delete fdmrPaymentRequest.invoiceNumber
+    const result = createInvoiceNumber(fdmrPaymentRequest)
+    expect(result).toBeUndefined()
+  })
+
   test('return undefined if payment request number missing for FDMR invoice', () => {
     delete fdmrPaymentRequest.paymentRequestNumber
     const result = createInvoiceNumber(fdmrPaymentRequest)
+    expect(result).toBeUndefined()
+  })
+
+  test('return undefined if invoice number missing for Manual Invoice', () => {
+    delete manualPaymentRequest.invoiceNumber
+    const result = createInvoiceNumber(manualPaymentRequest)
     expect(result).toBeUndefined()
   })
 

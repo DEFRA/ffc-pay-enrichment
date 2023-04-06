@@ -6,6 +6,7 @@ const mockSchema = require('../../../app/enrichment/schemas/invoice-line')
 const validateInvoiceLine = require('../../../app/enrichment/validate-invoice-line')
 
 const invoiceLine = require('../../mocks/payment-requests/invoice-line')
+const sourceSystem = require('../../mocks/values/source-system')
 
 describe('validate header', () => {
   beforeEach(() => {
@@ -14,18 +15,18 @@ describe('validate header', () => {
   })
 
   test('should not throw error if schema validates successfully', () => {
-    expect(() => validateInvoiceLine(invoiceLine)).not.toThrow()
+    expect(() => validateInvoiceLine(invoiceLine, sourceSystem)).not.toThrow()
   })
 
   test('should throw error if schema validation fails', () => {
     mockSchema.validate.mockReturnValue({ error: 'validation failed' })
-    expect(() => validateInvoiceLine(invoiceLine)).toThrow()
+    expect(() => validateInvoiceLine(invoiceLine, sourceSystem)).toThrow()
   })
 
   test('should throw error with validation category', () => {
     mockSchema.validate.mockReturnValue({ error: 'validation failed' })
     try {
-      validateInvoiceLine(invoiceLine)
+      validateInvoiceLine(invoiceLine, sourceSystem)
     } catch (error) {
       expect(error.category).toBe(VALIDATION)
     }
