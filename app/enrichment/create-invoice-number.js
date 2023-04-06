@@ -12,7 +12,7 @@ const createInvoiceNumber = (paymentRequest) => {
       case FDMR:
         return createFdmrInvoiceNumber(paymentRequest)
       case MANUAL:
-        return checkInvoiceNumber(paymentRequest)
+        return paymentRequest.invoiceNumber
       default:
         return createDefaultInvoiceNumber(paymentRequest)
     }
@@ -32,12 +32,6 @@ const createFdmrInvoiceNumber = (paymentRequest) => {
   const sitiInvoiceNumberElementLength = 7
   if (paymentRequest.invoiceNumber.length >= sitiInvoiceNumberElementLength && paymentRequest.contractNumber && paymentRequest.paymentRequestNumber) {
     return `F${paymentRequest.invoiceNumber.slice(-sitiInvoiceNumberElementLength)}${paymentRequest.contractNumber}V${paymentRequest.paymentRequestNumber.toString().padStart(3, '0')}`
-  }
-}
-
-const checkInvoiceNumber = (paymentRequest) => {
-  if (paymentRequest.invoiceNumber) {
-    return paymentRequest.invoiceNumber
   }
 }
 

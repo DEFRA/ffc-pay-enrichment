@@ -65,7 +65,7 @@ describe('create invoice number', () => {
 
   test('generate invoice number for Manual Invoice', () => {
     const result = createInvoiceNumber(manualPaymentRequest)
-    expect(result).toEqual('S1234567S1234567V001')
+    expect(result).toEqual(manualPaymentRequest.invoiceNumber)
   })
 
   test('generate default invoice format for unknown scheme', () => {

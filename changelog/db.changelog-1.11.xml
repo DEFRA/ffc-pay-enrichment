@@ -7,7 +7,7 @@
     <insert tableName="schemes">
       <column name="schemeId" value="8" />
       <column name="sourceSystem" value="Manual" />
-      <column name="name" value="MANUAL" />
+      <column name="name" value="Manual" />
       <column name="deliveryBody" value="RP00" />
       <column name="fundCode" value="EGF00" />
     </insert>
