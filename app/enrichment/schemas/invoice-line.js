@@ -8,5 +8,6 @@ module.exports = Joi.object({
   fundCode: Joi.string().regex(/^[A-Z]{3}\d{2}$/).required(),
   description: Joi.string().regex(/^[A-Z]{1}\d{2}\s-\s.+$/).required(),
   value: Joi.number().integer().required(),
-  convergence: Joi.boolean().optional()
+  convergence: Joi.boolean().optional(),
+  deliveryBody: Joi.string().required()
 })
