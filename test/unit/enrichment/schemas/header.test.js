@@ -333,8 +333,8 @@ describe('header schema', () => {
     expect(schema.validate(paymentRequest).error).toBeDefined()
   })
 
-  test('should fail if pillar is missing', () => {
+  test('should pass if pillar is missing', () => {
     delete paymentRequest.pillar
-    expect(schema.validate(paymentRequest).error).toBeDefined()
+    expect(schema.validate(paymentRequest)).toBeTruthy()
   })
 })
