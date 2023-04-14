@@ -73,6 +73,11 @@ describe('header schema', () => {
     expect(schema.validate(paymentRequest).error).toBeDefined()
   })
 
+  test('should fail validation if delivery body is not a valid format', () => {
+    paymentRequest.deliveryBody = 'INVALID'
+    expect(schema.validate(paymentRequest).error).toBeDefined()
+  })
+
   test('should fail validation if invoice number is missing', () => {
     delete paymentRequest.invoiceNumber
     expect(schema.validate(paymentRequest).error).toBeDefined()
