@@ -308,7 +308,7 @@ describe('header schema', () => {
     expect(schema.validate(paymentRequest)).toBeTruthy()
   })
 
-  test('should pass if paymentType is valid Advane payment ', () => {
+  test('should pass if paymentType is valid Advance payment ', () => {
     paymentRequest.paymentType = ADVANCE_PAYMENT
     expect(schema.validate(paymentRequest)).toBeTruthy()
   })
@@ -331,5 +331,10 @@ describe('header schema', () => {
   test('should fail if paymentType is null ', () => {
     paymentRequest.paymentType = null
     expect(schema.validate(paymentRequest).error).toBeDefined()
+  })
+
+  test('should pass if pillar is missing', () => {
+    delete paymentRequest.pillar
+    expect(schema.validate(paymentRequest)).toBeTruthy()
   })
 })

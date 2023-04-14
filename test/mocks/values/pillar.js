@@ -1,0 +1,3 @@
+module.exports = {
+  PILLAR: 'DA'
+}

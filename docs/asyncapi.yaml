@@ -1,7 +1,7 @@
 asyncapi: 2.6.0
 info:
   title: Payment Hub Enrichment
-  version: "1.0.1"
+  version: 1.1.0
   description: Validation and enrichment of payment requests
 channels:
   ffc-pay-request:
@@ -86,6 +86,8 @@ components:
           $ref: "#/components/schemas/DebtType"
         recoveryDate:
           $ref: "#/components/schemas/RecoveryDate"
+        pillar:
+          $ref: "#/components/schemas/Pillar"
         invoiceLines:
           type: array
           description: List of Invoice lines that make up request
@@ -157,6 +159,8 @@ components:
           $ref: "#/components/schemas/DebtType"
         recoveryDate:
           $ref: "#/components/schemas/RecoveryDate"
+        pillar:
+          $ref: "#/components/schemas/Pillar"
         invoiceLines:
           type: array
           description: List of Invoice lines that make up request
@@ -410,6 +414,10 @@ components:
       format: DD/MM/YYYY, YYYY/MM/DD, DD-MM-YYYY or YYYY-MM-DD
       description: Only for recoveries, date debt was discovered
       example: 09/11/2021
+    Pillar:
+      type: string
+      description: Pillar of scheme for manual invoices
+      example: DA
     Accepted:
       type: boolean
       description: Whether the payment request was accepted by the payment service
