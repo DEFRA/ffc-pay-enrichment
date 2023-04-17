@@ -2,6 +2,7 @@ const { GBP, EUR } = require('../../../../app/constants/currency')
 const { IRREGULAR, ADMINISTRATIVE } = require('../../../../app/constants/debt-types')
 const { AP, AR } = require('../../../../app/constants/ledgers')
 const { Q4, M12, T4 } = require('../../../../app/constants/schedules')
+
 const { DUE_DATE_DAX } = require('../../../mocks/values/due-date')
 const { BALANCE, ADVANCE_PAYMENT } = require('../../../mocks/values/payment-type')
 
@@ -70,6 +71,11 @@ describe('header schema', () => {
 
   test('should fail validation if delivery body is missing', () => {
     delete paymentRequest.deliveryBody
+    expect(schema.validate(paymentRequest).error).toBeDefined()
+  })
+
+  test('should fail validation if delivery body is not a valid format', () => {
+    paymentRequest.deliveryBody = 'INVALID'
     expect(schema.validate(paymentRequest).error).toBeDefined()
   })
 

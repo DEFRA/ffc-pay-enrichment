@@ -1,7 +1,7 @@
 asyncapi: 2.6.0
 info:
   title: Payment Hub Enrichment
-  version: 1.1.0
+  version: 1.2.0
   description: Validation and enrichment of payment requests
 channels:
   ffc-pay-request:
@@ -110,6 +110,8 @@ components:
           $ref: "#/components/schemas/StandardCode"
         accountCode:
           $ref: "#/components/schemas/AccountCode"
+        deliveryBody:
+          $ref: "#/components/schemas/DeliveryBody"
     EnrichedPaymentRequest:
       type: object
       required:
@@ -172,6 +174,7 @@ components:
         - value
         - description
         - schemeCode
+        - deliveryBody
       properties:
         value:
           $ref: "#/components/schemas/ValueInteger"
@@ -183,6 +186,8 @@ components:
           $ref: "#/components/schemas/StandardCode"
         accountCode:
           $ref: "#/components/schemas/AccountCode"
+        deliveryBody:
+          $ref: "#/components/schemas/DeliveryBody"
     Response:
       type: object
       properties:

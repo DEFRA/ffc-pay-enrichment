@@ -104,4 +104,14 @@ describe('invoice line schema', () => {
     invoiceLine.convergence = false
     expect(schema.validate(invoiceLine)).toBeTruthy()
   })
+
+  test('should fail validation if delivery body is missing', () => {
+    delete invoiceLine.deliveryBody
+    expect(schema.validate(invoiceLine).error).toBeDefined()
+  })
+
+  test('should fail validation if delivery body is incorrect format', () => {
+    invoiceLine.deliveryBody = 'INVALID'
+    expect(schema.validate(invoiceLine).error).toBeDefined()
+  })
 })

@@ -11,7 +11,7 @@ module.exports = Joi.object({
   batch: Joi.string().optional(),
   schemeId: Joi.number().integer().positive().required().messages({ '*': 'Could not map sourceSystem to schemeId' }),
   ledger: Joi.string().valid(AP, AR).required(),
-  deliveryBody: Joi.string().required(),
+  deliveryBody: Joi.string().regex(/^[A-Z]{2}\d{2}$/).required(),
   invoiceNumber: Joi.string().required(),
   frn: Joi.number().integer().min(1000000000).max(9999999999).required(),
   sbi: Joi.number().integer().min(105000000).max(999999999).optional(),
