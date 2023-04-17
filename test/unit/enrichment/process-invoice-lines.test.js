@@ -1,4 +1,3 @@
-
 jest.mock('../../../app/enrichment/enrich-invoice-line')
 const mockEnrichInvoiceLine = require('../../../app/enrichment/enrich-invoice-line')
 
