@@ -1,12 +1,13 @@
-const { NET_DESCRIPTION, GROSS_DESCRIPTION } = require('../../mocks/values/description')
-const { SOURCE_SYSTEM } = require('../../mocks/values/source-system')
-const scheme = require('../../mocks/scheme')
 
 jest.mock('../../../app/enrichment/enrich-invoice-line')
 const mockEnrichInvoiceLine = require('../../../app/enrichment/enrich-invoice-line')
 
 jest.mock('../../../app/enrichment/validate-invoice-line')
 const mockValidateInvoiceLine = require('../../../app/enrichment/validate-invoice-line')
+
+const { NET_DESCRIPTION, GROSS_DESCRIPTION } = require('../../mocks/values/description')
+const { SOURCE_SYSTEM } = require('../../mocks/values/source-system')
+const scheme = require('../../mocks/scheme')
 
 const processInvoiceLines = require('../../../app/enrichment/process-invoice-lines')
 
