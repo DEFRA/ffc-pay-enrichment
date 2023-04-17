@@ -16,7 +16,6 @@ const invoiceLines = [
 
 const processInvoiceLines = require('../../../app/enrichment/process-invoice-lines')
 
-
 describe('process invoice lines', () => {
   beforeEach(() => {
     jest.clearAllMocks()
