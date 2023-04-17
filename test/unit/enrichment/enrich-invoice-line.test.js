@@ -1,8 +1,8 @@
-const { SCHEME_CODE } = require('../../mocks/values/scheme-code')
-const scheme = require('../../mocks/scheme')
-
 jest.mock('../../../app/enrichment/get-scheme-code')
 const mockGetSchemeCode = require('../../../app/enrichment/get-scheme-code')
+
+const { SCHEME_CODE } = require('../../mocks/values/scheme-code')
+const scheme = require('../../mocks/scheme')
 
 const enrichInvoiceLine = require('../../../app/enrichment/enrich-invoice-line')
 
