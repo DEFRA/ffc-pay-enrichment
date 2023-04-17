@@ -7,15 +7,15 @@ const mockValidateInvoiceLine = require('../../../app/enrichment/validate-invoic
 const { NET_DESCRIPTION, GROSS_DESCRIPTION } = require('../../mocks/values/description')
 const { SOURCE_SYSTEM } = require('../../mocks/values/source-system')
 const scheme = require('../../mocks/scheme')
-
-const processInvoiceLines = require('../../../app/enrichment/process-invoice-lines')
-
 const invoiceLine = require('../../mocks/payment-requests/invoice-line')
 const invoiceLines = [
   invoiceLine,
   invoiceLine,
   { ...invoiceLine, description: NET_DESCRIPTION }
 ]
+
+const processInvoiceLines = require('../../../app/enrichment/process-invoice-lines')
+
 
 describe('process invoice lines', () => {
   beforeEach(() => {
