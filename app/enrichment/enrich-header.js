@@ -3,7 +3,7 @@ const { convertToPence } = require('../currency-convert')
 const createInvoiceNumber = require('./create-invoice-number')
 const getFrn = require('./get-frn')
 const { AP } = require('../constants/ledgers')
-const { convertToDaxDate } = require('../date-convert')
+const { confirmDueDate } = require('./confirm-due-date')
 const { GBP } = require('../constants/currency')
 
 const enrichHeader = async (paymentRequest, scheme) => {
@@ -15,7 +15,7 @@ const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.value = convertToPence(paymentRequest.value)
   paymentRequest.frn = paymentRequest.frn ?? await getFrn(paymentRequest.sbi)
   paymentRequest.deliveryBody = scheme?.deliveryBody
-  paymentRequest.dueDate = convertToDaxDate(paymentRequest.dueDate)
+  paymentRequest.dueDate = confirmDueDate(paymentRequest.schemeId, paymentRequest.marketingYear, paymentRequest.dueDate)
   paymentRequest.currency = paymentRequest.currency ?? GBP
 }
 

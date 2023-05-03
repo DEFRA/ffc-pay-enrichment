@@ -10,8 +10,8 @@ const mockCreateInvoiceNumber = require('../../../app/enrichment/create-invoice-
 jest.mock('../../../app/enrichment/get-frn')
 const mockGetFrn = require('../../../app/enrichment/get-frn')
 
-jest.mock('../../../app/date-convert')
-const { convertToDaxDate: mockConvertToDaxDate } = require('../../../app/date-convert')
+jest.mock('../../../app/enrichment/confirm-due-date')
+const { confirmDueDate: mockConfirmDueDate } = require('../../../app/enrichment/confirm-due-date')
 
 const enrichHeader = require('../../../app/enrichment/enrich-header')
 
@@ -24,7 +24,7 @@ describe('enrich header', () => {
 
     mockCreateInvoiceNumber.mockReturnValue(SFI_INVOICE_NUMBER)
     mockGetFrn.mockResolvedValue(FRN)
-    mockConvertToDaxDate.mockReturnValue(DUE_DATE_DAX)
+    mockConfirmDueDate.mockReturnValue(DUE_DATE_DAX)
 
     scheme = JSON.parse(JSON.stringify(require('../../mocks/scheme')))
     paymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/payment-request')))
@@ -112,7 +112,7 @@ describe('enrich header', () => {
     expect(paymentRequest.deliveryBody).toBeUndefined()
   })
 
-  test('should convert due date to dax date', async () => {
+  test('should confirm due with DAX format', async () => {
     await enrichHeader(paymentRequest, scheme)
     expect(paymentRequest.dueDate).toBe(DUE_DATE_DAX)
   })
