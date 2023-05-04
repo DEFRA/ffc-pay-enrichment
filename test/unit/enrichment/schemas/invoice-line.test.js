@@ -67,7 +67,7 @@ describe('invoice line schema', () => {
   })
 
   test('should fail validation if agreement number is incorrect format', () => {
-    invoiceLine.agreementNumber = 1234
+    invoiceLine.agreementNumber = 123
     expect(schema.validate(invoiceLine).error).toBeDefined()
   })
 
