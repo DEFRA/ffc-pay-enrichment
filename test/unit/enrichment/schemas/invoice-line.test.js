@@ -1,6 +1,7 @@
 const { ACCOUNT_CODE } = require('../../../mocks/values/account-code')
 const { FUND_CODE } = require('../../../mocks/values/fund-code')
 const { GROSS_DESCRIPTION } = require('../../../mocks/values/description')
+const { AGREEMENT_NUMBER } = require('../../../mocks/values/agreement-number')
 
 const schema = require('../../../../app/enrichment/schemas/invoice-line')
 
@@ -52,6 +53,21 @@ describe('invoice line schema', () => {
 
   test('should fail validation if fund code is incorrect format', () => {
     invoiceLine.fundCode = '123456789'
+    expect(schema.validate(invoiceLine).error).toBeDefined()
+  })
+
+  test('should pass validation if agreement number is missing', () => {
+    delete invoiceLine.agreementNumber
+    expect(schema.validate(invoiceLine)).toBeTruthy()
+  })
+
+  test('should pass validation if agreement number is correct format', () => {
+    invoiceLine.agreementNumber = AGREEMENT_NUMBER
+    expect(schema.validate(invoiceLine)).toBeTruthy()
+  })
+
+  test('should fail validation if agreement number is incorrect format', () => {
+    invoiceLine.agreementNumber = 123
     expect(schema.validate(invoiceLine).error).toBeDefined()
   })
 
