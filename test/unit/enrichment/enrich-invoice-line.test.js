@@ -1,8 +1,8 @@
 jest.mock('../../../app/enrichment/get-scheme-code')
 const mockGetSchemeCode = require('../../../app/enrichment/get-scheme-code')
 
-const { SCHEME_CODE } = require('../../mocks/values/scheme-code')
 const scheme = require('../../mocks/scheme')
+const { SCHEME_CODE } = require('../../mocks/values/scheme-code')
 
 const enrichInvoiceLine = require('../../../app/enrichment/enrich-invoice-line')
 
@@ -17,7 +17,7 @@ describe('enrich header', () => {
     invoiceLine = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/invoice-line')))
   })
 
-  test('should covert value to pence', async () => {
+  test('should convert value to pence', async () => {
     await enrichInvoiceLine(invoiceLine, scheme)
     expect(invoiceLine.value).toBe(25000)
   })

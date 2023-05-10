@@ -1,8 +1,10 @@
 const { GBP } = require('../../app/constants/currency')
-const db = require('../../app/data')
-const enrichPaymentRequest = require('../../app/enrichment')
 const { AP } = require('../../app/constants/ledgers')
 const { M12 } = require('../../app/constants/schedules')
+
+const db = require('../../app/data')
+const enrichPaymentRequest = require('../../app/enrichment')
+
 let scheme
 let schemeCode
 let paymentRequest
@@ -41,11 +43,13 @@ describe('enrich payment request', () => {
       invoiceLines: [
         {
           standardCode: '80001',
+          agreementNumber: 'SIP00000000001',
           description: 'G00 - Gross value of claim',
           value: 250.00
         },
         {
           standardCode: '80001',
+          agreementNumber: 'SIP00000000001',
           description: 'P02 - Over declaration penalty',
           value: -100.00
         }
