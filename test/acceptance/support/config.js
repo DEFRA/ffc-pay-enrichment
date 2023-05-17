@@ -16,7 +16,7 @@ const config = {
   },
   paymentTopic: {
     ...mqConfig,
-    address: process.env.PAYMENT_TOPIC_ADDRESS,
+    address: process.env.PAYMENT_TOPIC_ADDRESS
   },
   paymentSubscription: {
     ...mqConfig,
