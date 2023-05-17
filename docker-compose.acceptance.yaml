@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  ffc-pay-enrichment:
+      build: 
+        target: development
+      image: ffc-pay-enrichment-development
+      volumes:
+        - ./app:/home/node/app
+        - ./package.json:/home/node/package.json
+  
+  ffc-pay-enrichment-test-runner:
+    build:
+      context: .
+      target: development
+    depends_on:
+      - ffc-pay-enrichment
+    image: ffc-pay-enrichment-development
+    command: npm run test:acceptance
+    volumes:
+      - ./test-output:/home/node/test-output
+      - ./test:/home/node/test
+    environment:
+      PAYMENT_TOPIC_ADDRESS: ${PAYMENT_TOPIC_ADDRESS:-ffc-pay-request}${MESSAGE_QUEUE_SUFFIX}
+      PAYMENT_SUBSCRIPTION_ADDRESS: ${PAYMENT_TOPIC_ADDRESS:-ffc-pay-enrichment}${MESSAGE_QUEUE_SUFFIX}
+      PROCESSING_TOPIC_ADDRESS: ${PROCESSING_TOPIC_ADDRESS:-ffc-pay-processing}${MESSAGE_QUEUE_SUFFIX}
+      PROCESSING_SUBSCRIPTION_ADDRESS: ${PROCESSING_SUBSCRIPTION_ADDRESS:-ffc-pay-processing}${MESSAGE_QUEUE_SUFFIX}
+      MESSAGE_QUEUE_HOST: ${MESSAGE_QUEUE_HOST}
+      MESSAGE_QUEUE_PASSWORD: ${MESSAGE_QUEUE_PASSWORD}
+      MESSAGE_QUEUE_USER: ${MESSAGE_QUEUE_USER}
+
+  ffc-pay-enrichment-postgres:
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data: {}
+  
