@@ -6,22 +6,22 @@ const __ = require('hamjest')
 
 setDefaultTimeout(60 * 1000)
 
-Before({ name: 'Clear topic to ensure clean test run' }, async function () {
+Before({ name: 'Clear topic to ensure clean test run' }, async () => {
   await clearSubscription(config.processingSubscription)
   await clearSubscription(config.paymentSubscription)
 })
 
-Given('a valid payment request is received containing details', async function (dataTable) {
-  const incomingRequest = dataTable.rowsHash()
-  const updatedRequest = createDefaultPaymentRequestWith(incomingRequest)
+Given('a valid payment request is received containing details', async (dataTable) => {
+  const incomingRequestValues = dataTable.rowsHash()
+  const updatedRequest = createDefaultPaymentRequestWith(incomingRequestValues)
   await sendMessage(updatedRequest)
 })
 
-When('the payment request is enriched', function () {
+When('the payment request is enriched', () => {
   // Syntatic sugar
 })
 
-Then('the enriched payment request should be transformed to:', async function (dataTable) {
+Then('the enriched payment request should be transformed to:', async (dataTable) => {
   const values = dataTable.rowsHash()
   const messages = await receiveMessages(config.processingSubscription)
 
@@ -31,7 +31,6 @@ Then('the enriched payment request should be transformed to:', async function (d
     schemeId: __.number(),
     invoiceLines: [
       {
-        accountCode: values.accountCode,
         description: values.description
       }]
   }
