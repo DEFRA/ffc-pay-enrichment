@@ -1,8 +1,8 @@
 const { VALIDATION } = require('../../../app/constants/errors')
 
-const validateType = require('../../../app/enrichment/validate-type')
-
 const paymentRequest = require('../../mocks/payment-requests/payment-request')
+
+const { validateType } = require('../../../app/enrichment/validate-type')
 
 describe('validate type', () => {
   beforeEach(() => {

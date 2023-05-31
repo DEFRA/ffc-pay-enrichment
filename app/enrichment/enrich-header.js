@@ -1,7 +1,7 @@
 const { v4: uuidv4 } = require('uuid')
 const { convertToPence } = require('../currency-convert')
-const createInvoiceNumber = require('./create-invoice-number')
-const getFrn = require('./get-frn')
+const { createInvoiceNumber } = require('./create-invoice-number')
+const { getFrn } = require('./get-frn')
 const { AP } = require('../constants/ledgers')
 const { confirmDueDate } = require('./confirm-due-date')
 const { GBP } = require('../constants/currency')
@@ -19,4 +19,6 @@ const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.currency = paymentRequest.currency ?? GBP
 }
 
-module.exports = enrichHeader
+module.exports = {
+  enrichHeader
+}

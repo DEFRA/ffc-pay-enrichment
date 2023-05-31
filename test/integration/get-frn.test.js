@@ -1,5 +1,7 @@
 const db = require('../../app/data')
-const getFrn = require('../../app/enrichment/get-frn')
+
+const { getFrn } = require('../../app/enrichment/get-frn')
+
 let frn
 
 describe('get frn', () => {

@@ -1,6 +1,7 @@
 const Joi = require('joi')
+const { PRODUCTION } = require('../constants/environments')
 
-const mqSchema = Joi.object({
+const schema = Joi.object({
   messageQueue: {
     host: Joi.string(),
     username: Joi.string(),
@@ -27,13 +28,14 @@ const mqSchema = Joi.object({
     address: Joi.string()
   }
 })
-const mqConfig = {
+
+const config = {
   messageQueue: {
     host: process.env.MESSAGE_QUEUE_HOST,
     username: process.env.MESSAGE_QUEUE_USER,
     password: process.env.MESSAGE_QUEUE_PASSWORD,
-    useCredentialChain: process.env.NODE_ENV === 'production',
-    appInsights: process.env.NODE_ENV === 'production' ? require('applicationinsights') : undefined
+    useCredentialChain: process.env.NODE_ENV === PRODUCTION,
+    appInsights: process.env.NODE_ENV === PRODUCTION ? require('applicationinsights') : undefined
   },
   paymentSubscription: {
     address: process.env.PAYMENT_SUBSCRIPTION_ADDRESS,
@@ -55,20 +57,19 @@ const mqConfig = {
   }
 }
 
-const mqResult = mqSchema.validate(mqConfig, {
+const result = schema.validate(config, {
   abortEarly: false
 })
 
-// Throw if config is invalid
-if (mqResult.error) {
-  throw new Error(`The message queue config is invalid. ${mqResult.error.message}`)
+if (result.error) {
+  throw new Error(`The messaging config is invalid. ${result.error.message}`)
 }
 
-const paymentSubscription = { ...mqResult.value.messageQueue, ...mqResult.value.paymentSubscription }
-const processingTopic = { ...mqResult.value.messageQueue, ...mqResult.value.processingTopic }
-const responseTopic = { ...mqResult.value.messageQueue, ...mqResult.value.responseTopic }
-const eventTopic = { ...mqResult.value.messageQueue, ...mqResult.value.eventTopic }
-const eventsTopic = { ...mqResult.value.messageQueue, ...mqResult.value.eventsTopic }
+const paymentSubscription = { ...result.value.messageQueue, ...result.value.paymentSubscription }
+const processingTopic = { ...result.value.messageQueue, ...result.value.processingTopic }
+const responseTopic = { ...result.value.messageQueue, ...result.value.responseTopic }
+const eventTopic = { ...result.value.messageQueue, ...result.value.eventTopic }
+const eventsTopic = { ...result.value.messageQueue, ...result.value.eventsTopic }
 
 module.exports = {
   paymentSubscription,

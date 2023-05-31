@@ -41,4 +41,6 @@ const createDefaultInvoiceNumber = (paymentRequest) => {
   }
 }
 
-module.exports = createInvoiceNumber
+module.exports = {
+  createInvoiceNumber
+}

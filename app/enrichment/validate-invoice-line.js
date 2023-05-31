@@ -10,4 +10,6 @@ const validateInvoiceLine = (invoiceLine, sourceSystem) => {
   }
 }
 
-module.exports = validateInvoiceLine
+module.exports = {
+  validateInvoiceLine
+}

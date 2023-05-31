@@ -10,4 +10,6 @@ const validateHeader = (header) => {
   }
 }
 
-module.exports = validateHeader
+module.exports = {
+  validateHeader
+}

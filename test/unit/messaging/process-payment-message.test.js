@@ -1,8 +1,3 @@
-const { VALIDATION } = require('../../../app/constants/errors')
-const { ENRICHED, ACCEPTED, REJECTED } = require('../../../app/constants/types')
-const { FRN } = require('../../mocks/values/frn')
-const { SOURCE_SYSTEM } = require('../../mocks/values/source-system')
-
 jest.mock('ffc-messaging')
 const mockSendMessage = jest.fn()
 jest.mock('ffc-messaging', () => {
@@ -29,11 +24,19 @@ jest.mock('ffc-pay-event-publisher', () => {
     })
   }
 })
+
 jest.mock('../../../app/data')
 jest.mock('../../../app/enrichment')
-const mockEnrichPaymentRequest = require('../../../app/enrichment')
 
-const processPaymentMessage = require('../../../app/messaging/process-payment-message')
+const { FRN } = require('../../mocks/values/frn')
+const { SOURCE_SYSTEM } = require('../../mocks/values/source-system')
+
+const { VALIDATION } = require('../../../app/constants/errors')
+const { ENRICHED, ACCEPTED, REJECTED } = require('../../../app/constants/types')
+
+const { enrichPaymentRequest: mockEnrichPaymentRequest } = require('../../../app/enrichment')
+
+const { processPaymentMessage } = require('../../../app/messaging/process-payment-message')
 
 let receiver
 

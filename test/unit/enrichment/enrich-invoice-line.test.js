@@ -1,10 +1,10 @@
 jest.mock('../../../app/enrichment/get-scheme-code')
-const mockGetSchemeCode = require('../../../app/enrichment/get-scheme-code')
+const { getSchemeCode: mockGetSchemeCode } = require('../../../app/enrichment/get-scheme-code')
 
 const scheme = require('../../mocks/scheme')
 const { SCHEME_CODE } = require('../../mocks/values/scheme-code')
 
-const enrichInvoiceLine = require('../../../app/enrichment/enrich-invoice-line')
+const { enrichInvoiceLine } = require('../../../app/enrichment/enrich-invoice-line')
 
 const marketingYear = 2023
 
@@ -14,79 +14,79 @@ describe('enrich header', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
-    mockGetSchemeCode.mockResolvedValue(SCHEME_CODE)
+    mockGetSchemeCode.mockReturnValue(SCHEME_CODE)
 
     invoiceLine = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/invoice-line')))
   })
 
-  test('should convert value to pence', async () => {
-    await enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+  test('should convert value to pence', () => {
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
     expect(invoiceLine.value).toBe(25000)
   })
 
-  test('should retain scheme code if already set', async () => {
+  test('should retain scheme code if already set', () => {
     const originalSchemeCode = invoiceLine.schemeCode
-    await enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
     expect(invoiceLine.schemeCode).toBe(originalSchemeCode)
   })
 
-  test('should set scheme code if not already set', async () => {
+  test('should set scheme code if not already set', () => {
     delete invoiceLine.schemeCode
-    await enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
     expect(invoiceLine.schemeCode).toBe(SCHEME_CODE)
   })
 
-  test('should retain fund code if already set', async () => {
+  test('should retain fund code if already set', () => {
     const originalFundCode = invoiceLine.fundCode
-    await enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
     expect(invoiceLine.fundCode).toBe(originalFundCode)
   })
 
-  test('should set fund code if not already set and fund code defined', async () => {
+  test('should set fund code if not already set and fund code defined', () => {
     delete invoiceLine.fundCode
-    await enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
     expect(invoiceLine.fundCode).toBe(scheme.fundCode)
   })
 
-  test('should not set fund code if not already set and fund code not defined', async () => {
+  test('should not set fund code if not already set and fund code not defined', () => {
     delete invoiceLine.fundCode
-    await enrichInvoiceLine(invoiceLine, undefined)
+    enrichInvoiceLine(invoiceLine, undefined)
     expect(invoiceLine.fundCode).toBeUndefined()
   })
 
-  test('should retain convergence if already set', async () => {
+  test('should retain convergence if already set', () => {
     invoiceLine.convergence = true
-    await enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
     expect(invoiceLine.convergence).toBe(true)
   })
 
-  test('should set convergence to false if not already set', async () => {
+  test('should set convergence to false if not already set', () => {
     delete invoiceLine.convergence
-    await enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
     expect(invoiceLine.convergence).toBe(false)
   })
 
-  test('should retain delivery body if already set', async () => {
+  test('should retain delivery body if already set', () => {
     const originalDeliveryBody = invoiceLine.deliveryBody
-    await enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
     expect(invoiceLine.deliveryBody).toBe(originalDeliveryBody)
   })
 
-  test('should set delivery body if not already set and delivery body defined', async () => {
+  test('should set delivery body if not already set and delivery body defined', () => {
     delete invoiceLine.deliveryBody
-    await enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
     expect(invoiceLine.deliveryBody).toBe(scheme.deliveryBody)
   })
 
-  test('should retain marketing year if already set', async () => {
+  test('should retain marketing year if already set', () => {
     const originalMarketingYear = invoiceLine.marketingYear
-    await enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
     expect(invoiceLine.marketingYear).toBe(originalMarketingYear)
   })
 
-  test('should set marketing year if not already set', async () => {
+  test('should set marketing year if not already set', () => {
     delete invoiceLine.marketingYear
-    await enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
     expect(invoiceLine.marketingYear).toBe(marketingYear)
   })
 })

@@ -9,4 +9,6 @@ const validateValues = (value, invoiceLines) => {
   }
 }
 
-module.exports = validateValues
+module.exports = {
+  validateValues
+}

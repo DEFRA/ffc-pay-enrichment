@@ -1,15 +1,15 @@
 const { EventPublisher } = require('ffc-pay-event-publisher')
-const config = require('../config')
+const { enrichmentConfig, messageConfig } = require('../config')
 const raiseEvent = require('./raise-event')
 const { v4: uuidv4 } = require('uuid')
 const { PAYMENT_REJECTED } = require('../constants/events')
 const { SOURCE } = require('../constants/source')
 
 const sendEnrichmentErrorEvent = async (paymentRequest, error) => {
-  if (config.useV1Events) {
+  if (enrichmentConfig.useV1Events) {
     await sendV1EnrichmentErrorEvent(paymentRequest, error)
   }
-  if (config.useV2Events) {
+  if (enrichmentConfig.useV2Events) {
     await sendV2EnrichmentErrorEvent(paymentRequest, error)
   }
 }
@@ -35,8 +35,10 @@ const sendV2EnrichmentErrorEvent = async (paymentRequest, error) => {
       paymentRequest
     }
   }
-  const eventPublisher = new EventPublisher(config.eventsTopic)
+  const eventPublisher = new EventPublisher(messageConfig.eventsTopic)
   await eventPublisher.publishEvent(event)
 }
 
-module.exports = sendEnrichmentErrorEvent
+module.exports = {
+  sendEnrichmentErrorEvent
+}
