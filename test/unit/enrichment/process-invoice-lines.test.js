@@ -9,6 +9,8 @@ const { SOURCE_SYSTEM } = require('../../mocks/values/source-system')
 const scheme = require('../../mocks/scheme')
 const invoiceLine = require('../../mocks/payment-requests/invoice-line')
 
+const processInvoiceLines = require('../../../app/enrichment/process-invoice-lines')
+
 const invoiceLines = [
   invoiceLine,
   invoiceLine,
@@ -16,8 +18,6 @@ const invoiceLines = [
 ]
 
 const marketingYear = 2023
-
-const processInvoiceLines = require('../../../app/enrichment/process-invoice-lines')
 
 describe('process invoice lines', () => {
   beforeEach(() => {
