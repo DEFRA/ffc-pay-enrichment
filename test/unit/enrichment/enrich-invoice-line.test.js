@@ -3,9 +3,10 @@ const mockGetSchemeCode = require('../../../app/enrichment/get-scheme-code')
 
 const scheme = require('../../mocks/scheme')
 const { SCHEME_CODE } = require('../../mocks/values/scheme-code')
-const marketingYear = 2023
 
 const enrichInvoiceLine = require('../../../app/enrichment/enrich-invoice-line')
+
+const marketingYear = 2023
 
 let invoiceLine
 
