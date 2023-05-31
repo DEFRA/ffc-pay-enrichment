@@ -1,11 +1,11 @@
 const enrichInvoiceLine = require('./enrich-invoice-line')
 const validateInvoiceLine = require('./validate-invoice-line')
 
-const processInvoiceLines = async (invoiceLines, sourceSystem, scheme) => {
+const processInvoiceLines = async (invoiceLines, sourceSystem, marketingYear, scheme) => {
   // ignore any net lines
   invoiceLines = invoiceLines.filter(x => !x.description.startsWith('N00'))
   for (const line of invoiceLines) {
-    await enrichInvoiceLine(line, scheme)
+    await enrichInvoiceLine(line, marketingYear, scheme)
     validateInvoiceLine(line, sourceSystem)
   }
   return invoiceLines
