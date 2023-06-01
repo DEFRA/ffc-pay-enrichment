@@ -11,4 +11,6 @@ const getFrn = async (sbi, transaction) => {
   }
 }
 
-module.exports = getFrn
+module.exports = {
+  getFrn
+}

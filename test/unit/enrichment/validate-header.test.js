@@ -1,11 +1,11 @@
-const { VALIDATION } = require('../../../app/constants/errors')
-
 jest.mock('../../../app/enrichment/schemas/header')
 const mockSchema = require('../../../app/enrichment/schemas/header')
 
-const validateHeader = require('../../../app/enrichment/validate-header')
-
 const paymentRequest = require('../../mocks/payment-requests/payment-request')
+
+const { VALIDATION } = require('../../../app/constants/errors')
+
+const { validateHeader } = require('../../../app/enrichment/validate-header')
 
 describe('validate header', () => {
   beforeEach(() => {

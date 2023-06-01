@@ -8,4 +8,6 @@ const validateType = (paymentRequest) => {
   }
 }
 
-module.exports = validateType
+module.exports = {
+  validateType
+}

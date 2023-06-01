@@ -2,7 +2,7 @@ const { SOURCE } = require('../../../app/constants/source')
 const { ENRICHED } = require('../../../app/constants/types')
 const { FRN } = require('../../mocks/values/frn')
 
-const createMessage = require('../../../app/messaging/create-message')
+const { createMessage } = require('../../../app/messaging/create-message')
 
 describe('create message', () => {
   test('sets payment request as body', () => {

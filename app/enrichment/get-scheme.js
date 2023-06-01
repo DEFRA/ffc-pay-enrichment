@@ -1,35 +1,9 @@
-const db = require('../data')
-const cache = require('../cache')
+const schemeProperties = require('../constants/scheme-properties')
 
-const getScheme = async (sourceSystem) => {
-  try {
-    const cachedScheme = getSchemeFromCache(sourceSystem)
-    if (cachedScheme) {
-      return cachedScheme
-    }
-    const scheme = await getSchemeFromDb(sourceSystem)
-    if (scheme) {
-      updateCache(sourceSystem, scheme)
-    }
-    return scheme
-  } catch {
-    return undefined
-  }
+const getScheme = (sourceSystem) => {
+  return schemeProperties.find(x => x.sourceSystem === sourceSystem)
 }
 
-const getSchemeFromCache = (sourceSystem) => {
-  return cache.get(`scheme-${sourceSystem}`)
+module.exports = {
+  getScheme
 }
-
-const updateCache = (sourceSystem, value) => {
-  return cache.set(`scheme-${sourceSystem}`, value)
-}
-
-const getSchemeFromDb = async (sourceSystem) => {
-  if (sourceSystem) {
-    const scheme = await db.scheme.findOne({ where: { sourceSystem }, raw: true })
-    return scheme || undefined
-  }
-}
-
-module.exports = getScheme

@@ -3,10 +3,9 @@ const { AP } = require('../../app/constants/ledgers')
 const { M12 } = require('../../app/constants/schedules')
 
 const db = require('../../app/data')
-const enrichPaymentRequest = require('../../app/enrichment')
 
-let scheme
-let schemeCode
+const { enrichPaymentRequest } = require('../../app/enrichment')
+
 let paymentRequest
 let frn
 
@@ -14,21 +13,13 @@ describe('enrich payment request', () => {
   beforeEach(async () => {
     await db.sequelize.truncate({ cascade: true })
 
-    scheme = {
-      schemeId: 1,
-      name: 'SFI',
-      deliveryBody: 'RP00',
-      sourceSystem: 'SFIP',
-      fundCode: 'DRD10'
-    }
-
     frn = {
       sbi: 123456789,
       frn: 1234567890
     }
 
     paymentRequest = {
-      sourceSystem: 'SFIP',
+      sourceSystem: 'SFI',
       deliveryBody: 'RP00',
       sbi: 123456789,
       paymentRequestNumber: 1,
@@ -42,13 +33,13 @@ describe('enrich payment request', () => {
       value: 150.00,
       invoiceLines: [
         {
-          standardCode: '80001',
+          schemeCode: '80001',
           agreementNumber: 'SIP00000000001',
           description: 'G00 - Gross value of claim',
           value: 250.00
         },
         {
-          standardCode: '80001',
+          schemeCode: '80001',
           agreementNumber: 'SIP00000000001',
           description: 'P02 - Over declaration penalty',
           value: -100.00
@@ -56,14 +47,6 @@ describe('enrich payment request', () => {
       ]
     }
 
-    schemeCode = {
-      schemeCodeId: 1,
-      standardCode: '80001',
-      schemeCode: '80001'
-    }
-
-    await db.scheme.create(scheme)
-    await db.schemeCode.create(schemeCode)
     await db.frn.create(frn)
   })
 

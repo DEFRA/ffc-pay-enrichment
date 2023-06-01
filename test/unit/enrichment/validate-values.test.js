@@ -1,4 +1,4 @@
-const validateValues = require('../../../app/enrichment/validate-values')
+const { validateValues } = require('../../../app/enrichment/validate-values')
 
 describe('validate value', () => {
   test('does not error if value equals lines with one line', () => {

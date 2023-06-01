@@ -17,10 +17,12 @@ jest.mock('ffc-pay-event-publisher', () => {
   }
 })
 jest.mock('../../../app/config')
-const config = require('../../../app/config')
+
+const { enrichmentConfig, messageConfig } = require('../../../app/config')
 const { PAYMENT_REJECTED } = require('../../../app/constants/events')
 const { SOURCE } = require('../../../app/constants/source')
-const sendEnrichmentErrorEvent = require('../../../app/event/send-enrichment-error-event')
+
+const { sendEnrichmentErrorEvent } = require('../../../app/event/send-enrichment-error-event')
 
 let paymentRequest
 let error
@@ -30,10 +32,10 @@ beforeEach(() => {
   error = {
     message: 'Cannot enrich'
   }
-  config.useV1Events = true
-  config.useV2Events = true
-  config.eventTopic = 'v1-events'
-  config.eventsTopic = 'v2-events'
+  enrichmentConfig.useV1Events = true
+  enrichmentConfig.useV2Events = true
+  messageConfig.eventTopic = 'v1-events'
+  messageConfig.eventsTopic = 'v2-events'
 })
 
 afterEach(() => {
@@ -42,20 +44,20 @@ afterEach(() => {
 
 describe('V1 enrichment error event', () => {
   test('should send V1 event if V1 events enabled', async () => {
-    config.useV1Events = true
+    enrichmentConfig.useV1Events = true
     await sendEnrichmentErrorEvent(paymentRequest, error)
     expect(mockSendEvent).toHaveBeenCalled()
   })
 
   test('should not send V1 event if V1 events disabled', async () => {
-    config.useV1Events = false
+    enrichmentConfig.useV1Events = false
     await sendEnrichmentErrorEvent(paymentRequest, error)
     expect(mockSendEvent).not.toHaveBeenCalled()
   })
 
   test('should send event to V1 topic', async () => {
     await sendEnrichmentErrorEvent(paymentRequest, error)
-    expect(MockPublishEvent.mock.calls[0][0]).toBe(config.eventTopic)
+    expect(MockPublishEvent.mock.calls[0][0]).toBe(messageConfig.eventTopic)
   })
 
   test('should raise an event with payment request correlation Id as Id if exists', async () => {
@@ -101,20 +103,20 @@ describe('V1 enrichment error event', () => {
 
 describe('V2 enrichment error event', () => {
   test('should send V2 event if V2 events enabled', async () => {
-    config.useV2Events = true
+    enrichmentConfig.useV2Events = true
     await sendEnrichmentErrorEvent(paymentRequest, error)
     expect(mockPublishEvent).toHaveBeenCalled()
   })
 
   test('should not send V2 event if V2 events disabled', async () => {
-    config.useV2Events = false
+    enrichmentConfig.useV2Events = false
     await sendEnrichmentErrorEvent(paymentRequest, error)
     expect(mockPublishEvent).not.toHaveBeenCalled()
   })
 
   test('should send event to V2 topic', async () => {
     await sendEnrichmentErrorEvent(paymentRequest, error)
-    expect(MockEventPublisher.mock.calls[0][0]).toBe(config.eventsTopic)
+    expect(MockEventPublisher.mock.calls[0][0]).toBe(messageConfig.eventsTopic)
   })
 
   test('should raise an event with enrichment source', async () => {

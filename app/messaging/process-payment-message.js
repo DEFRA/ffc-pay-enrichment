@@ -1,7 +1,7 @@
-const enrichPaymentRequest = require('../enrichment')
-const sendMessage = require('./send-message')
 const util = require('util')
 const { VALIDATION } = require('../constants/errors')
+const { enrichPaymentRequest } = require('../enrichment')
+const { sendMessage } = require('./send-message')
 const { sendEnrichmentEvent, sendEnrichmentErrorEvent } = require('../event')
 const { ENRICHED, ACCEPTED, REJECTED } = require('../constants/types')
 
@@ -26,4 +26,6 @@ const processPaymentMessage = async (message, receiver) => {
   }
 }
 
-module.exports = processPaymentMessage
+module.exports = {
+  processPaymentMessage
+}

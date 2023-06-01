@@ -5,15 +5,15 @@ const { DUE_DATE_DAX } = require('../../mocks/values/due-date')
 const { GBP } = require('../../../app/constants/currency')
 
 jest.mock('../../../app/enrichment/create-invoice-number')
-const mockCreateInvoiceNumber = require('../../../app/enrichment/create-invoice-number')
+const { createInvoiceNumber: mockCreateInvoiceNumber } = require('../../../app/enrichment/create-invoice-number')
 
 jest.mock('../../../app/enrichment/get-frn')
-const mockGetFrn = require('../../../app/enrichment/get-frn')
+const { getFrn: mockGetFrn } = require('../../../app/enrichment/get-frn')
 
 jest.mock('../../../app/enrichment/confirm-due-date')
 const { confirmDueDate: mockConfirmDueDate } = require('../../../app/enrichment/confirm-due-date')
 
-const enrichHeader = require('../../../app/enrichment/enrich-header')
+const { enrichHeader } = require('../../../app/enrichment/enrich-header')
 
 let scheme
 let paymentRequest

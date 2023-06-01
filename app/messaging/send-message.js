@@ -1,6 +1,6 @@
-const config = require('../config')
 const { MessageSender } = require('ffc-messaging')
-const createMessage = require('./create-message')
+const { messageConfig } = require('../config')
+const { createMessage } = require('./create-message')
 const { ENRICHED } = require('../constants/types')
 
 const sendMessage = async (body, type, metadata) => {
@@ -12,7 +12,9 @@ const sendMessage = async (body, type, metadata) => {
 }
 
 const getTopic = (type) => {
-  return type === ENRICHED ? config.processingTopic : config.responseTopic
+  return type === ENRICHED ? messageConfig.processingTopic : messageConfig.responseTopic
 }
 
-module.exports = sendMessage
+module.exports = {
+  sendMessage
+}

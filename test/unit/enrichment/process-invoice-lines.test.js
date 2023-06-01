@@ -1,15 +1,15 @@
 jest.mock('../../../app/enrichment/enrich-invoice-line')
-const mockEnrichInvoiceLine = require('../../../app/enrichment/enrich-invoice-line')
+const { enrichInvoiceLine: mockEnrichInvoiceLine } = require('../../../app/enrichment/enrich-invoice-line')
 
 jest.mock('../../../app/enrichment/validate-invoice-line')
-const mockValidateInvoiceLine = require('../../../app/enrichment/validate-invoice-line')
+const { validateInvoiceLine: mockValidateInvoiceLine } = require('../../../app/enrichment/validate-invoice-line')
 
 const { NET_DESCRIPTION, GROSS_DESCRIPTION } = require('../../mocks/values/description')
 const { SOURCE_SYSTEM } = require('../../mocks/values/source-system')
 const scheme = require('../../mocks/scheme')
 const invoiceLine = require('../../mocks/payment-requests/invoice-line')
 
-const processInvoiceLines = require('../../../app/enrichment/process-invoice-lines')
+const { processInvoiceLines } = require('../../../app/enrichment/process-invoice-lines')
 
 const invoiceLines = [
   invoiceLine,
