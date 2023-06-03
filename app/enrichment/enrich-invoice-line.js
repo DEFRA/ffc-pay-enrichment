@@ -1,5 +1,6 @@
 const { convertToPence } = require('../currency-convert')
 const { getSchemeCode } = require('./get-scheme-code')
+const { isStateAid } = require('./is-state-aid')
 
 const enrichInvoiceLine = (invoiceLine, marketingYear, scheme) => {
   invoiceLine.value = convertToPence(invoiceLine.value)
