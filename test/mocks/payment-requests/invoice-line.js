@@ -15,5 +15,7 @@ module.exports = {
   description: GROSS_DESCRIPTION,
   value: 250.00,
   deliveryBody: DELIVERY_BODY_NATURAL_ENGLAND,
-  marketingYear: 2023
+  marketingYear: 2023,
+  convergence: false,
+  stateAid: false
 }

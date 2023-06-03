@@ -182,8 +182,6 @@ components:
         - schemeCode
         - deliveryBody
         - marketingYear
-        - convergence 
-        - stateAid
       properties:
         value:
           $ref: "#/components/schemas/ValueInteger"
