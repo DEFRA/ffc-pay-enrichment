@@ -96,7 +96,7 @@ describe('enrich header', () => {
 
   test('should check if line is state aid', () => {
     enrichInvoiceLine(invoiceLine, marketingYear, scheme)
-    expect(mockIsStateAid).toHaveBeenCalledWith(invoiceLine)
+    expect(mockIsStateAid).toHaveBeenCalledWith(invoiceLine, scheme.schemeId)
   })
 
   test('should set state aid when state aid is false', () => {
