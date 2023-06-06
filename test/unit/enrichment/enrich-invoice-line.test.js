@@ -1,6 +1,9 @@
 jest.mock('../../../app/enrichment/get-scheme-code')
 const { getSchemeCode: mockGetSchemeCode } = require('../../../app/enrichment/get-scheme-code')
 
+jest.mock('../../../app/enrichment/is-state-aid')
+const { isStateAid: mockIsStateAid } = require('../../../app/enrichment/is-state-aid')
+
 const scheme = require('../../mocks/scheme')
 const { SCHEME_CODE } = require('../../mocks/values/scheme-code')
 
@@ -15,6 +18,7 @@ describe('enrich header', () => {
     jest.clearAllMocks()
 
     mockGetSchemeCode.mockReturnValue(SCHEME_CODE)
+    mockIsStateAid.mockReturnValue(false)
 
     invoiceLine = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/invoice-line')))
   })
@@ -88,5 +92,21 @@ describe('enrich header', () => {
     delete invoiceLine.marketingYear
     enrichInvoiceLine(invoiceLine, marketingYear, scheme)
     expect(invoiceLine.marketingYear).toBe(marketingYear)
+  })
+
+  test('should check if line is state aid', () => {
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    expect(mockIsStateAid).toHaveBeenCalledWith(invoiceLine, scheme.schemeId)
+  })
+
+  test('should set state aid when state aid is false', () => {
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    expect(invoiceLine.stateAid).toBe(false)
+  })
+
+  test('should set state aid when state aid is true', () => {
+    mockIsStateAid.mockReturnValue(true)
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    expect(invoiceLine.stateAid).toBe(true)
   })
 })

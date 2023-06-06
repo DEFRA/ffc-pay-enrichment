@@ -130,4 +130,24 @@ describe('invoice line schema', () => {
     invoiceLine.deliveryBody = 'INVALID'
     expect(schema.validate(invoiceLine).error).toBeDefined()
   })
+
+  test('should pass validation if state aid missing', () => {
+    delete invoiceLine.stateAid
+    expect(schema.validate(invoiceLine)).toBeTruthy()
+  })
+
+  test('should fail validation if state aid is not a boolean', () => {
+    invoiceLine.stateAid = 'not a boolean'
+    expect(schema.validate(invoiceLine).error).toBeDefined()
+  })
+
+  test('should pass validation if state aid is true', () => {
+    invoiceLine.stateAid = true
+    expect(schema.validate(invoiceLine)).toBeTruthy()
+  })
+
+  test('should pass validation if state aid is false', () => {
+    invoiceLine.stateAid = false
+    expect(schema.validate(invoiceLine)).toBeTruthy()
+  })
 })
