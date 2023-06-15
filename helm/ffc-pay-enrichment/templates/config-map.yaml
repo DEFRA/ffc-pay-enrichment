@@ -22,6 +22,5 @@ data:
   POSTGRES_HOST: {{ quote .Values.postgresService.postgresqlHost }}
   POSTGRES_PORT: {{ quote .Values.postgresService.postgresPort }}
   POSTGRES_SCHEMA_NAME: {{ quote .Values.postgresService.postgresSchema }}
-  USE_V1_EVENTS: {{ quote .Values.container.useV1Events }}
   USE_V2_EVENTS: {{ quote .Values.container.useV2Events }}
 {{- end -}}

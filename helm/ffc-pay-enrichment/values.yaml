@@ -36,7 +36,6 @@ container:
   responseTopicAddress: ffc-pay-request-response
   eventTopicAddress: ffc-pay-event
   eventsTopicAddress: ffc-pay-events
-  useV1Events: true
   useV2Events: true
 
 postgresService:

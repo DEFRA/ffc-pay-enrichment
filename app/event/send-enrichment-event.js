@@ -1,28 +1,12 @@
-const { EventPublisher } = require('ffc-pay-event-publisher')
 const { enrichmentConfig, messageConfig } = require('../config')
-const { PAYMENT_ENRICHED } = require('../constants/events')
+const { EventPublisher } = require('ffc-pay-event-publisher')
 const { SOURCE } = require('../constants/source')
-const raiseEvent = require('./raise-event')
+const { PAYMENT_ENRICHED } = require('../constants/events')
 
 const sendEnrichmentEvent = async (paymentRequestComparison) => {
-  if (enrichmentConfig.useV1Events) {
-    await sendV1EnrichmentEvent(paymentRequestComparison)
-  }
   if (enrichmentConfig.useV2Events) {
     await sendV2EnrichmentEvent(paymentRequestComparison.paymentRequest)
   }
-}
-
-const sendV1EnrichmentEvent = async (paymentRequestComparison) => {
-  const paymentRequest = paymentRequestComparison.paymentRequest
-  const event = {
-    id: paymentRequest.correlationId,
-    name: 'payment-request-enrichment',
-    type: 'info',
-    message: 'Payment request enriched',
-    data: paymentRequestComparison
-  }
-  await raiseEvent(event)
 }
 
 const sendV2EnrichmentEvent = async (paymentRequest) => {
