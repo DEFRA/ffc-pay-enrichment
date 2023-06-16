@@ -1,29 +1,12 @@
-const { EventPublisher } = require('ffc-pay-event-publisher')
 const { enrichmentConfig, messageConfig } = require('../config')
-const raiseEvent = require('./raise-event')
-const { v4: uuidv4 } = require('uuid')
+const { EventPublisher } = require('ffc-pay-event-publisher')
 const { PAYMENT_REJECTED } = require('../constants/events')
 const { SOURCE } = require('../constants/source')
 
 const sendEnrichmentErrorEvent = async (paymentRequest, error) => {
-  if (enrichmentConfig.useV1Events) {
-    await sendV1EnrichmentErrorEvent(paymentRequest, error)
-  }
   if (enrichmentConfig.useV2Events) {
     await sendV2EnrichmentErrorEvent(paymentRequest, error)
   }
-}
-
-const sendV1EnrichmentErrorEvent = async (paymentRequest, error) => {
-  const correlationId = paymentRequest.correlationId ?? uuidv4()
-  const event = {
-    id: correlationId,
-    name: 'payment-request-enrichment-error',
-    type: 'error',
-    message: error.message,
-    data: { paymentRequest }
-  }
-  await raiseEvent(event, 'error')
 }
 
 const sendV2EnrichmentErrorEvent = async (paymentRequest, error) => {
