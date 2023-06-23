@@ -1,16 +1,24 @@
+const { FRN } = require('../mocks/values/frn')
+const { SBI } = require('../mocks/values/sbi')
+
 const db = require('../../app/data')
 
 const { getFrn } = require('../../app/enrichment/get-frn')
 
 let frn
+let paymentRequest
 
 describe('get frn', () => {
   beforeEach(async () => {
     await db.sequelize.truncate({ cascade: true })
 
     frn = {
-      sbi: 123456789,
-      frn: 1234567890
+      sbi: SBI,
+      frn: FRN
+    }
+
+    paymentRequest = {
+      sbi: SBI
     }
 
     await db.frn.create(frn)
@@ -21,13 +29,14 @@ describe('get frn', () => {
     await db.sequelize.close()
   })
 
-  test('should return frn for sbi', async () => {
-    const result = await getFrn(123456789)
+  test('should return frn for payment request with sbi', async () => {
+    const result = await getFrn(paymentRequest)
     expect(result).toBe(1234567890)
   })
 
   test('should return undefined if no match for sbi', async () => {
-    const result = await getFrn(123456788)
+    paymentRequest.sbi = 123
+    const result = await getFrn(paymentRequest)
     expect(result).toBeUndefined()
   })
 

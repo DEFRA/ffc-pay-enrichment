@@ -13,7 +13,7 @@ const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.invoiceNumber = createInvoiceNumber(paymentRequest)
   paymentRequest.ledger = paymentRequest.ledger ?? AP
   paymentRequest.value = convertToPence(paymentRequest.value)
-  paymentRequest.frn = paymentRequest.frn ?? await getFrn(paymentRequest.sbi)
+  paymentRequest.frn = paymentRequest.frn ?? await getFrn(paymentRequest)
   paymentRequest.deliveryBody = scheme?.deliveryBody
   paymentRequest.dueDate = confirmDueDate(paymentRequest.schemeId, paymentRequest.marketingYear, paymentRequest.dueDate)
   paymentRequest.currency = paymentRequest.currency ?? GBP

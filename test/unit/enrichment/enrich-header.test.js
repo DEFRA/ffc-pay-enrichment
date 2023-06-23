@@ -97,7 +97,7 @@ describe('enrich header', () => {
   test('should set frn if not already set', async () => {
     delete paymentRequest.frn
     await enrichHeader(paymentRequest, scheme)
-    expect(mockGetFrn).toHaveBeenCalledWith(paymentRequest.sbi)
+    expect(mockGetFrn).toHaveBeenCalledWith(paymentRequest)
     expect(paymentRequest.frn).toBe(FRN)
   })
 
