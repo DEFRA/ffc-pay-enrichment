@@ -1,7 +1,7 @@
 const schemeCodes = require('../constants/scheme-codes')
 
 const getSchemeCode = (invoiceLine) => {
-  return schemeCodes[invoiceLine.standardCode]
+  return invoiceLine.schemeCode ?? schemeCodes[invoiceLine.standardCode]
 }
 
 module.exports = {

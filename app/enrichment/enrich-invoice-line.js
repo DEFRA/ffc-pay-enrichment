@@ -7,8 +7,8 @@ const { isStateAid } = require('./is-state-aid')
 
 const enrichInvoiceLine = (invoiceLine, marketingYear, scheme) => {
   invoiceLine.value = convertToPence(invoiceLine.value)
-  invoiceLine.schemeCode = invoiceLine.schemeCode ?? getSchemeCode(invoiceLine)
-  invoiceLine.fundCode = invoiceLine.fundCode ?? getFundCode(invoiceLine, scheme?.fundCode)
+  invoiceLine.schemeCode = getSchemeCode(invoiceLine)
+  invoiceLine.fundCode = getFundCode(invoiceLine, scheme?.fundCode)
   invoiceLine.accountCode = getAccountCode(invoiceLine)
   invoiceLine.convergence = invoiceLine.convergence ?? false
   invoiceLine.deliveryBody = getDeliveryBody(invoiceLine, scheme?.deliveryBody)
