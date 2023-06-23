@@ -6,5 +6,6 @@ module.exports = {
   SITI_AGRI_CS_SYS: 'SITI AGRI CS SYS',
   SITI_AGRI_SYS: 'SITI AGRI SYS',
   FDMR: 'FDMR',
-  MANUAL: 'Manual'
+  MANUAL: 'Manual',
+  Genesis: 'Genesis'
 }
