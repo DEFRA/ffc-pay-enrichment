@@ -1,8 +1,8 @@
-const getBalancingSegment = (invoiceLine) => {
-  if (invoiceLine.companyCode === '31') {
+const getBalancingSegment = (companyCode) => {
+  if (companyCode === '31') {
     return 'EXQ'
   }
-  if (invoiceLine.companyCode === '32') {
+  if (companyCode === '32') {
     return 'EGF'
   }
 }
