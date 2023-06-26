@@ -1,14 +1,7 @@
-const { EXQ00 } = require('../constants/fund-codes')
-const fundCodeMap = require('../constants/fund-code-map')
+const { EXQ00, DRD05 } = require('../constants/fund-codes')
 
-const getESFundCode = (invoiceLine) => {
-  if (invoiceLine.balancingSegment === 'EXQ') {
-    return EXQ00
-  }
-
-  const provisionalFundCode = fundCodeMap[invoiceLine.accountCode]
-
-  return provisionalFundCode.startsWith('EGF') && invoiceLine.oregonSchemeCode.startsWith('4') ? 'EGFXX' : provisionalFundCode
+const getESFundCode = (companyCode) => {
+  return companyCode === '31' ? EXQ00 : DRD05
 }
 
 module.exports = {

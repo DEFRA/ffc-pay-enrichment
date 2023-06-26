@@ -1,10 +1,13 @@
-const oregonAccountCodeMap = require('../constants/oregon-account-code-map')
+const { SOS228, SOS229, SOS710 } = require('../constants/account-codes')
 
-const getAccountCodeFromOregon = (invoiceLine) => {
-  return oregonAccountCodeMap.find(x =>
-    (x.oregonAccountCode === invoiceLine.oregonAccountCode && x.oregonSchemeCode === invoiceLine.oregonSchemeCode) ||
-    (x.oregonAccountCode === invoiceLine.oregonAccountCode)
-  )?.accountCode
+const getAccountCodeFromOregon = (oregonAccountCode) => {
+  if (oregonAccountCode === '0110') {
+    return SOS228
+  }
+  if (oregonAccountCode === '0112') {
+    return SOS229
+  }
+  return SOS710
 }
 
 module.exports = {
