@@ -17,7 +17,7 @@ const enrichInvoiceLine = (invoiceLine, marketingYear, scheme) => {
   invoiceLine.convergence = invoiceLine.convergence ?? false
   invoiceLine.deliveryBody = getDeliveryBody(invoiceLine, scheme?.deliveryBody)
   invoiceLine.marketingYear = getMarketingYear(invoiceLine, marketingYear)
-  invoiceLine.stateAid = isStateAid(invoiceLine, scheme?.schemeId)
+  invoiceLine.stateAid = isStateAid(invoiceLine)
 }
 
 module.exports = {

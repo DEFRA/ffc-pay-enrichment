@@ -1,4 +1,3 @@
-const { CS } = require('../../../app/constants/schemes')
 const { EXQ00 } = require('../../../app/constants/fund-codes')
 const { SOS228, SOS229 } = require('../../../app/constants/account-codes')
 
@@ -33,12 +32,6 @@ describe('is state aid', () => {
   ])('should return %s for fund code %s and account code %s', (fundCode, accountCode, expected) => {
     invoiceLine.fundCode = fundCode
     invoiceLine.accountCode = accountCode
-    expect(isStateAid(invoiceLine, CS)).toBe(expected)
-  })
-
-  test('should return false if scheme is not CS', () => {
-    invoiceLine.fundCode = EXQ00
-    invoiceLine.accountCode = SOS228
-    expect(isStateAid(invoiceLine, 1)).toBe(false)
+    expect(isStateAid(invoiceLine)).toBe(expected)
   })
 })
