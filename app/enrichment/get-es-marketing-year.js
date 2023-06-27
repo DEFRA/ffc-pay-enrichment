@@ -5,7 +5,11 @@ const getESMarketingYear = (subAccountCode) => {
   if (subAccountCode.length === 1) {
     return 2000
   }
-  return Number(`20${subAccountCode.substring(0, subAccountCode.length - 1)}`)
+  const year = parseInt(subAccountCode.substring(0, subAccountCode.length - 1))
+  if (year < 50) {
+    return 2000 + year
+  }
+  return 1900 + year
 }
 
 module.exports = {
