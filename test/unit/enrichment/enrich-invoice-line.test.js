@@ -1,3 +1,6 @@
+jest.mock('../../../app/enrichment/enrich-es-invoice-line')
+const { enrichESInvoiceLine: mockEnrichESInvoiceLine } = require('../../../app/enrichment/enrich-es-invoice-line')
+
 jest.mock('../../../app/currency-convert')
 const { convertToPence: mockConvertToPence } = require('../../../app/currency-convert')
 
@@ -16,15 +19,17 @@ const { getMarketingYear: mockGetMarketingYear } = require('../../../app/enrichm
 jest.mock('../../../app/enrichment/is-state-aid')
 const { isStateAid: mockIsStateAid } = require('../../../app/enrichment/is-state-aid')
 
-const scheme = require('../../mocks/scheme')
 const { SCHEME_CODE } = require('../../mocks/values/scheme-code')
 const { FUND_CODE } = require('../../mocks/values/fund-code')
 const { DELIVERY_BODY_RPA } = require('../../mocks/values/delivery-body')
+
+const { ES } = require('../../../app/constants/schemes')
 
 const { enrichInvoiceLine } = require('../../../app/enrichment/enrich-invoice-line')
 
 const marketingYear = 2023
 
+let scheme
 let invoiceLine
 
 describe('enrich header', () => {
@@ -38,7 +43,19 @@ describe('enrich header', () => {
     mockGetMarketingYear.mockReturnValue(marketingYear)
     mockIsStateAid.mockReturnValue(false)
 
+    scheme = JSON.parse(JSON.stringify(require('../../mocks/scheme')))
     invoiceLine = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/invoice-line')))
+  })
+
+  test('should enrich invoice line with ES rules if scheme is ES', async () => {
+    scheme.schemeId = ES
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    expect(mockEnrichESInvoiceLine).toHaveBeenCalledWith(invoiceLine)
+  })
+
+  test('should not enrich invoice line with ES rules if scheme is not ES', async () => {
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    expect(mockEnrichESInvoiceLine).not.toHaveBeenCalled()
   })
 
   test('should convert value to pence', async () => {
