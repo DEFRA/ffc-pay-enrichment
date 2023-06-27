@@ -4,13 +4,15 @@
     <tagDatabase tag="v1.13.0" />
   </changeSet>
   <changeSet author="John Watson" id="2">
-    <addColumn tableName="frns">
-      <column name="vendor" type="VARCHAR(10)" />
-    </addColumn>
+    <createTable tableName="customers">
+      <column name="referenceType" type="VARCHAR(10)" />
+      <column name="reference" type="VARCHAR(10)" />
+      <column name="frn" type="BIGINT" />
+    </createTable>
   </changeSet>
   <changeSet author="John Watson" id="3">
-    <createIndex indexName="vendor" tableName="frns">
-      <column name="vendor"/>
+    <createIndex indexName="reference" tableName="customers">
+      <column name="reference"/>
     </createIndex>
   </changeSet>
 </databaseChangeLog>
