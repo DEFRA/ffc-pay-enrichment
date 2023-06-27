@@ -9,7 +9,7 @@ const { isStateAid } = require('./is-state-aid')
 
 const enrichInvoiceLine = (invoiceLine, marketingYear, scheme) => {
   if (scheme?.schemeId === ES) {
-    enrichESInvoiceLine(invoiceLine, scheme)
+    enrichESInvoiceLine(invoiceLine)
   }
   invoiceLine.value = convertToPence(invoiceLine.value)
   invoiceLine.schemeCode = getSchemeCode(invoiceLine)

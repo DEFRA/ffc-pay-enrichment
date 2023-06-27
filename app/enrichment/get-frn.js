@@ -2,18 +2,50 @@ const db = require('../data')
 
 const getFrn = async (paymentRequest, transaction) => {
   try {
-    const sbi = paymentRequest.sbi ?? null
-    const vendor = paymentRequest.vendor ?? null
-    const frn = await db.frn.findOne({
-      where: {
-        [db.Sequelize.Op.or]: [{
-          [db.Sequelize.Op.and]: [{ sbi }, { [db.Sequelize.Op.not]: [{ sbi: null }] }]
-        }, {
-          [db.Sequelize.Op.and]: [{ vendor }, { [db.Sequelize.Op.not]: [{ vendor: null }] }]
-        }]
+    const sbi = paymentRequest.sbi
+    const vendor = paymentRequest.vendor
+    const trader = paymentRequest.trader
+
+    if (!sbi && !vendor && !trader) {
+      return undefined
+    }
+
+    if (sbi) {
+      const customer = await db.customer.findOne({
+        where: {
+          referenceType: 'sbi',
+          reference: sbi
+        }
+      }, { transaction })
+      if (customer) {
+        return Number(customer.frn)
       }
-    }, { transaction })
-    return frn ? Number(frn.frn) : undefined
+    }
+
+    if (vendor) {
+      const customer = await db.customer.findOne({
+        where: {
+          referenceType: 'vendor',
+          [db.Sequelize.Op.or]: [{ reference: vendor }, { reference: `${vendor.replace('G', '').replace('C', '')}` }]
+        }
+      }, { transaction })
+      if (customer) {
+        return Number(customer.frn)
+      }
+    }
+
+    if (trader) {
+      const customer = await db.customer.findOne({
+        where: {
+          referenceType: 'trader',
+          [db.Sequelize.Op.or]: [{ reference: trader }, { reference: `${trader.replace('G', '').replace('C', '')}` }]
+        }
+      }, { transaction })
+      if (customer) {
+        return Number(customer.frn)
+      }
+    }
+    return undefined
   } catch {
     return undefined
   }

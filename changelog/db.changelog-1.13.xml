@@ -5,6 +5,9 @@
   </changeSet>
   <changeSet author="John Watson" id="2">
     <createTable tableName="customers">
+      <column name="id" autoIncrement="true" type="INTEGER">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="customerId_pkey" />
+      </column>
       <column name="referenceType" type="VARCHAR(10)" />
       <column name="reference" type="VARCHAR(10)" />
       <column name="frn" type="BIGINT" />

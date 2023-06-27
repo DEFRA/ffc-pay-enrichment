@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define('frn', {
+  return sequelize.define('customer', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
     referenceType: DataTypes.STRING,
     reference: DataTypes.STRING,
