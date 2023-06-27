@@ -5,15 +5,16 @@ const db = require('../../app/data')
 
 const { getFrn } = require('../../app/enrichment/get-frn')
 
-let frn
+let customer
 let paymentRequest
 
 describe('get frn', () => {
   beforeEach(async () => {
     await db.sequelize.truncate({ cascade: true })
 
-    frn = {
-      sbi: SBI,
+    customer = {
+      referenceType: 'sbi',
+      reference: SBI,
       frn: FRN
     }
 
@@ -21,7 +22,7 @@ describe('get frn', () => {
       sbi: SBI
     }
 
-    await db.frn.create(frn)
+    await db.customer.create(customer)
   })
 
   afterAll(async () => {
@@ -31,7 +32,7 @@ describe('get frn', () => {
 
   test('should return frn for payment request with sbi', async () => {
     const result = await getFrn(paymentRequest)
-    expect(result).toBe(1234567890)
+    expect(result).toBe(FRN)
   })
 
   test('should return undefined if no match for sbi', async () => {

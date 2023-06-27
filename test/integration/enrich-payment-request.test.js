@@ -7,14 +7,15 @@ const db = require('../../app/data')
 const { enrichPaymentRequest } = require('../../app/enrichment')
 
 let paymentRequest
-let frn
+let customer
 
 describe('enrich payment request', () => {
   beforeEach(async () => {
     await db.sequelize.truncate({ cascade: true })
 
-    frn = {
-      sbi: 123456789,
+    customer = {
+      referenceType: 'sbi',
+      reference: 123456789,
       frn: 1234567890
     }
 
@@ -47,7 +48,7 @@ describe('enrich payment request', () => {
       ]
     }
 
-    await db.frn.create(frn)
+    await db.customer.create(customer)
   })
 
   afterAll(async () => {
