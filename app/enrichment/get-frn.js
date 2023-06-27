@@ -14,7 +14,7 @@ const getFrn = async (paymentRequest, transaction) => {
       const customer = await db.customer.findOne({
         where: {
           referenceType: 'sbi',
-          reference: sbi
+          reference: sbi.toString()
         }
       }, { transaction })
       if (customer) {
