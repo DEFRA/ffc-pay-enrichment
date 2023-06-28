@@ -62,8 +62,38 @@ describe('get frn', () => {
     expect(result).toBeUndefined()
   })
 
+  test('should return frn for payment request with vendor if vendor includes letter C', async () => {
+    paymentRequest.vendor = `${VENDOR}C`
+    const result = await getFrn(paymentRequest)
+    expect(result).toBe(FRN)
+  })
+
+  test('should return frn for payment request with vendor if vendor includes letter G', async () => {
+    paymentRequest.vendor = `${VENDOR}G`
+    const result = await getFrn(paymentRequest)
+    expect(result).toBe(FRN)
+  })
+
   test('should return frn for payment request with trader', async () => {
     paymentRequest.trader = TRADER
+    const result = await getFrn(paymentRequest)
+    expect(result).toBe(FRN)
+  })
+
+  test('should return undefined if no match for trader', async () => {
+    paymentRequest.trader = '123'
+    const result = await getFrn(paymentRequest)
+    expect(result).toBeUndefined()
+  })
+
+  test('should return frn for payment request with trader if trader includes letter C', async () => {
+    paymentRequest.trader = `${TRADER}C`
+    const result = await getFrn(paymentRequest)
+    expect(result).toBe(FRN)
+  })
+
+  test('should return frn for payment request with trader if trader includes letter G', async () => {
+    paymentRequest.trader = `${TRADER}G`
     const result = await getFrn(paymentRequest)
     expect(result).toBe(FRN)
   })
