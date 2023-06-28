@@ -1,3 +1,4 @@
+const { VENDOR, SBI, TRADER } = require('../constants/reference-types')
 const db = require('../data')
 
 const getFrn = async (paymentRequest, transaction) => {
@@ -13,7 +14,7 @@ const getFrn = async (paymentRequest, transaction) => {
     if (sbi) {
       const customer = await db.customer.findOne({
         where: {
-          referenceType: 'sbi',
+          referenceType: SBI,
           reference: sbi.toString()
         }
       }, { transaction })
@@ -25,7 +26,7 @@ const getFrn = async (paymentRequest, transaction) => {
     if (vendor) {
       const customer = await db.customer.findOne({
         where: {
-          referenceType: 'vendor',
+          referenceType: VENDOR,
           [db.Sequelize.Op.or]: [{ reference: vendor }, { reference: `${vendor.replace('G', '').replace('C', '')}` }]
         }
       }, { transaction })
@@ -37,7 +38,7 @@ const getFrn = async (paymentRequest, transaction) => {
     if (trader) {
       const customer = await db.customer.findOne({
         where: {
-          referenceType: 'trader',
+          referenceType: TRADER,
           [db.Sequelize.Op.or]: [{ reference: trader }, { reference: `${trader.replace('G', '').replace('C', '')}` }]
         }
       }, { transaction })
