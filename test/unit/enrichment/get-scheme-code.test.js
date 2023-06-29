@@ -1,13 +1,22 @@
+const { SCHEME_CODE } = require('../../mocks/values/scheme-code')
+
 const standardCodes = require('../../../app/constants/standard-codes')
 const schemeCodes = require('../../../app/constants/scheme-codes')
 
 const { getSchemeCode } = require('../../../app/enrichment/get-scheme-code')
 
 describe('get scheme code', () => {
+  test('should return scheme code if scheme code already exists', async () => {
+    const invoiceLine = { schemeCode: SCHEME_CODE }
+    const result = getSchemeCode(invoiceLine)
+    expect(result).toBe(SCHEME_CODE)
+  })
+
   test.each(
     Object.values(standardCodes).map(standardCode => [standardCode, schemeCodes[standardCode]])
   )('should return scheme code for standard code', async (standardCode, expectedSchemeCode) => {
-    const result = getSchemeCode(standardCode)
+    const invoiceLine = { standardCode }
+    const result = getSchemeCode(invoiceLine)
     expect(result).toBe(expectedSchemeCode)
   })
 

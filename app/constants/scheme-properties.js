@@ -6,7 +6,8 @@ const {
   CS,
   BPS,
   FDMR,
-  MANUAL
+  MANUAL,
+  ES
 } = require('./schemes')
 
 const {
@@ -17,7 +18,8 @@ const {
   SITI_AGRI_CS_SYS,
   SITI_AGRI_SYS,
   FDMR: FDMR_SOURCE,
-  MANUAL: MANUAL_SOURCE
+  MANUAL: MANUAL_SOURCE,
+  Genesis
 } = require('./source-systems')
 
 const {
@@ -29,7 +31,8 @@ const {
   DRD10,
   DOM10,
   ERD14,
-  EGF00
+  EGF00,
+  EXQ00
 } = require('./fund-codes')
 
 module.exports = [
@@ -40,5 +43,6 @@ module.exports = [
   { schemeId: CS, sourceSystem: SITI_AGRI_CS_SYS, deliveryBody: NE00, fundCode: ERD14 },
   { schemeId: BPS, sourceSystem: SITI_AGRI_SYS, deliveryBody: RP00, fundCode: EGF00 },
   { schemeId: FDMR, sourceSystem: FDMR_SOURCE, deliveryBody: RP00, fundCode: EGF00 },
-  { schemeId: MANUAL, sourceSystem: MANUAL_SOURCE, deliveryBody: RP00, fundCode: DOM10 }
+  { schemeId: MANUAL, sourceSystem: MANUAL_SOURCE, deliveryBody: RP00, fundCode: DOM10 },
+  { schemeId: ES, sourceSystem: Genesis, deliveryBody: NE00, fundCode: EXQ00 }
 ]

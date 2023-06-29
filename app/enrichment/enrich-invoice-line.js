@@ -1,15 +1,23 @@
+const { ES } = require('../constants/schemes')
+const { enrichInvoiceLine: enrichESInvoiceLine } = require('./es')
 const { convertToPence } = require('../currency-convert')
+const { getDeliveryBody } = require('./get-delivery-body')
+const { getFundCode } = require('./get-fund-code')
+const { getMarketingYear } = require('./get-marketing-year')
 const { getSchemeCode } = require('./get-scheme-code')
 const { isStateAid } = require('./is-state-aid')
 
 const enrichInvoiceLine = (invoiceLine, marketingYear, scheme) => {
+  if (scheme?.schemeId === ES) {
+    enrichESInvoiceLine(invoiceLine)
+  }
   invoiceLine.value = convertToPence(invoiceLine.value)
-  invoiceLine.schemeCode = invoiceLine.schemeCode ?? getSchemeCode(invoiceLine.standardCode)
-  invoiceLine.fundCode = invoiceLine.fundCode ?? scheme?.fundCode
+  invoiceLine.schemeCode = getSchemeCode(invoiceLine)
+  invoiceLine.fundCode = getFundCode(invoiceLine, scheme?.fundCode)
   invoiceLine.convergence = invoiceLine.convergence ?? false
-  invoiceLine.deliveryBody = invoiceLine.deliveryBody ?? scheme?.deliveryBody
-  invoiceLine.marketingYear = invoiceLine.marketingYear ?? marketingYear
-  invoiceLine.stateAid = isStateAid(invoiceLine, scheme?.schemeId)
+  invoiceLine.deliveryBody = getDeliveryBody(invoiceLine, scheme?.deliveryBody)
+  invoiceLine.marketingYear = getMarketingYear(invoiceLine, marketingYear)
+  invoiceLine.stateAid = isStateAid(invoiceLine)
 }
 
 module.exports = {

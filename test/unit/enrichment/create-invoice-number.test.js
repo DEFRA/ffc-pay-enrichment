@@ -8,6 +8,7 @@ let csPaymentRequest
 let bpsPaymentRequest
 let fdmrPaymentRequest
 let manualPaymentRequest
+let esPaymentRequest
 let unknownPaymentRequest
 
 describe('create invoice number', () => {
@@ -19,6 +20,7 @@ describe('create invoice number', () => {
     csPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/cs')))
     bpsPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/bps')))
     fdmrPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/fdmr')))
+    esPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/es')))
     manualPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/manual')))
     unknownPaymentRequest = {
       schemeId: -1,
@@ -66,6 +68,11 @@ describe('create invoice number', () => {
   test('generate invoice number for Manual Invoice', () => {
     const result = createInvoiceNumber(manualPaymentRequest)
     expect(result).toEqual(manualPaymentRequest.invoiceNumber)
+  })
+
+  test('generate invoice number for Environmental Stewardship', () => {
+    const result = createInvoiceNumber(esPaymentRequest)
+    expect(result).toEqual('I(0000001)00000001')
   })
 
   test('generate default invoice format for unknown scheme', () => {

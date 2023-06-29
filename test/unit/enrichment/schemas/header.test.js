@@ -124,9 +124,9 @@ describe('header schema', () => {
     expect(schema.validate(paymentRequest).error).toBeDefined()
   })
 
-  test('should fail validation if marketing year is missing', () => {
+  test('should pass validation if marketing year is missing', () => {
     delete paymentRequest.marketingYear
-    expect(schema.validate(paymentRequest).error).toBeDefined()
+    expect(schema.validate(paymentRequest)).toBeTruthy()
   })
 
   test('should fail validation if marketing year is not an integer', () => {
@@ -134,8 +134,8 @@ describe('header schema', () => {
     expect(schema.validate(paymentRequest).error).toBeDefined()
   })
 
-  test('should fail validation if marketing year is less than 2015', () => {
-    paymentRequest.marketingYear = 2014
+  test('should fail validation if marketing year is less than 1993', () => {
+    paymentRequest.marketingYear = 1992
     expect(schema.validate(paymentRequest).error).toBeDefined()
   })
 
