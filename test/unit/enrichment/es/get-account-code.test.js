@@ -1,5 +1,5 @@
-const { SOS228, SOS229, SOS710 } = require('../../../app/constants/account-codes')
-const { getESAccountCode } = require('../../../app/enrichment/get-es-account-code')
+const { SOS228, SOS229, SOS710 } = require('../../../../app/constants/account-codes')
+const { getAccountCode } = require('../../../../app/enrichment/es/get-account-code')
 
 describe('get ES account code', () => {
   test.each([
@@ -7,17 +7,17 @@ describe('get ES account code', () => {
     ['0532', SOS228],
     ['0533', SOS228]
   ])('should return SOS228 state aid code for state aid', (accountCode, expected) => {
-    const result = getESAccountCode(accountCode)
+    const result = getAccountCode(accountCode)
     expect(result).toBe(expected)
   })
 
   test('should return SOS229 state aid code for state aid', () => {
-    const result = getESAccountCode('0569')
+    const result = getAccountCode('0569')
     expect(result).toBe(SOS229)
   })
 
   test('should return SOS710 if not state aid', () => {
-    const result = getESAccountCode('0000')
+    const result = getAccountCode('0000')
     expect(result).toBe(SOS710)
   })
 })

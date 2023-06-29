@@ -1,5 +1,5 @@
 const { ES } = require('../constants/schemes')
-const { enrichESInvoiceLine } = require('./enrich-es-invoice-line')
+const { enrichInvoiceLine: enrichESInvoiceLine } = require('./es')
 const { convertToPence } = require('../currency-convert')
 const { getDeliveryBody } = require('./get-delivery-body')
 const { getFundCode } = require('./get-fund-code')

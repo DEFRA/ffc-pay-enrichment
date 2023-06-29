@@ -1,13 +1,13 @@
-const { getESMarketingYear } = require('../../../app/enrichment/get-es-marketing-year')
+const { getMarketingYear } = require('../../../../app/enrichment/es/get-marketing-year')
 
 describe('get ES marketing year', () => {
   test('should return undefined if sub account code is 0', () => {
-    const result = getESMarketingYear('0')
+    const result = getMarketingYear('0')
     expect(result).toBeUndefined()
   })
 
   test('should return 2000 if sub account code is 1 digit', () => {
-    const result = getESMarketingYear('1')
+    const result = getMarketingYear('1')
     expect(result).toBe(2000)
   })
 
@@ -23,7 +23,7 @@ describe('get ES marketing year', () => {
     '998',
     '999'
   ])('should return 1999 for 1999 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(1999)
   })
 
@@ -39,7 +39,7 @@ describe('get ES marketing year', () => {
     '018',
     '019'
   ])('should return 2001 for 2001 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2001)
   })
 
@@ -55,7 +55,7 @@ describe('get ES marketing year', () => {
     '028',
     '029'
   ])('should return 2002 for 2002 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2002)
   })
 
@@ -71,7 +71,7 @@ describe('get ES marketing year', () => {
     '038',
     '039'
   ])('should return 2003 for 2003 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2003)
   })
 
@@ -87,7 +87,7 @@ describe('get ES marketing year', () => {
     '048',
     '049'
   ])('should return 2004 for 2004 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2004)
   })
 
@@ -103,7 +103,7 @@ describe('get ES marketing year', () => {
     '058',
     '059'
   ])('should return 2005 for 2005 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2005)
   })
 
@@ -119,7 +119,7 @@ describe('get ES marketing year', () => {
     '068',
     '069'
   ])('should return 2006 for 2006 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2006)
   })
 
@@ -135,7 +135,7 @@ describe('get ES marketing year', () => {
     '078',
     '079'
   ])('should return 2007 for 2007 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2007)
   })
 
@@ -151,7 +151,7 @@ describe('get ES marketing year', () => {
     '088',
     '089'
   ])('should return 2008 for 2008 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2008)
   })
 
@@ -167,7 +167,7 @@ describe('get ES marketing year', () => {
     '098',
     '099'
   ])('should return 2009 for 2009 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2009)
   })
 
@@ -183,7 +183,7 @@ describe('get ES marketing year', () => {
     '108',
     '109'
   ])('should return 2010 for 2010 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2010)
   })
 
@@ -199,7 +199,7 @@ describe('get ES marketing year', () => {
     '118',
     '119'
   ])('should return 2011 for 2011 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2011)
   })
 
@@ -215,7 +215,7 @@ describe('get ES marketing year', () => {
     '128',
     '129'
   ])('should return 2012 for 2012 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2012)
   })
 
@@ -231,7 +231,7 @@ describe('get ES marketing year', () => {
     '138',
     '139'
   ])('should return 2013 for 2013 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2013)
   })
 
@@ -247,7 +247,7 @@ describe('get ES marketing year', () => {
     '148',
     '149'
   ])('should return 2014 for 2014 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2014)
   })
 
@@ -263,7 +263,7 @@ describe('get ES marketing year', () => {
     '158',
     '159'
   ])('should return 2015 for 2015 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2015)
   })
 
@@ -279,7 +279,7 @@ describe('get ES marketing year', () => {
     '168',
     '169'
   ])('should return 2016 for 2016 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2016)
   })
 
@@ -295,7 +295,7 @@ describe('get ES marketing year', () => {
     '178',
     '179'
   ])('should return 2017 for 2017 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2017)
   })
 
@@ -311,7 +311,7 @@ describe('get ES marketing year', () => {
     '188',
     '189'
   ])('should return 2018 for 2018 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2018)
   })
 
@@ -327,7 +327,7 @@ describe('get ES marketing year', () => {
     '198',
     '199'
   ])('should return 2019 for 2019 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2019)
   })
 
@@ -343,7 +343,7 @@ describe('get ES marketing year', () => {
     '208',
     '209'
   ])('should return 2020 for 2020 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2020)
   })
 
@@ -359,7 +359,7 @@ describe('get ES marketing year', () => {
     '218',
     '219'
   ])('should return 2021 for 2021 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2021)
   })
 
@@ -375,7 +375,7 @@ describe('get ES marketing year', () => {
     '228',
     '229'
   ])('should return 2022 for 2022 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2022)
   })
 
@@ -391,7 +391,7 @@ describe('get ES marketing year', () => {
     '238',
     '239'
   ])('should return 2023 for 2023 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2023)
   })
 
@@ -407,7 +407,7 @@ describe('get ES marketing year', () => {
     '248',
     '249'
   ])('should return 2024 for 2024 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2024)
   })
 
@@ -423,7 +423,7 @@ describe('get ES marketing year', () => {
     '258',
     '259'
   ])('should return 2025 for 2025 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2025)
   })
 
@@ -439,7 +439,7 @@ describe('get ES marketing year', () => {
     '268',
     '269'
   ])('should return 2026 for 2026 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2026)
   })
 
@@ -455,7 +455,7 @@ describe('get ES marketing year', () => {
     '278',
     '279'
   ])('should return 2027 for 2027 sub account codes', (subAccountCode) => {
-    const result = getESMarketingYear(subAccountCode)
+    const result = getMarketingYear(subAccountCode)
     expect(result).toBe(2027)
   })
 })

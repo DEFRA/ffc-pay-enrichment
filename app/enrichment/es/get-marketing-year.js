@@ -1,4 +1,4 @@
-const getESMarketingYear = (subAccountCode) => {
+const getMarketingYear = (subAccountCode) => {
   if (parseInt(subAccountCode) === 0) {
     return
   }
@@ -13,5 +13,5 @@ const getESMarketingYear = (subAccountCode) => {
 }
 
 module.exports = {
-  getESMarketingYear
+  getMarketingYear
 }

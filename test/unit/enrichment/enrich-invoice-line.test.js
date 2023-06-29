@@ -1,5 +1,5 @@
-jest.mock('../../../app/enrichment/enrich-es-invoice-line')
-const { enrichESInvoiceLine: mockEnrichESInvoiceLine } = require('../../../app/enrichment/enrich-es-invoice-line')
+jest.mock('../../../app/enrichment/es')
+const { enrichInvoiceLine: mockEnrichInvoiceLine } = require('../../../app/enrichment/es')
 
 jest.mock('../../../app/currency-convert')
 const { convertToPence: mockConvertToPence } = require('../../../app/currency-convert')
@@ -50,12 +50,12 @@ describe('enrich header', () => {
   test('should enrich invoice line with ES rules if scheme is ES', async () => {
     scheme.schemeId = ES
     enrichInvoiceLine(invoiceLine, marketingYear, scheme)
-    expect(mockEnrichESInvoiceLine).toHaveBeenCalledWith(invoiceLine)
+    expect(mockEnrichInvoiceLine).toHaveBeenCalledWith(invoiceLine)
   })
 
   test('should not enrich invoice line with ES rules if scheme is not ES', async () => {
     enrichInvoiceLine(invoiceLine, marketingYear, scheme)
-    expect(mockEnrichESInvoiceLine).not.toHaveBeenCalled()
+    expect(mockEnrichInvoiceLine).not.toHaveBeenCalled()
   })
 
   test('should convert value to pence', async () => {
