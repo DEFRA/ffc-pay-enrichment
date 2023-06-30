@@ -1,9 +1,9 @@
 const { getMarketingYear } = require('../../../../app/enrichment/es/get-marketing-year')
 
 describe('get ES marketing year', () => {
-  test('should return undefined if sub account code is 0', () => {
+  test('should return -1 if sub account code is 0', () => {
     const result = getMarketingYear('0')
-    expect(result).toBeUndefined()
+    expect(result).toBe(-1)
   })
 
   test('should return 2000 if sub account code is 1 digit', () => {

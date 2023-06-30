@@ -1,6 +1,6 @@
 const getMarketingYear = (subAccountCode) => {
   if (parseInt(subAccountCode) === 0) {
-    return
+    return -1
   }
   if (subAccountCode.length === 1) {
     return 2000
