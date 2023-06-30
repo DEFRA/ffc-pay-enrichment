@@ -17,7 +17,7 @@ const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.frn = paymentRequest.frn ?? await getFrn(paymentRequest)
   paymentRequest.deliveryBody = scheme?.deliveryBody
   paymentRequest.dueDate = confirmDueDate(paymentRequest.schemeId, paymentRequest.marketingYear, paymentRequest.dueDate)
-  paymentRequest.eventDate = convertToDaxDate(paymentRequest.eventDate)
+  paymentRequest.eventDate = convertToDaxDate(paymentRequest.eventDate, false)
   paymentRequest.currency = paymentRequest.currency ?? GBP
 }
 
