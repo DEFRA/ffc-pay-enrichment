@@ -5,6 +5,7 @@ const { getFrn } = require('./get-frn')
 const { AP } = require('../constants/ledgers')
 const { confirmDueDate } = require('./confirm-due-date')
 const { GBP } = require('../constants/currency')
+const { convertToDaxDate } = require('../date-convert')
 
 const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.correlationId = paymentRequest.correlationId ?? uuidv4()
@@ -16,6 +17,7 @@ const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.frn = paymentRequest.frn ?? await getFrn(paymentRequest)
   paymentRequest.deliveryBody = scheme?.deliveryBody
   paymentRequest.dueDate = confirmDueDate(paymentRequest.schemeId, paymentRequest.marketingYear, paymentRequest.dueDate)
+  paymentRequest.eventDate = convertToDaxDate(paymentRequest.eventDate)
   paymentRequest.currency = paymentRequest.currency ?? GBP
 }
 

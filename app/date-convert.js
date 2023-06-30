@@ -1,8 +1,11 @@
 const moment = require('moment')
 const { DAX_DATE_FORMAT, SITI_AGRI_DATE_FORMAT } = require('./constants/date-formats')
 
-const convertToDaxDate = (dateString) => {
-  return dateString ? formatDate(dateString) : getCurrentDate()
+const convertToDaxDate = (dateString, useDefaultDate = true) => {
+  if (useDefaultDate) {
+    return dateString ? formatDate(dateString) : getCurrentDate()
+  }
+  return dateString ? formatDate(dateString) : undefined
 }
 
 const getCurrentDate = () => {
