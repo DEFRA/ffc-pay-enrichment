@@ -10,20 +10,20 @@ describe('get agreement number', () => {
     paymentRequest = {}
   })
 
-  test('should return agreement number if payment request already has agreement number', async () => {
+  test('should return agreement number if payment request already has agreement number', () => {
     paymentRequest.agreementNumber = AGREEMENT_NUMBER
-    const result = await getAgreementNumber(paymentRequest)
+    const result = getAgreementNumber(paymentRequest)
     expect(result).toBe(AGREEMENT_NUMBER)
   })
 
-  test('should return contract number if payment request does not have agreement number but has contract number', async () => {
+  test('should return contract number if payment request does not have agreement number but has contract number', () => {
     paymentRequest.contractNumber = CONTRACT_NUMBER
-    const result = await getAgreementNumber(paymentRequest)
+    const result = getAgreementNumber(paymentRequest)
     expect(result).toBe(CONTRACT_NUMBER)
   })
 
-  test('should return undefined if payment request does not have agreement number or contract number', async () => {
-    const result = await getAgreementNumber(paymentRequest)
+  test('should return undefined if payment request does not have agreement number or contract number', () => {
+    const result = getAgreementNumber(paymentRequest)
     expect(result).toBeUndefined()
   })
 })
