@@ -9,6 +9,7 @@ let bpsPaymentRequest
 let fdmrPaymentRequest
 let manualPaymentRequest
 let esPaymentRequest
+let impsPaymentRequest
 let unknownPaymentRequest
 
 describe('create invoice number', () => {
@@ -20,8 +21,9 @@ describe('create invoice number', () => {
     csPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/cs')))
     bpsPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/bps')))
     fdmrPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/fdmr')))
-    esPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/es')))
     manualPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/manual')))
+    esPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/es')))
+    impsPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/imps')))
     unknownPaymentRequest = {
       schemeId: -1,
       paymentRequestNumber: 1,
@@ -73,6 +75,29 @@ describe('create invoice number', () => {
   test('generate invoice number for Environmental Stewardship', () => {
     const result = createInvoiceNumber(esPaymentRequest)
     expect(result).toEqual('I(0000001)00000001')
+  })
+
+  test('should return undefined for IMPS if current invoice number does not include /', () => {
+    impsPaymentRequest.invoiceNumber = 'FVR'
+    const result = createInvoiceNumber(impsPaymentRequest)
+    expect(result).toBeUndefined()
+  })
+
+  test('should retain invoice number for IMPS if it contains trader number after /', () => {
+    const result = createInvoiceNumber(impsPaymentRequest)
+    expect(result).toEqual(impsPaymentRequest.invoiceNumber)
+  })
+
+  test('should insert trader number into invoice number for IMPS if it does not contain trader number after / and has no characters after /', () => {
+    impsPaymentRequest.invoiceNumber = 'FVR/'
+    const result = createInvoiceNumber(impsPaymentRequest)
+    expect(result).toEqual(`FVR/${impsPaymentRequest.trader}`)
+  })
+
+  test('should insert trader number into invoice number for IMPS if it does not contain trader number after / and has characters after /', () => {
+    impsPaymentRequest.invoiceNumber = 'FVR/ABC'
+    const result = createInvoiceNumber(impsPaymentRequest)
+    expect(result).toEqual(`FVR/${impsPaymentRequest.trader}ABC`)
   })
 
   test('generate default invoice format for unknown scheme', () => {

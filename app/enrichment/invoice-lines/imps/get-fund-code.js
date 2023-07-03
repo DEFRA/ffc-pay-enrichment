@@ -1,4 +1,4 @@
-const { DEX00, DOM00 } = require('../../../constants/fund-codes')
+// const { DEX00, DOM00 } = require('../../../constants/fund-codes')
 
 const getFundCode = (companyCode) => {
   // return companyCode === '31' ? DEX00 : DOM00
