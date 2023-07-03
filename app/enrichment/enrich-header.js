@@ -1,24 +1,25 @@
-const { v4: uuidv4 } = require('uuid')
-const { convertToPence } = require('../currency-convert')
+const { getCorrelationId } = require('./get-correlation-id')
+const { getAgreementNumber } = require('./get-agreement-number')
 const { createInvoiceNumber } = require('./create-invoice-number')
 const { getFrn } = require('./get-frn')
-const { AP } = require('../constants/ledgers')
+const { getLedger } = require('./get-ledger')
+const { getValue } = require('./get-value')
+const { getCurrency } = require('./get-currency')
 const { confirmDueDate } = require('./confirm-due-date')
-const { GBP } = require('../constants/currency')
 const { convertToDaxDate } = require('../date-convert')
 
 const enrichHeader = async (paymentRequest, scheme) => {
-  paymentRequest.correlationId = paymentRequest.correlationId ?? uuidv4()
-  paymentRequest.schemeId = scheme?.schemeId
-  paymentRequest.agreementNumber = paymentRequest.agreementNumber ?? paymentRequest.contractNumber
-  paymentRequest.invoiceNumber = createInvoiceNumber(paymentRequest)
-  paymentRequest.ledger = paymentRequest.ledger ?? AP
-  paymentRequest.value = convertToPence(paymentRequest.value)
-  paymentRequest.frn = paymentRequest.frn ?? await getFrn(paymentRequest)
   paymentRequest.deliveryBody = scheme?.deliveryBody
+  paymentRequest.schemeId = scheme?.schemeId
+  paymentRequest.correlationId = getCorrelationId(paymentRequest.correlationId)
+  paymentRequest.agreementNumber = getAgreementNumber(paymentRequest)
+  paymentRequest.invoiceNumber = createInvoiceNumber(paymentRequest)
+  paymentRequest.frn = await getFrn(paymentRequest)
+  paymentRequest.ledger = getLedger(paymentRequest.ledger)
+  paymentRequest.value = getValue(paymentRequest)
+  paymentRequest.currency = getCurrency(paymentRequest.currency)
   paymentRequest.dueDate = confirmDueDate(paymentRequest.schemeId, paymentRequest.marketingYear, paymentRequest.dueDate)
   paymentRequest.eventDate = convertToDaxDate(paymentRequest.eventDate, false)
-  paymentRequest.currency = paymentRequest.currency ?? GBP
 }
 
 module.exports = {
