@@ -13,5 +13,5 @@ module.exports = Joi.object({
   deliveryBody: Joi.string().regex(/^[A-Z]{2}\d{2}$/).required(),
   marketingYear: Joi.number().integer().min(1993).less(2099).optional(),
   stateAid: Joi.boolean().optional(),
-  exchangeRate: Joi.number().optional()
+  exchangeRate: Joi.string().optional()
 })
