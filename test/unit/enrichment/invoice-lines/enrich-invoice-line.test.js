@@ -1,5 +1,8 @@
 jest.mock('../../../../app/enrichment/invoice-lines/es')
-const { enrichInvoiceLine: mockEnrichInvoiceLine } = require('../../../../app/enrichment/invoice-lines/es')
+const { enrichInvoiceLine: mockEnrichESInvoiceLine } = require('../../../../app/enrichment/invoice-lines/es')
+
+jest.mock('../../../../app/enrichment/invoice-lines/imps')
+const { enrichInvoiceLine: mockEnrichIMPSInvoiceLine } = require('../../../../app/enrichment/invoice-lines/imps')
 
 jest.mock('../../../../app/currency-convert')
 const { convertToPence: mockConvertToPence } = require('../../../../app/currency-convert')
@@ -23,7 +26,7 @@ const { SCHEME_CODE } = require('../../../mocks/values/scheme-code')
 const { FUND_CODE } = require('../../../mocks/values/fund-code')
 const { DELIVERY_BODY_RPA } = require('../../../mocks/values/delivery-body')
 
-const { ES } = require('../../../../app/constants/schemes')
+const { ES, IMPS } = require('../../../../app/constants/schemes')
 
 const { enrichInvoiceLine } = require('../../../../app/enrichment/invoice-lines/enrich-invoice-line')
 
@@ -50,12 +53,23 @@ describe('enrich header', () => {
   test('should enrich invoice line with ES rules if scheme is ES', async () => {
     scheme.schemeId = ES
     enrichInvoiceLine(invoiceLine, marketingYear, scheme)
-    expect(mockEnrichInvoiceLine).toHaveBeenCalledWith(invoiceLine)
+    expect(mockEnrichESInvoiceLine).toHaveBeenCalledWith(invoiceLine)
   })
 
   test('should not enrich invoice line with ES rules if scheme is not ES', async () => {
     enrichInvoiceLine(invoiceLine, marketingYear, scheme)
-    expect(mockEnrichInvoiceLine).not.toHaveBeenCalled()
+    expect(mockEnrichESInvoiceLine).not.toHaveBeenCalled()
+  })
+
+  test('should enrich invoice line with IMPS rules if scheme is IMPS', async () => {
+    scheme.schemeId = IMPS
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    expect(mockEnrichIMPSInvoiceLine).toHaveBeenCalledWith(invoiceLine)
+  })
+
+  test('should not enrich invoice line with IMPS rules if scheme is not IMPS', async () => {
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    expect(mockEnrichIMPSInvoiceLine).not.toHaveBeenCalled()
   })
 
   test('should convert value to pence', async () => {
