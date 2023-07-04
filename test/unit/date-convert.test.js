@@ -50,6 +50,11 @@ describe('convert date', () => {
     expect(result).toMatch('01/11/2021')
   })
 
+  test('returns correct date if use default set to false and date provided', () => {
+    const result = convertToDaxDate('01-11-2021', false)
+    expect(result).toMatch('01/11/2021')
+  })
+
   test('returns undefined if invalid date string', () => {
     const result = convertToDaxDate('Monday 1st November 2021')
     expect(result).toBeUndefined()
