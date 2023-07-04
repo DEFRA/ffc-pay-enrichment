@@ -72,6 +72,6 @@ describe('V2 enrichment error event', () => {
 
   test('should include payment request in event data', async () => {
     await sendEnrichmentErrorEvent(paymentRequest, error)
-    expect(mockPublishEvent.mock.calls[0][0].data.paymentRequest).toEqual(paymentRequest)
+    expect(mockPublishEvent.mock.calls[0][0].data).toMatchObject(paymentRequest)
   })
 })
