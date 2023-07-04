@@ -22,7 +22,7 @@ const {
   FDMR: FDMR_SOURCE,
   MANUAL: MANUAL_SOURCE,
   Genesis,
-  Glos,
+  GLOS,
   IMPS: IMPS_SOURCE
 } = require('./source-systems')
 
@@ -50,6 +50,6 @@ module.exports = [
   { schemeId: FDMR, sourceSystem: FDMR_SOURCE, deliveryBody: RP00, fundCode: EGF00 },
   { schemeId: MANUAL, sourceSystem: MANUAL_SOURCE, deliveryBody: RP00, fundCode: DOM10 },
   { schemeId: ES, sourceSystem: Genesis, deliveryBody: NE00, fundCode: EXQ00 },
-  { schemeId: FC, sourceSystem: Glos, deliveryBody: RP00, fundCode: DOM00 },
+  { schemeId: FC, sourceSystem: GLOS, deliveryBody: RP00, fundCode: DOM00 },
   { schemeId: IMPS, sourceSystem: IMPS_SOURCE, deliveryBody: RP00, fundCode: DOM00 }
 ]

@@ -8,6 +8,6 @@ module.exports = {
   FDMR: 'FDMR',
   MANUAL: 'Manual',
   Genesis: 'Genesis',
-  Glos: 'Glos',
+  GLOS: 'GLOS',
   IMPS: 'IMPS'
 }
