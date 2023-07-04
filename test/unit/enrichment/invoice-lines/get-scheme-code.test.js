@@ -14,7 +14,7 @@ describe('get scheme code', () => {
 
   test.each(
     Object.values(standardCodes).map(standardCode => [standardCode, schemeCodes[standardCode]])
-  )('should return scheme code for standard code', async (standardCode, expectedSchemeCode) => {
+  )('should return scheme code for standard code %s', async (standardCode, expectedSchemeCode) => {
     const invoiceLine = { standardCode }
     const result = getSchemeCode(invoiceLine)
     expect(result).toBe(expectedSchemeCode)
