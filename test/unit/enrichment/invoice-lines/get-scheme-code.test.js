@@ -1,9 +1,9 @@
-const { SCHEME_CODE } = require('../../mocks/values/scheme-code')
+const { SCHEME_CODE } = require('../../../mocks/values/scheme-code')
 
-const standardCodes = require('../../../app/constants/standard-codes')
-const schemeCodes = require('../../../app/constants/scheme-codes')
+const standardCodes = require('../../../../app/constants/standard-codes')
+const schemeCodes = require('../../../../app/constants/scheme-codes')
 
-const { getSchemeCode } = require('../../../app/enrichment/get-scheme-code')
+const { getSchemeCode } = require('../../../../app/enrichment/invoice-lines/get-scheme-code')
 
 describe('get scheme code', () => {
   test('should return scheme code if scheme code already exists', async () => {
@@ -14,7 +14,7 @@ describe('get scheme code', () => {
 
   test.each(
     Object.values(standardCodes).map(standardCode => [standardCode, schemeCodes[standardCode]])
-  )('should return scheme code for standard code', async (standardCode, expectedSchemeCode) => {
+  )('should return scheme code for standard code %s', async (standardCode, expectedSchemeCode) => {
     const invoiceLine = { standardCode }
     const result = getSchemeCode(invoiceLine)
     expect(result).toBe(expectedSchemeCode)

@@ -8,7 +8,7 @@ const { TRADER: TRADER_TYPE } = require('../../app/constants/reference-types')
 
 const db = require('../../app/data')
 
-const { getFrn } = require('../../app/enrichment/get-frn')
+const { getFrn } = require('../../app/enrichment/header/get-frn')
 
 let paymentRequest
 
@@ -36,6 +36,12 @@ describe('get frn', () => {
   afterAll(async () => {
     await db.sequelize.truncate({ cascade: true })
     await db.sequelize.close()
+  })
+
+  test('should return existing FRN if payment request already has FRN', async () => {
+    paymentRequest.frn = FRN
+    const result = await getFrn(paymentRequest)
+    expect(result).toBe(FRN)
   })
 
   test('should return frn for payment request with sbi', async () => {

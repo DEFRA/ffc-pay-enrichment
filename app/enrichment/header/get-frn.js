@@ -1,8 +1,11 @@
-const { VENDOR, SBI, TRADER } = require('../constants/reference-types')
-const db = require('../data')
+const { VENDOR, SBI, TRADER } = require('../../constants/reference-types')
+const db = require('../../data')
 
 const getFrn = async (paymentRequest, transaction) => {
   try {
+    if (paymentRequest.frn) {
+      return paymentRequest.frn
+    }
     const sbi = paymentRequest.sbi
     const vendor = paymentRequest.vendor
     const trader = paymentRequest.trader

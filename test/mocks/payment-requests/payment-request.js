@@ -16,6 +16,7 @@ const { PAYMENT_REQUEST_NUMBER } = require('../values/payment-request-number')
 const { SBI } = require('../values/sbi')
 const { SOURCE_SYSTEM } = require('../values/source-system')
 const { BALANCE } = require('../values/payment-type')
+const { EVENT_DATE_DAX } = require('../values/event-date')
 const invoiceLine = require('./invoice-line')
 
 module.exports = {
@@ -35,6 +36,7 @@ module.exports = {
   currency: GBP,
   schedule: M12,
   dueDate: DUE_DATE_DAX,
+  eventDate: EVENT_DATE_DAX,
   value: 150.00,
   ledger: AP,
   invoiceLines: [{

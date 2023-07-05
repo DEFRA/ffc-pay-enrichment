@@ -1,9 +1,9 @@
-jest.mock('../../../app/date-convert')
-const { convertToDaxDate: mockConvertToDaxDate } = require('../../../app/date-convert')
+jest.mock('../../../../app/date-convert')
+const { convertToDaxDate: mockConvertToDaxDate } = require('../../../../app/date-convert')
 
-const { DUE_DATE_DAX } = require('../../mocks/values/due-date')
+const { DUE_DATE_DAX } = require('../../../mocks/values/due-date')
 
-const { confirmDueDate } = require('../../../app/enrichment/confirm-due-date')
+const { confirmDueDate } = require('../../../../app/enrichment/header/confirm-due-date')
 
 let paymentRequest
 let bpsPaymentRequest
@@ -12,8 +12,8 @@ describe('confirm due date', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     mockConvertToDaxDate.mockReturnValue(DUE_DATE_DAX)
-    paymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/payment-request')))
-    bpsPaymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/bps')))
+    paymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/payment-request')))
+    bpsPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/bps')))
   })
 
   test('should convert due date as is if not BPS', () => {

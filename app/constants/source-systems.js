@@ -7,5 +7,7 @@ module.exports = {
   SITI_AGRI_SYS: 'SITI AGRI SYS',
   FDMR: 'FDMR',
   MANUAL: 'Manual',
-  Genesis: 'Genesis'
+  Genesis: 'Genesis',
+  GLOS: 'GLOS',
+  IMPS: 'IMPS'
 }

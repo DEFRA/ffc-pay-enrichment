@@ -15,14 +15,29 @@ describe('convert date', () => {
     expect(result).toEqual('01/11/2021')
   })
 
-  test('update Siti Agri to DAX format', () => {
+  test('updates Siti Agri to DAX format', () => {
     const result = convertToDaxDate('2021-11-01')
+    expect(result).toEqual('01/11/2021')
+  })
+
+  test('updates IMPS to DAX format', () => {
+    const result = convertToDaxDate('01-NOV-21')
     expect(result).toEqual('01/11/2021')
   })
 
   test('uses current date in correct format if no date supplied', () => {
     const result = convertToDaxDate()
     expect(result).toMatch('01/06/2021')
+  })
+
+  test('uses current date in correct format if no date supplied and use default set to true', () => {
+    const result = convertToDaxDate(undefined, true)
+    expect(result).toMatch('01/06/2021')
+  })
+
+  test('returns undefined if no date supplied and use default set to false', () => {
+    const result = convertToDaxDate(undefined, false)
+    expect(result).toBeUndefined()
   })
 
   test('converts to correct format if YYYY/MM/DD', () => {
@@ -32,6 +47,11 @@ describe('convert date', () => {
 
   test('converts to correct format if DD-MM-YYYY', () => {
     const result = convertToDaxDate('01-11-2021')
+    expect(result).toMatch('01/11/2021')
+  })
+
+  test('returns correct date if use default set to false and date provided', () => {
+    const result = convertToDaxDate('01-11-2021', false)
     expect(result).toMatch('01/11/2021')
   })
 

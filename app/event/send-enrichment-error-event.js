@@ -15,7 +15,7 @@ const sendV2EnrichmentErrorEvent = async (paymentRequest, error) => {
     type: PAYMENT_REJECTED,
     data: {
       message: error.message,
-      paymentRequest
+      ...paymentRequest
     }
   }
   const eventPublisher = new EventPublisher(messageConfig.eventsTopic)

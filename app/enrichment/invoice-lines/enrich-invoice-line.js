@@ -1,6 +1,7 @@
-const { ES } = require('../constants/schemes')
+const { ES, IMPS } = require('../../constants/schemes')
 const { enrichInvoiceLine: enrichESInvoiceLine } = require('./es')
-const { convertToPence } = require('../currency-convert')
+const { enrichInvoiceLine: enrichIMPSInvoiceLine } = require('./imps')
+const { convertToPence } = require('../../currency-convert')
 const { getDeliveryBody } = require('./get-delivery-body')
 const { getFundCode } = require('./get-fund-code')
 const { getMarketingYear } = require('./get-marketing-year')
@@ -10,6 +11,9 @@ const { isStateAid } = require('./is-state-aid')
 const enrichInvoiceLine = (invoiceLine, marketingYear, scheme) => {
   if (scheme?.schemeId === ES) {
     enrichESInvoiceLine(invoiceLine)
+  }
+  if (scheme?.schemeId === IMPS) {
+    enrichIMPSInvoiceLine(invoiceLine)
   }
   invoiceLine.value = convertToPence(invoiceLine.value)
   invoiceLine.schemeCode = getSchemeCode(invoiceLine)

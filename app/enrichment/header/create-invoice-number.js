@@ -1,4 +1,4 @@
-const { SFI, SFI_PILOT, LUMP_SUMS, CS, BPS, FDMR, MANUAL, ES } = require('../constants/schemes')
+const { SFI, SFI_PILOT, LUMP_SUMS, CS, BPS, FDMR, MANUAL, ES, IMPS } = require('../../constants/schemes')
 
 const createInvoiceNumber = (paymentRequest) => {
   try {
@@ -15,6 +15,8 @@ const createInvoiceNumber = (paymentRequest) => {
         return paymentRequest.invoiceNumber
       case ES:
         return createESInvoiceNumber(paymentRequest)
+      case IMPS:
+        return createIMPSInvoiceNumber(paymentRequest)
       default:
         return createDefaultInvoiceNumber(paymentRequest)
     }
@@ -39,6 +41,16 @@ const createFdmrInvoiceNumber = (paymentRequest) => {
 
 const createESInvoiceNumber = (paymentRequest) => {
   return `I(${paymentRequest.invoiceNumber})${paymentRequest.contractNumber}`
+}
+
+const createIMPSInvoiceNumber = (paymentRequest) => {
+  if (paymentRequest.invoiceNumber.includes('/')) {
+    if (paymentRequest.invoiceNumber.includes(`/${paymentRequest.trader}`)) {
+      return paymentRequest.invoiceNumber
+    }
+    const invoiceParts = paymentRequest.invoiceNumber.split('/')
+    return `${invoiceParts[0]}/${paymentRequest.trader}${invoiceParts[1]}`
+  }
 }
 
 const createDefaultInvoiceNumber = (paymentRequest) => {
