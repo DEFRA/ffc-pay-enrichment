@@ -7,11 +7,13 @@ const { getValue } = require('./get-value')
 const { getCurrency } = require('./get-currency')
 const { confirmDueDate } = require('./confirm-due-date')
 const { convertToDaxDate } = require('../../date-convert')
+const { getContractNumber } = require('./get-contract-number')
 
 const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.deliveryBody = scheme?.deliveryBody
   paymentRequest.schemeId = scheme?.schemeId
   paymentRequest.correlationId = getCorrelationId(paymentRequest.correlationId)
+  paymentRequest.contractNumber = getContractNumber(paymentRequest)
   paymentRequest.agreementNumber = getAgreementNumber(paymentRequest)
   paymentRequest.invoiceNumber = createInvoiceNumber(paymentRequest)
   paymentRequest.frn = await getFrn(paymentRequest)
