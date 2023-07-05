@@ -1,7 +1,7 @@
-const { EXQ00, DRD05 } = require('../../../constants/fund-codes')
+const fcFundCodes = require('../../../constants/fc-fund-codes')
 
-const getFundCode = (companyCode) => {
-  return companyCode === '31' ? EXQ00 : DRD05
+const getFundCode = (standardCode) => {
+  return fcFundCodes[standardCode]
 }
 
 module.exports = {
