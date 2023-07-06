@@ -8,6 +8,7 @@ const { getCurrency } = require('./get-currency')
 const { confirmDueDate } = require('./confirm-due-date')
 const { convertToDaxDate } = require('../../date-convert')
 const { getContractNumber } = require('./get-contract-number')
+const { getMarketingYear } = require('./get-marketing-year')
 
 const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.deliveryBody = scheme?.deliveryBody
@@ -23,6 +24,7 @@ const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.dueDate = confirmDueDate(paymentRequest.schemeId, paymentRequest.marketingYear, paymentRequest.dueDate)
   paymentRequest.eventDate = convertToDaxDate(paymentRequest.eventDate, false)
   paymentRequest.claimDate = convertToDaxDate(paymentRequest.claimDate, false)
+  paymentRequest.marketingYear = getMarketingYear()
 }
 
 module.exports = {
