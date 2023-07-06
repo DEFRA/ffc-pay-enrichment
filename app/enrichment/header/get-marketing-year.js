@@ -3,7 +3,7 @@ const { getMarketingYear: getMarketingYearFromInvoiceLine } = require('../invoic
 
 const getMarketingYear = (paymentRequest) => {
   if (paymentRequest.schemeId === FC) {
-    return getMarketingYearFromInvoiceLine(paymentRequest.invoiceLines[0]?.standardCode)
+    return getMarketingYearFromInvoiceLine(paymentRequest.invoiceLines?.[0]?.standardCode)
   }
   return paymentRequest.marketingYear
 }
