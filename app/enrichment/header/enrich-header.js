@@ -22,6 +22,7 @@ const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.currency = getCurrency(paymentRequest.currency)
   paymentRequest.dueDate = confirmDueDate(paymentRequest.schemeId, paymentRequest.marketingYear, paymentRequest.dueDate)
   paymentRequest.eventDate = convertToDaxDate(paymentRequest.eventDate, false)
+  paymentRequest.claimDate = convertToDaxDate(paymentRequest.claimDate, false)
 }
 
 module.exports = {
