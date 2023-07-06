@@ -37,13 +37,13 @@ const {
   _028B031Q,
   _028Z031Q,
   _062EWCG
-} = require('../../../constants/standard-codes')
+} = require('./standard-codes')
 
 const {
   DRD05,
   EXQ00,
   EXQ99
-} = require('../../../constants/fund-codes')
+} = require('./fund-codes')
 
 module.exports = {
   [_028X141Q]: DRD05,

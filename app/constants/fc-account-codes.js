@@ -37,7 +37,7 @@ const {
   _028B031Q,
   _028Z031Q,
   _062EWCG
-} = require('../../../constants/standard-codes')
+} = require('./standard-codes')
 
 const {
   SOS220,
@@ -45,7 +45,7 @@ const {
   SOS229,
   SOS230,
   SOS710
-} = require('../../../constants/account-codes')
+} = require('./account-codes')
 
 module.exports = {
   [_028X141Q]: SOS710,
