@@ -13,11 +13,11 @@ const enrichInvoiceLine = (invoiceLine, marketingYear, scheme) => {
   if (scheme?.schemeId === ES) {
     enrichESInvoiceLine(invoiceLine)
   }
-  if (scheme?.schemeId === IMPS) {
-    enrichIMPSInvoiceLine(invoiceLine)
-  }
   if (scheme?.schemeId === FC) {
     enrichFCInvoiceLine(invoiceLine)
+  }
+  if (scheme?.schemeId === IMPS) {
+    enrichIMPSInvoiceLine(invoiceLine)
   }
   invoiceLine.value = convertToPence(invoiceLine.value)
   invoiceLine.schemeCode = getSchemeCode(invoiceLine)
