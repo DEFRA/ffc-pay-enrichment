@@ -1,6 +1,9 @@
 jest.mock('../../../../app/enrichment/invoice-lines/es')
 const { enrichInvoiceLine: mockEnrichESInvoiceLine } = require('../../../../app/enrichment/invoice-lines/es')
 
+jest.mock('../../../../app/enrichment/invoice-lines/fc')
+const { enrichInvoiceLine: mockEnrichFCInvoiceLine } = require('../../../../app/enrichment/invoice-lines/fc')
+
 jest.mock('../../../../app/enrichment/invoice-lines/imps')
 const { enrichInvoiceLine: mockEnrichIMPSInvoiceLine } = require('../../../../app/enrichment/invoice-lines/imps')
 
@@ -26,7 +29,7 @@ const { SCHEME_CODE } = require('../../../mocks/values/scheme-code')
 const { FUND_CODE } = require('../../../mocks/values/fund-code')
 const { DELIVERY_BODY_RPA } = require('../../../mocks/values/delivery-body')
 
-const { ES, IMPS } = require('../../../../app/constants/schemes')
+const { ES, FC, IMPS } = require('../../../../app/constants/schemes')
 
 const { enrichInvoiceLine } = require('../../../../app/enrichment/invoice-lines/enrich-invoice-line')
 
@@ -59,6 +62,17 @@ describe('enrich header', () => {
   test('should not enrich invoice line with ES rules if scheme is not ES', async () => {
     enrichInvoiceLine(invoiceLine, marketingYear, scheme)
     expect(mockEnrichESInvoiceLine).not.toHaveBeenCalled()
+  })
+
+  test('should enrich invoice line with FC rules if scheme is FC', async () => {
+    scheme.schemeId = FC
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    expect(mockEnrichFCInvoiceLine).toHaveBeenCalledWith(invoiceLine)
+  })
+
+  test('should not enrich invoice line with FC rules if scheme is not FC', async () => {
+    enrichInvoiceLine(invoiceLine, marketingYear, scheme)
+    expect(mockEnrichFCInvoiceLine).not.toHaveBeenCalled()
   })
 
   test('should enrich invoice line with IMPS rules if scheme is IMPS', async () => {

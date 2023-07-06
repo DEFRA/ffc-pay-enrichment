@@ -28,6 +28,7 @@ module.exports = Joi.object({
   schedule: Joi.string().valid(Q4, M12, T4).optional(),
   dueDate: Joi.date().format(DAX_DATE_FORMAT).required(),
   eventDate: Joi.date().format(DAX_DATE_FORMAT).optional(),
+  claimDate: Joi.date().format(DAX_DATE_FORMAT).optional(),
   value: Joi.number().integer().required(),
   invoiceLines: Joi.array().required(),
   debtType: Joi.string().valid(IRREGULAR, ADMINISTRATIVE).optional(),
