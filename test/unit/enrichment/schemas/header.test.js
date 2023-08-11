@@ -129,6 +129,11 @@ describe('header schema', () => {
     expect(schema.validate(paymentRequest)).toBeTruthy()
   })
 
+  test('should pass validation if marketing year is 1993', () => {
+    paymentRequest.marketingYear = 1993
+    expect(schema.validate(paymentRequest)).toBeTruthy()
+  })
+
   test('should fail validation if marketing year is not an integer', () => {
     paymentRequest.marketingYear = 'SFI'
     expect(schema.validate(paymentRequest).error).toBeDefined()

@@ -1,9 +1,9 @@
-const { enrichHeader } = require('./header')
 const { validateType } = require('./validate-type')
+const { getScheme } = require('./get-scheme')
+const { enrichHeader } = require('./header')
 const { validateHeader } = require('./validate-header')
 const { enrichInvoiceLines } = require('./invoice-lines')
 const { validateValues } = require('./validate-values')
-const { getScheme } = require('./get-scheme')
 
 const enrichPaymentRequest = async (paymentRequest) => {
   validateType(paymentRequest)

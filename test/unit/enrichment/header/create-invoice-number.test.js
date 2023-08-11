@@ -10,6 +10,7 @@ let fdmrPaymentRequest
 let manualPaymentRequest
 let esPaymentRequest
 let impsPaymentRequest
+let sfi23PaymentRequest
 let unknownPaymentRequest
 
 describe('create invoice number', () => {
@@ -24,6 +25,7 @@ describe('create invoice number', () => {
     manualPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/manual')))
     esPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/es')))
     impsPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/imps')))
+    sfi23PaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/sfi23')))
     unknownPaymentRequest = {
       schemeId: -1,
       paymentRequestNumber: 1,
@@ -98,6 +100,11 @@ describe('create invoice number', () => {
     impsPaymentRequest.invoiceNumber = 'FVR/ABC'
     const result = createInvoiceNumber(impsPaymentRequest)
     expect(result).toEqual(`FVR/${impsPaymentRequest.trader}ABC`)
+  })
+
+  test('generate invoice number for Sustainable Farming Incentive 23', () => {
+    const result = createInvoiceNumber(sfi23PaymentRequest)
+    expect(result).toEqual('S000000100000001V001')
   })
 
   test('generate default invoice format for unknown scheme', () => {

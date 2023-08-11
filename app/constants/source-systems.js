@@ -9,5 +9,6 @@ module.exports = {
   MANUAL: 'Manual',
   Genesis: 'Genesis',
   GLOS: 'GLOS',
-  IMPS: 'IMPS'
+  IMPS: 'IMPS',
+  SFIA: 'SFIA'
 }

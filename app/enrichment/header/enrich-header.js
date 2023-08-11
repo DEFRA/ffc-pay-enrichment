@@ -1,4 +1,5 @@
 const { getCorrelationId } = require('./get-correlation-id')
+const { getContractNumber } = require('./get-contract-number')
 const { getAgreementNumber } = require('./get-agreement-number')
 const { createInvoiceNumber } = require('./create-invoice-number')
 const { getFrn } = require('./get-frn')
@@ -7,7 +8,6 @@ const { getValue } = require('./get-value')
 const { getCurrency } = require('./get-currency')
 const { confirmDueDate } = require('./confirm-due-date')
 const { convertToDaxDate } = require('../../date-convert')
-const { getContractNumber } = require('./get-contract-number')
 const { getMarketingYear } = require('./get-marketing-year')
 
 const enrichHeader = async (paymentRequest, scheme) => {
