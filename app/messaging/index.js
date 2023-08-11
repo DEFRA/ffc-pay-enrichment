@@ -1,6 +1,6 @@
+const { MessageReceiver } = require('ffc-messaging')
 const { messageConfig } = require('../config')
 const { processPaymentMessage } = require('./process-payment-message')
-const { MessageReceiver } = require('ffc-messaging')
 const paymentReceivers = []
 
 const start = async () => {

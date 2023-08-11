@@ -17,7 +17,7 @@ module.exports = Joi.object({
   sbi: Joi.number().integer().min(105000000).max(999999999).optional(),
   vendor: Joi.string().optional(),
   trader: Joi.string().optional(),
-  marketingYear: Joi.number().integer().min(2000).less(2099).optional(),
+  marketingYear: Joi.number().integer().min(1993).less(2099).optional(),
   paymentRequestNumber: Joi.number().integer().positive().required(),
   agreementNumber: Joi.string().required(),
   contractNumber: Joi.string().optional(),
