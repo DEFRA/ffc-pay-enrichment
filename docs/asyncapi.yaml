@@ -1,7 +1,7 @@
 asyncapi: 2.6.0
 info:
   title: Payment Hub Enrichment
-  version: 1.4.0
+  version: 1.25.0
   description: Validation and enrichment of payment requests
 channels:
   ffc-pay-request:
@@ -88,6 +88,12 @@ components:
           $ref: "#/components/schemas/RecoveryDate"
         pillar:
           $ref: "#/components/schemas/Pillar"
+        originalInvoiceNumber:
+          $ref: "#/components/schemas/OriginalInvoiceNumber"
+        originalSettlementDate:
+          $ref: "#/components/schemas/OriginalSettlementDate"
+        invoiceCorrectionReference:
+          $ref: "#/components/schemas/InvoiceCorrectionReference"
         invoiceLines:
           type: array
           description: List of Invoice lines that make up request

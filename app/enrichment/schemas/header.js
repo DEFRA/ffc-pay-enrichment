@@ -33,5 +33,8 @@ module.exports = Joi.object({
   invoiceLines: Joi.array().required(),
   debtType: Joi.string().valid(IRREGULAR, ADMINISTRATIVE).optional(),
   recoveryDate: Joi.date().format(DAX_DATE_FORMAT).optional(),
-  correlationId: Joi.string().guid().required()
+  correlationId: Joi.string().guid().required(),
+  originalInvoiceNumber: Joi.string().optional(),
+  originalSettlementDate: Joi.string().optional(),
+  invoiceCorrectionReference: Joi.string().optional()
 })
