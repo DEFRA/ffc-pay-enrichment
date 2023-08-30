@@ -5,6 +5,9 @@ const { Q4, M12, T4 } = require('../../../../app/constants/schedules')
 
 const { DUE_DATE_DAX } = require('../../../mocks/values/due-date')
 const { BALANCE, ADVANCE_PAYMENT } = require('../../../mocks/values/payment-type')
+const { MANUAL_ORIGINAL_INVOICE_NUMBER } = require('../../../mocks/values/original-invoice-number')
+const { ORIGINAL_SETTLEMENT_DATE } = require('../../../mocks/values/original-settlement-date')
+const { MANUAL_INVOICE_CORRECTION_REFERENCE } = require('../../../mocks/values/invoice-correction-reference')
 
 const schema = require('../../../../app/enrichment/schemas/header')
 
@@ -342,6 +345,36 @@ describe('header schema', () => {
   test('should fail if paymentType is null ', () => {
     paymentRequest.paymentType = null
     expect(schema.validate(paymentRequest).error).toBeDefined()
+  })
+
+  test('should pass if originalInvoiceNumber is provided', () => {
+    paymentRequest.originalInvoiceNumber = MANUAL_ORIGINAL_INVOICE_NUMBER
+    expect(schema.validate(paymentRequest)).toBeTruthy()
+  })
+
+  test('should pass if originalInvoiceNumber is undefined', () => {
+    paymentRequest.originalInvoiceNumber = undefined
+    expect(schema.validate(paymentRequest)).toBeTruthy()
+  })
+
+  test('should pass if originalSettlementDate is provided', () => {
+    paymentRequest.originalSettlementDate = ORIGINAL_SETTLEMENT_DATE
+    expect(schema.validate(paymentRequest)).toBeTruthy()
+  })
+
+  test('should pass if originalSettlementDate is undefined', () => {
+    paymentRequest.originalSettlementDate = undefined
+    expect(schema.validate(paymentRequest)).toBeTruthy()
+  })
+
+  test('should pass if invoiceCorrectionReference is provided', () => {
+    paymentRequest.invoiceCorrectionReference = MANUAL_INVOICE_CORRECTION_REFERENCE
+    expect(schema.validate(paymentRequest)).toBeTruthy()
+  })
+
+  test('should pass if invoiceCorrectionReference is undefined', () => {
+    paymentRequest.invoiceCorrectionReference = undefined
+    expect(schema.validate(paymentRequest)).toBeTruthy()
   })
 
   test('should pass if pillar is missing', () => {
