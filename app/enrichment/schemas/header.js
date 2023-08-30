@@ -35,6 +35,6 @@ module.exports = Joi.object({
   recoveryDate: Joi.date().format(DAX_DATE_FORMAT).optional(),
   correlationId: Joi.string().guid().required(),
   originalInvoiceNumber: Joi.string().optional(),
-  originalSettlementDate: Joi.string().optional(),
+  originalSettlementDate: Joi.date().format(DAX_DATE_FORMAT).optional(),
   invoiceCorrectionReference: Joi.string().optional()
 })
