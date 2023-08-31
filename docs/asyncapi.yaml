@@ -446,6 +446,19 @@ components:
       format: DD/MM/YYYY, YYYY/MM/DD, DD-MM-YYYY or YYYY-MM-DD
       description: Only for recoveries, date debt was discovered
       example: 09/11/2021
+    OriginalInvoiceNumber:
+      type: string
+      description: The original invoice number (only present in manual invoices).
+      example: S1234567S1234567V001
+    InvoiceCorrectionReference:
+      type: string
+      description: The invoice number used for the correction (only present in manual invoices).
+      example: S1234567S1234567V001
+    OriginalSettlementDate:
+      type: string
+      format: DD/MM/YYYY, YYYY/MM/DD, DD-MM-YYYY or YYYY-MM-DD
+      description: The original date of settlement (only present in manual invoices).
+      example: 09/11/2021
     Pillar:
       type: string
       description: Pillar of scheme for manual invoices
