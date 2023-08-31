@@ -1,7 +1,7 @@
 asyncapi: 2.6.0
 info:
   title: Payment Hub Enrichment
-  version: 1.5.0
+  version: 1.6.0
   description: Validation and enrichment of payment requests
 channels:
   ffc-pay-request:
@@ -94,6 +94,10 @@ components:
           $ref: "#/components/schemas/OriginalSettlementDate"
         invoiceCorrectionReference:
           $ref: "#/components/schemas/InvoiceCorrectionReference"
+        trader:
+          $ref: "#/components/schemas/Trader"
+        vendor:
+          $ref: "#/components/schemas/Vendor"
         invoiceLines:
           type: array
           description: List of Invoice lines that make up request
@@ -459,6 +463,14 @@ components:
       format: DD/MM/YYYY, YYYY/MM/DD, DD-MM-YYYY or YYYY-MM-DD
       description: The original date of settlement (only present in manual invoices).
       example: 09/11/2021
+    Trader:
+      type: string
+      description: Trader
+      example: 123456A
+    Vendor:
+      type: string
+      description: Vendor
+      example: 123456A
     Pillar:
       type: string
       description: Pillar of scheme for manual invoices
