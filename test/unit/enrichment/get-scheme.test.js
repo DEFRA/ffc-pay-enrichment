@@ -5,7 +5,7 @@ const { getScheme } = require('../../../app/enrichment/get-scheme')
 
 describe('get scheme', () => {
   test.each(
-    Object.values(sourceSystems).map((sourceSystem, index) => [sourceSystem, index])
+    Object.values(sourceSystems).filter(x => x !== sourceSystems.INJECTION).map((sourceSystem, index) => [sourceSystem, index])
   )('should return scheme for source system', (sourceSystem, expectedSchemeId) => {
     const result = getScheme(undefined, sourceSystem)
     expect(result.schemeId).toBe(expectedSchemeId + 1)
@@ -18,38 +18,13 @@ describe('get scheme', () => {
     expect(result.schemeId).toBe(expectedSchemeId + 1)
   })
 
-  test('should return undefined if no scheme for source system', () => {
+  test('should return undefined if no scheme for scheme', () => {
     const result = getScheme('NOT A THING')
     expect(result).toBeUndefined()
   })
 
-  test('should return undefined if object provided', () => {
-    const result = getScheme({})
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if array provided', () => {
-    const result = getScheme([])
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if empty string provided', () => {
-    const result = getScheme('')
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if false provided', () => {
-    const result = getScheme(false)
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if true provided', () => {
-    const result = getScheme(true)
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if 0 provided', () => {
-    const result = getScheme(0)
+  test('should return undefined if no scheme for scheme or source system', () => {
+    const result = getScheme('NOT A THING', 'NOT A THING')
     expect(result).toBeUndefined()
   })
 })

@@ -1,6 +1,10 @@
 const { SFI, SFI_PILOT, LUMP_SUMS, CS, BPS, FDMR, MANUAL, ES, FC, IMPS, SFI23 } = require('../../constants/schemes')
+const { INJECTION } = require('../../constants/source-systems')
 
 const createInvoiceNumber = (paymentRequest) => {
+  if (paymentRequest?.sourceSystem === INJECTION) {
+    return paymentRequest.invoiceNumber
+  }
   try {
     switch (paymentRequest.schemeId) {
       case SFI:
