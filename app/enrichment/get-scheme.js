@@ -1,7 +1,7 @@
 const schemeProperties = require('../constants/scheme-properties')
 
-const getScheme = (sourceSystem) => {
-  return schemeProperties.find(x => x.sourceSystem === sourceSystem)
+const getScheme = (schemeId, sourceSystem) => {
+  return schemeId ? schemeProperties.find(x => x.schemeId === schemeId) : schemeProperties.find(x => x.sourceSystem === sourceSystem)
 }
 
 module.exports = {
