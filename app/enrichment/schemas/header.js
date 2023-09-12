@@ -18,7 +18,7 @@ module.exports = Joi.object({
   vendor: Joi.string().optional(),
   trader: Joi.string().optional(),
   marketingYear: Joi.number().integer().min(1993).less(2099).optional(),
-  paymentRequestNumber: Joi.number().integer().positive().required(),
+  paymentRequestNumber: Joi.number().integer().min(0).required(),
   agreementNumber: Joi.string().required(),
   contractNumber: Joi.string().optional(),
   paymentType: Joi.number().integer().optional(),
