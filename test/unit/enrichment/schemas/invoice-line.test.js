@@ -2,7 +2,7 @@ const { ACCOUNT_CODE } = require('../../../mocks/values/account-code')
 const { FUND_CODE } = require('../../../mocks/values/fund-code')
 const { GROSS_DESCRIPTION } = require('../../../mocks/values/description')
 const { AGREEMENT_NUMBER } = require('../../../mocks/values/agreement-number')
-const { MANUAL, GLOS, Genesis, IMPS } = require('../../../../app/constants/source-systems')
+const { MANUAL, FC, ES, IMPS } = require('../../../../app/constants/schemes')
 
 const schema = require('../../../../app/enrichment/schemas/invoice-line')
 
@@ -27,31 +27,31 @@ describe('invoice line schema', () => {
     expect(schema.validate(invoiceLine).error).toBeDefined()
   })
 
-  test('should pass validation if account code is missing and source system is not Manual, Genesis, GLOS or IMPS', () => {
+  test('should pass validation if account code is missing and scheme is not Manual, Genesis, GLOS or IMPS', () => {
     delete invoiceLine.accountCode
     expect(schema.validate(invoiceLine)).toBeTruthy()
   })
 
-  test('should fail validation if account code is missing and source system is Manual', () => {
-    invoiceLine.sourceSystem = MANUAL
+  test('should fail validation if account code is missing and scheme is Manual', () => {
+    invoiceLine.schemeId = MANUAL
     delete invoiceLine.accountCode
     expect(schema.validate(invoiceLine).error).toBeDefined()
   })
 
-  test('should fail validation if account code is missing and source system is Genesis', () => {
-    invoiceLine.sourceSystem = Genesis
+  test('should fail validation if account code is missing and scheme is Genesis', () => {
+    invoiceLine.schemeId = ES
     delete invoiceLine.accountCode
     expect(schema.validate(invoiceLine).error).toBeDefined()
   })
 
-  test('should fail validation if account code is missing and source system is GLOS', () => {
-    invoiceLine.sourceSystem = GLOS
+  test('should fail validation if account code is missing and scheme is GLOS', () => {
+    invoiceLine.schemeId = FC
     delete invoiceLine.accountCode
     expect(schema.validate(invoiceLine).error).toBeDefined()
   })
 
-  test('should fail validation if account code is missing and source system is IMPS', () => {
-    invoiceLine.sourceSystem = IMPS
+  test('should fail validation if account code is missing and scheme is IMPS', () => {
+    invoiceLine.schemeId = IMPS
     delete invoiceLine.accountCode
     expect(schema.validate(invoiceLine).error).toBeDefined()
   })
