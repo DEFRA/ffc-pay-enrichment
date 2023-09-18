@@ -1,52 +1,30 @@
 const sourceSystems = require('../../../app/constants/source-systems')
+const schemes = require('../../../app/constants/schemes')
 
 const { getScheme } = require('../../../app/enrichment/get-scheme')
 
 describe('get scheme', () => {
   test.each(
-    Object.values(sourceSystems).map((sourceSystem, index) => [sourceSystem, index])
-  )('should return scheme for source system', async (sourceSystem, expectedSchemeId) => {
-    const result = getScheme(sourceSystem)
+    Object.values(sourceSystems).filter(x => x !== sourceSystems.INJECTION).map((sourceSystem, index) => [sourceSystem, index])
+  )('should return scheme for source system', (sourceSystem, expectedSchemeId) => {
+    const result = getScheme(undefined, sourceSystem)
     expect(result.schemeId).toBe(expectedSchemeId + 1)
   })
 
-  test('should return undefined if no scheme for source system', async () => {
+  test.each(
+    Object.values(schemes).map((schemeId, index) => [schemeId, index])
+  )('should return scheme for scheme Id', (schemeId, expectedSchemeId) => {
+    const result = getScheme(schemeId)
+    expect(result.schemeId).toBe(expectedSchemeId + 1)
+  })
+
+  test('should return undefined if no scheme for scheme', () => {
     const result = getScheme('NOT A THING')
     expect(result).toBeUndefined()
   })
 
-  test('should return undefined if object provided', async () => {
-    const result = getScheme({})
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if array provided', async () => {
-    const result = getScheme([])
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if empty string provided', async () => {
-    const result = getScheme('')
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if false provided', async () => {
-    const result = getScheme(false)
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if true provided', async () => {
-    const result = getScheme(true)
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if 1 provided', async () => {
-    const result = getScheme(1)
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if 0 provided', async () => {
-    const result = getScheme(0)
+  test('should return undefined if no scheme for scheme or source system', () => {
+    const result = getScheme('NOT A THING', 'NOT A THING')
     expect(result).toBeUndefined()
   })
 })

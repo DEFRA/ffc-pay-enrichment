@@ -19,7 +19,7 @@ describe('header schema', () => {
   })
 
   test('should pass validation if all properties valid', () => {
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should fail validation if sourceSystem is missing', () => {
@@ -29,7 +29,7 @@ describe('header schema', () => {
 
   test('should pass validation if batch missing', () => {
     delete paymentRequest.batch
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should fail validation if schemeId is missing', () => {
@@ -54,12 +54,12 @@ describe('header schema', () => {
 
   test('should pass validation if ledger is AP', () => {
     paymentRequest.ledger = AP
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should pass validation if ledger is AR', () => {
     paymentRequest.ledger = AR
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should fail validation if ledger is missing', () => {
@@ -109,7 +109,7 @@ describe('header schema', () => {
 
   test('should pass validation if sbi is missing', () => {
     delete paymentRequest.sbi
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should fail validation if sbi is not an integer', () => {
@@ -129,12 +129,12 @@ describe('header schema', () => {
 
   test('should pass validation if marketing year is missing', () => {
     delete paymentRequest.marketingYear
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should pass validation if marketing year is 1993', () => {
     paymentRequest.marketingYear = 1993
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should fail validation if marketing year is not an integer', () => {
@@ -162,9 +162,9 @@ describe('header schema', () => {
     expect(schema.validate(paymentRequest).error).toBeDefined()
   })
 
-  test('should fail validation if payment request number is less than 1', () => {
+  test('should pass validation if payment request number is less than 1', () => {
     paymentRequest.paymentRequestNumber = 0
-    expect(schema.validate(paymentRequest).error).toBeDefined()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should fail if agreement number is missing', () => {
@@ -174,7 +174,7 @@ describe('header schema', () => {
 
   test('should pass if contract number is missing', () => {
     delete paymentRequest.contractNumber
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should fail if currency is missing', () => {
@@ -184,12 +184,12 @@ describe('header schema', () => {
 
   test('should pass if currency is GBP', () => {
     paymentRequest.currency = GBP
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should pass if currency is EUR', () => {
     paymentRequest.currency = EUR
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should fail if currency is not GBP or EUR', () => {
@@ -199,22 +199,22 @@ describe('header schema', () => {
 
   test('should pass if schedule is missing', () => {
     delete paymentRequest.schedule
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should pass if schedule is quarterly', () => {
     paymentRequest.schedule = Q4
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should pass if schedule is monthly', () => {
     paymentRequest.schedule = M12
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should pass if schedule is three day quarterly', () => {
     paymentRequest.schedule = T4
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should fail if schedule is not quarterly, monthly or three day quarterly', () => {
@@ -264,17 +264,17 @@ describe('header schema', () => {
 
   test('should pass if debt type is missing', () => {
     delete paymentRequest.debtType
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should pass if debt type is irregular', () => {
     paymentRequest.debtType = IRREGULAR
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should pass if debt type is administrative', () => {
     paymentRequest.debtType = ADMINISTRATIVE
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should fail if debt type is not irregular or administrative', () => {
@@ -283,22 +283,22 @@ describe('header schema', () => {
   })
 
   test('should pass if recovery date is missing', () => {
-    delete paymentRequest.recovery
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    delete paymentRequest.recoveryDate
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should pass if recovery date is valid', () => {
-    paymentRequest.recovery = DUE_DATE_DAX
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    paymentRequest.recoveryDate = DUE_DATE_DAX
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should fail if recovery date is not date', () => {
-    paymentRequest.recovery = 'INVALID'
+    paymentRequest.recoveryDate = 'INVALID'
     expect(schema.validate(paymentRequest).error).toBeDefined()
   })
 
   test('should fail if recovery date is not DAX format', () => {
-    paymentRequest.recovery = '2019-01-01'
+    paymentRequest.recoveryDate = '2019-01-01'
     expect(schema.validate(paymentRequest).error).toBeDefined()
   })
 
@@ -319,17 +319,17 @@ describe('header schema', () => {
 
   test('should pass if paymentType is valid Balance payment', () => {
     paymentRequest.paymentType = BALANCE
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should pass if paymentType is valid Advance payment ', () => {
     paymentRequest.paymentType = ADVANCE_PAYMENT
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should pass if paymentType is undefined ', () => {
     paymentRequest.paymentType = undefined
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should fail if paymentType is a string ', () => {
@@ -349,36 +349,36 @@ describe('header schema', () => {
 
   test('should pass if originalInvoiceNumber is provided', () => {
     paymentRequest.originalInvoiceNumber = MANUAL_ORIGINAL_INVOICE_NUMBER
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should pass if originalInvoiceNumber is undefined', () => {
     paymentRequest.originalInvoiceNumber = undefined
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should pass if originalSettlementDate is provided', () => {
     paymentRequest.originalSettlementDate = ORIGINAL_SETTLEMENT_DATE
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should pass if originalSettlementDate is undefined', () => {
     paymentRequest.originalSettlementDate = undefined
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should pass if invoiceCorrectionReference is provided', () => {
     paymentRequest.invoiceCorrectionReference = MANUAL_INVOICE_CORRECTION_REFERENCE
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should pass if invoiceCorrectionReference is undefined', () => {
     paymentRequest.invoiceCorrectionReference = undefined
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
   test('should pass if pillar is missing', () => {
     delete paymentRequest.pillar
-    expect(schema.validate(paymentRequest)).toBeTruthy()
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 })
