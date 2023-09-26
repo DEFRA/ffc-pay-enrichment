@@ -1,7 +1,7 @@
 asyncapi: 2.6.0
 info:
   title: Payment Hub Enrichment
-  version: 1.4.0
+  version: 1.6.0
   description: Validation and enrichment of payment requests
 channels:
   ffc-pay-request:
@@ -88,6 +88,16 @@ components:
           $ref: "#/components/schemas/RecoveryDate"
         pillar:
           $ref: "#/components/schemas/Pillar"
+        originalInvoiceNumber:
+          $ref: "#/components/schemas/OriginalInvoiceNumber"
+        originalSettlementDate:
+          $ref: "#/components/schemas/OriginalSettlementDate"
+        invoiceCorrectionReference:
+          $ref: "#/components/schemas/InvoiceCorrectionReference"
+        trader:
+          $ref: "#/components/schemas/Trader"
+        vendor:
+          $ref: "#/components/schemas/Vendor"
         invoiceLines:
           type: array
           description: List of Invoice lines that make up request
@@ -440,6 +450,27 @@ components:
       format: DD/MM/YYYY, YYYY/MM/DD, DD-MM-YYYY or YYYY-MM-DD
       description: Only for recoveries, date debt was discovered
       example: 09/11/2021
+    OriginalInvoiceNumber:
+      type: string
+      description: The original invoice number (only present in manual invoices).
+      example: S1234567S1234567V001
+    InvoiceCorrectionReference:
+      type: string
+      description: The invoice number used for the correction (only present in manual invoices).
+      example: S1234567S1234567V001
+    OriginalSettlementDate:
+      type: string
+      format: DD/MM/YYYY, YYYY/MM/DD, DD-MM-YYYY or YYYY-MM-DD
+      description: The original date of settlement (only present in manual invoices).
+      example: 09/11/2021
+    Trader:
+      type: string
+      description: Trader
+      example: 123456A
+    Vendor:
+      type: string
+      description: Vendor
+      example: 123456A
     Pillar:
       type: string
       description: Pillar of scheme for manual invoices

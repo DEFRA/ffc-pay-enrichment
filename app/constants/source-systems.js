@@ -10,5 +10,6 @@ module.exports = {
   Genesis: 'Genesis',
   GLOS: 'GLOS',
   IMPS: 'IMPS',
-  SFIA: 'SFIA'
+  SFIA: 'SFIA',
+  INJECTION: 'Injection'
 }

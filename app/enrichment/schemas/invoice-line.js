@@ -1,11 +1,10 @@
 const Joi = require('joi')
-const { MANUAL, Genesis, IMPS, GLOS } = require('../../constants/source-systems')
-
+const { MANUAL, ES, IMPS, FC } = require('../../constants/schemes')
 module.exports = Joi.object({
-  sourceSystem: Joi.string().required(),
+  schemeId: Joi.number().integer().required(),
   standardCode: Joi.string().optional(),
   schemeCode: Joi.string().required(),
-  accountCode: Joi.alternatives().conditional('sourceSystem', { is: Joi.string().valid(MANUAL, Genesis, GLOS, IMPS), then: Joi.string().regex(/^[A-Z]{3}\d{3}$/).required(), otherwise: Joi.string().regex(/^[A-Z]{3}\d{3}$/).optional() }),
+  accountCode: Joi.alternatives().conditional('schemeId', { is: Joi.string().valid(MANUAL, ES, FC, IMPS), then: Joi.string().regex(/^[A-Z]{3}\d{3}$/).required(), otherwise: Joi.string().regex(/^[A-Z]{3}\d{3}$/).optional() }),
   fundCode: Joi.string().regex(/^[A-Z]{3}\d{2}$/).required(),
   agreementNumber: Joi.string().optional(),
   description: Joi.string().required(),

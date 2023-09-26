@@ -1,0 +1,3 @@
+module.exports = {
+  MANUAL_ORIGINAL_INVOICE_NUMBER: 'SPS 2014_3VKYT05'
+}
