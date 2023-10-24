@@ -200,4 +200,15 @@ describe('enrich payment request', () => {
     await enrichPaymentRequest(paymentRequest)
     expect(paymentRequest.agreementNumber).toBe(paymentRequest.contractNumber)
   })
+
+  test('should set recoveryDate as undefined if not recoveryDate not present', async () => {
+    await enrichPaymentRequest(paymentRequest)
+    expect(paymentRequest.recoveryDate).toBe(undefined)
+  })
+
+  test('should convert recoveryDate to DAX format if recoveryDate present', async () => {
+    paymentRequest.recoveryDate = '2023-10-24'
+    await enrichPaymentRequest(paymentRequest)
+    expect(paymentRequest.recoveryDate).toBe('24/10/2023')
+  })
 })

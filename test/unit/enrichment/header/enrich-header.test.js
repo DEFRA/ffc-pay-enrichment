@@ -169,4 +169,10 @@ describe('enrich header', () => {
     await enrichHeader(paymentRequest, scheme)
     expect(paymentRequest.eventDate).toBe(EVENT_DATE_DAX)
   })
+
+  test('should convert recoveryDate to DAX format when recovery date present', async () => {
+    paymentRequest.recoveryDate = '2023-10-24'
+    await enrichHeader(paymentRequest, scheme)
+    expect(paymentRequest.recoveryDate).toBe(DUE_DATE_DAX)
+  })
 })
