@@ -15,6 +15,11 @@ const schema = Joi.object({
     type: Joi.string().allow('subscription'),
     numberOfReceivers: Joi.number().default(1)
   },
+  customerSubscription: {
+    address: Joi.string(),
+    topic: Joi.string(),
+    type: Joi.string().allow('subscription')
+  },
   processingTopic: {
     address: Joi.string()
   },
@@ -43,6 +48,11 @@ const config = {
     type: 'subscription',
     numberOfReceivers: process.env.PAYMENT_SUBSCRIPTION_RECEIVERS
   },
+  customerSubscription: {
+    address: process.env.CUSTOMER_SUBSCRIPTION_ADDRESS,
+    topic: process.env.CUSTOMER_TOPIC_ADDRESS,
+    type: 'subscription'
+  },
   processingTopic: {
     address: process.env.PROCESSING_TOPIC_ADDRESS
   },
@@ -66,6 +76,7 @@ if (result.error) {
 }
 
 const paymentSubscription = { ...result.value.messageQueue, ...result.value.paymentSubscription }
+const customerSubscription = { ...result.value.messageQueue, ...result.value.customerSubscription }
 const processingTopic = { ...result.value.messageQueue, ...result.value.processingTopic }
 const responseTopic = { ...result.value.messageQueue, ...result.value.responseTopic }
 const eventTopic = { ...result.value.messageQueue, ...result.value.eventTopic }
@@ -73,6 +84,7 @@ const eventsTopic = { ...result.value.messageQueue, ...result.value.eventsTopic 
 
 module.exports = {
   paymentSubscription,
+  customerSubscription,
   processingTopic,
   responseTopic,
   eventTopic,
