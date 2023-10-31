@@ -51,7 +51,7 @@ module.exports = [
   { schemeId: CS, sourceSystem: SITI_AGRI_CS_SYS, deliveryBody: NE00, fundCode: ERD14 },
   { schemeId: BPS, sourceSystem: SITI_AGRI_SYS, deliveryBody: RP00, fundCode: EGF00 },
   { schemeId: FDMR, sourceSystem: FDMR_SOURCE, deliveryBody: RP00, fundCode: EGF00 },
-  { schemeId: MANUAL, sourceSystem: MANUAL_SOURCE, deliveryBody: RP00, fundCode: DOM10 },
+  { schemeId: MANUAL, sourceSystem: MANUAL_SOURCE, deliveryBody: RP00, fundCode: DRD10 },
   { schemeId: ES, sourceSystem: Genesis, deliveryBody: NE00, fundCode: EXQ00 },
   { schemeId: FC, sourceSystem: GLOS, deliveryBody: FC00, fundCode: DOM00 },
   { schemeId: IMPS, sourceSystem: IMPS_SOURCE, deliveryBody: RP00, fundCode: DOM00 },
