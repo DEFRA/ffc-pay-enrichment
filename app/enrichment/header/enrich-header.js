@@ -25,6 +25,7 @@ const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.eventDate = convertToDaxDate(paymentRequest.eventDate, false)
   paymentRequest.claimDate = convertToDaxDate(paymentRequest.claimDate, false)
   paymentRequest.recoveryDate = paymentRequest.recoveryDate ? convertToDaxDate(paymentRequest.recoveryDate, false) : undefined
+  paymentRequest.originalSettlementDate = paymentRequest.originalSettlementDate ? convertToDaxDate(paymentRequest.originalSettlementDate, false) : undefined
   paymentRequest.marketingYear = getMarketingYear(paymentRequest)
 }
 
