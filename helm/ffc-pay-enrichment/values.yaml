@@ -20,15 +20,15 @@ containerSecret:
 
 deployment:
   minReplicas: 1
-  maxReplicas: 16
+  maxReplicas: 20
   cpuThreshold: 80
   memoryThreshold: 80
 
 container:
   requestMemory: 80Mi
   requestCpu: 40m
-  limitMemory: 120Mi
-  limitCpu: 120m
+  limitMemory: 180Mi
+  limitCpu: 180m
   messageQueueHost: namespace.servicebus.windows.net
   paymentTopicAddress: ffc-pay-request
   paymentSubscriptionAddress: ffc-pay-enrichment
