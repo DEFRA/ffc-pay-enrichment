@@ -38,7 +38,7 @@ describe('confirm due date', () => {
     expect(mockConvertToDaxDate).toHaveBeenCalledWith(moment().startOf('day').format(SITI_AGRI_DATE_FORMAT))
   })
 
-  test('should convert due date to current date if 1st December date is not in future for CS', () => {
+  test('should convert due date to current date if date is not in future for CS', () => {
     csPaymentRequest.dueDate = '2015-01-01'
     confirmDueDate(csPaymentRequest.schemeId, csPaymentRequest.marketingYear, csPaymentRequest.dueDate)
     expect(mockConvertToDaxDate).toHaveBeenCalledWith(moment().startOf('day').format(SITI_AGRI_DATE_FORMAT))
