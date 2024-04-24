@@ -22,6 +22,9 @@ const { getValue: mockGetValue } = require('../../../../app/enrichment/header/ge
 jest.mock('../../../../app/enrichment/header/confirm-due-date')
 const { confirmDueDate: mockConfirmDueDate } = require('../../../../app/enrichment/header/confirm-due-date')
 
+jest.mock('../../../../app/enrichment/header/get-delivery-body')
+const { getDeliveryBody: mockGetDeliveryBody } = require('../../../../app/enrichment/header/get-delivery-body')
+
 jest.mock('../../../../app/date-convert')
 const { convertToDaxDate: mockConvertToDaxDate } = require('../../../../app/date-convert')
 
@@ -36,6 +39,7 @@ const { AP } = require('../../../../app/constants/ledgers')
 const { GBP } = require('../../../../app/constants/currency')
 
 const { enrichHeader } = require('../../../../app/enrichment/header/enrich-header')
+const { NE00 } = require('../../../../app/constants/delivery-bodies')
 
 let scheme
 let paymentRequest
@@ -51,6 +55,7 @@ describe('enrich header', () => {
     mockGetLedger.mockReturnValue(AP)
     mockGetCurrency.mockReturnValue(GBP)
     mockGetValue.mockReturnValue(100)
+    mockGetDeliveryBody.mockReturnValue(NE00)
     mockConfirmDueDate.mockReturnValue(DUE_DATE_DAX)
     mockConvertToDaxDate.mockReturnValue(EVENT_DATE_DAX)
 
@@ -58,15 +63,9 @@ describe('enrich header', () => {
     paymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/payment-request')))
   })
 
-  test('should set delivery body if scheme defined', async () => {
+  test('should set delivery body from output of getDeliveryBody', async () => {
     await enrichHeader(paymentRequest, scheme)
-    expect(paymentRequest.deliveryBody).toBe(scheme.deliveryBody)
-  })
-
-  test('should not set delivery body if scheme not defined', async () => {
-    scheme = undefined
-    await enrichHeader(paymentRequest)
-    expect(paymentRequest.deliveryBody).toBeUndefined()
+    expect(paymentRequest.deliveryBody).toBe(NE00)
   })
 
   test('should set scheme id if scheme defined', async () => {

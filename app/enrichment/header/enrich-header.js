@@ -9,9 +9,10 @@ const { getCurrency } = require('./get-currency')
 const { confirmDueDate } = require('./confirm-due-date')
 const { convertToDaxDate } = require('../../date-convert')
 const { getMarketingYear } = require('./get-marketing-year')
+const { getDeliveryBody } = require('./get-delivery-body')
 
 const enrichHeader = async (paymentRequest, scheme) => {
-  paymentRequest.deliveryBody = scheme?.deliveryBody
+  paymentRequest.deliveryBody = getDeliveryBody(paymentRequest, scheme)
   paymentRequest.schemeId = scheme?.schemeId
   paymentRequest.correlationId = getCorrelationId(paymentRequest.correlationId)
   paymentRequest.contractNumber = getContractNumber(paymentRequest)
