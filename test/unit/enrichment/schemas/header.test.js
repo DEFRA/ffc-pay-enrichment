@@ -222,7 +222,7 @@ describe('header schema', () => {
     expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
-  test('should fail if schedule is not quarterly, monthly or three day quarterly', () => {
+  test('should fail if schedule is not in the expected list', () => {
     paymentRequest.schedule = 'INVALID'
     expect(schema.validate(paymentRequest).error).toBeDefined()
   })
