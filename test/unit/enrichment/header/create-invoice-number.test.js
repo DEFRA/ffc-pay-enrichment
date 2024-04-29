@@ -11,6 +11,7 @@ let manualPaymentRequest
 let esPaymentRequest
 let impsPaymentRequest
 let sfi23PaymentRequest
+let delinkedPaymentRequest
 let unknownPaymentRequest
 
 describe('create invoice number', () => {
@@ -26,6 +27,7 @@ describe('create invoice number', () => {
     esPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/es')))
     impsPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/imps')))
     sfi23PaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/sfi23')))
+    delinkedPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/delinked')))
     unknownPaymentRequest = {
       schemeId: -1,
       paymentRequestNumber: 1,
@@ -104,6 +106,11 @@ describe('create invoice number', () => {
 
   test('generate invoice number for Sustainable Farming Incentive 23', () => {
     const result = createInvoiceNumber(sfi23PaymentRequest)
+    expect(result).toEqual('S000000100000001V001')
+  })
+
+  test('generate invoice number for Delinked Payments', () => {
+    const result = createInvoiceNumber(delinkedPaymentRequest)
     expect(result).toEqual('S000000100000001V001')
   })
 

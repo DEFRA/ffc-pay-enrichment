@@ -1,4 +1,4 @@
-const { SFI, SFI_PILOT, LUMP_SUMS, CS, BPS, FDMR, MANUAL, ES, FC, IMPS, SFI23 } = require('../../constants/schemes')
+const { SFI, SFI_PILOT, LUMP_SUMS, CS, BPS, FDMR, MANUAL, ES, FC, IMPS, SFI23, DELINKED } = require('../../constants/schemes')
 const { INJECTION } = require('../../constants/source-systems')
 
 const createInvoiceNumber = (paymentRequest) => {
@@ -13,6 +13,7 @@ const createInvoiceNumber = (paymentRequest) => {
       case CS:
       case BPS:
       case SFI23:
+      case DELINKED:
         return createSitiAgriInvoiceNumber(paymentRequest)
       case FDMR:
         return createFdmrInvoiceNumber(paymentRequest)

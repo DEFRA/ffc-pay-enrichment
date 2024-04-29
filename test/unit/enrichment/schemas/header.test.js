@@ -1,7 +1,7 @@
 const { GBP, EUR } = require('../../../../app/constants/currency')
 const { IRREGULAR, ADMINISTRATIVE } = require('../../../../app/constants/debt-types')
 const { AP, AR } = require('../../../../app/constants/ledgers')
-const { Q4, M12, T4 } = require('../../../../app/constants/schedules')
+const { Q4, M12, T4, Y2 } = require('../../../../app/constants/schedules')
 
 const { DUE_DATE_DAX } = require('../../../mocks/values/due-date')
 const { BALANCE, ADVANCE_PAYMENT } = require('../../../mocks/values/payment-type')
@@ -217,7 +217,12 @@ describe('header schema', () => {
     expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
-  test('should fail if schedule is not quarterly, monthly or three day quarterly', () => {
+  test('should pass if schedule is twice yearly (delinked)', () => {
+    paymentRequest.schedule = Y2
+    expect(schema.validate(paymentRequest).error).toBeUndefined()
+  })
+
+  test('should fail if schedule is not in the expected list', () => {
     paymentRequest.schedule = 'INVALID'
     expect(schema.validate(paymentRequest).error).toBeDefined()
   })
