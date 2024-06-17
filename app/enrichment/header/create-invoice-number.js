@@ -13,7 +13,6 @@ const createInvoiceNumber = (paymentRequest) => {
       case CS:
       case BPS:
       case SFI23:
-      case DELINKED:
         return createSitiAgriInvoiceNumber(paymentRequest)
       case FDMR:
         return createFdmrInvoiceNumber(paymentRequest)
@@ -24,6 +23,8 @@ const createInvoiceNumber = (paymentRequest) => {
         return createESInvoiceNumber(paymentRequest)
       case IMPS:
         return createIMPSInvoiceNumber(paymentRequest)
+      case DELINKED:
+        return createStandardInvoiceNumber(paymentRequest)
       default:
         return createDefaultInvoiceNumber(paymentRequest)
     }
@@ -36,6 +37,13 @@ const createSitiAgriInvoiceNumber = (paymentRequest) => {
   const sitiInvoiceNumberElementLength = 7
   if (paymentRequest.invoiceNumber.length >= sitiInvoiceNumberElementLength && paymentRequest.contractNumber && paymentRequest.paymentRequestNumber) {
     return `S${paymentRequest.invoiceNumber.slice(-sitiInvoiceNumberElementLength)}${paymentRequest.contractNumber}V${paymentRequest.paymentRequestNumber.toString().padStart(3, '0')}`
+  }
+}
+
+const createStandardInvoiceNumber = (paymentRequest) => {
+  const sitiInvoiceNumberElementLength = 7
+  if (paymentRequest.invoiceNumber.length >= sitiInvoiceNumberElementLength && paymentRequest.contractNumber && paymentRequest.paymentRequestNumber) {
+    return `${paymentRequest.invoiceNumber.charAt(0)}${paymentRequest.invoiceNumber.slice(-sitiInvoiceNumberElementLength)}${paymentRequest.contractNumber}V${paymentRequest.paymentRequestNumber.toString().padStart(3, '0')}`
   }
 }
 
