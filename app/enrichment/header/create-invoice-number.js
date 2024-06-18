@@ -1,4 +1,4 @@
-const { SFI, SFI_PILOT, LUMP_SUMS, CS, BPS, FDMR, MANUAL, ES, FC, IMPS, SFI23, DELINKED } = require('../../constants/schemes')
+const { SFI, SFI_PILOT, LUMP_SUMS, CS, BPS, FDMR, MANUAL, ES, FC, IMPS, SFI23, DELINKED, SFI_EXPANDED } = require('../../constants/schemes')
 const { INJECTION } = require('../../constants/source-systems')
 
 const createInvoiceNumber = (paymentRequest) => {
@@ -13,7 +13,6 @@ const createInvoiceNumber = (paymentRequest) => {
       case CS:
       case BPS:
       case SFI23:
-      case DELINKED:
         return createSitiAgriInvoiceNumber(paymentRequest)
       case FDMR:
         return createFdmrInvoiceNumber(paymentRequest)
@@ -24,6 +23,9 @@ const createInvoiceNumber = (paymentRequest) => {
         return createESInvoiceNumber(paymentRequest)
       case IMPS:
         return createIMPSInvoiceNumber(paymentRequest)
+      case DELINKED:
+      case SFI_EXPANDED:
+        return createStandardSchemeInvoiceNumber(paymentRequest)
       default:
         return createDefaultInvoiceNumber(paymentRequest)
     }
@@ -57,6 +59,13 @@ const createIMPSInvoiceNumber = (paymentRequest) => {
     }
     const invoiceParts = paymentRequest.invoiceNumber.split('/')
     return `${invoiceParts[0]}/${paymentRequest.trader}${invoiceParts[1]}`
+  }
+}
+
+const createStandardSchemeInvoiceNumber = (paymentRequest) => {
+  const sitiInvoiceNumberElementLength = 7
+  if (paymentRequest.invoiceNumber.length >= sitiInvoiceNumberElementLength && paymentRequest.contractNumber && paymentRequest.paymentRequestNumber) {
+    return `${paymentRequest.invoiceNumber.charAt(0)}${paymentRequest.invoiceNumber.slice(-sitiInvoiceNumberElementLength)}${paymentRequest.contractNumber}V${paymentRequest.paymentRequestNumber.toString().padStart(3, '0')}`
   }
 }
 
