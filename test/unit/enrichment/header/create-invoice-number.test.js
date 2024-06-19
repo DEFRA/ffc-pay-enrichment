@@ -111,7 +111,7 @@ describe('create invoice number', () => {
 
   test('generate invoice number for Delinked Payments', () => {
     const result = createInvoiceNumber(delinkedPaymentRequest)
-    expect(result).toEqual('S000000100000001V001')
+    expect(result).toEqual('D000000100000001V001')
   })
 
   test('generate default invoice format for unknown scheme', () => {
