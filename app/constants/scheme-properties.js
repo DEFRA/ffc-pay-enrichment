@@ -11,7 +11,8 @@ const {
   FC,
   IMPS,
   SFI23,
-  DELINKED
+  DELINKED,
+  SFI_EXPANDED
 } = require('./schemes')
 
 const {
@@ -27,7 +28,8 @@ const {
   GLOS,
   IMPS: IMPS_SOURCE,
   SFIA,
-  DP
+  DP,
+  ESFIO
 } = require('./source-systems')
 
 const {
@@ -58,5 +60,6 @@ module.exports = [
   { schemeId: FC, sourceSystem: GLOS, deliveryBody: FC00, fundCode: DOM00 },
   { schemeId: IMPS, sourceSystem: IMPS_SOURCE, deliveryBody: RP00, fundCode: DOM00 },
   { schemeId: SFI23, sourceSystem: SFIA, deliveryBody: RP00, fundCode: DRD10 },
-  { schemeId: DELINKED, sourceSystem: DP, deliveryBody: RP00, fundCode: DOM10 }
+  { schemeId: DELINKED, sourceSystem: DP, deliveryBody: RP00, fundCode: DOM10 },
+  { schemeId: SFI_EXPANDED, sourceSystem: ESFIO, deliveryBody: RP00, fundCode: DRD10 }
 ]

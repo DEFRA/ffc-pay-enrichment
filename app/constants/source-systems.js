@@ -12,5 +12,6 @@ module.exports = {
   IMPS: 'IMPS',
   SFIA: 'SFIA',
   INJECTION: 'Injection',
-  DP: 'DP'
+  DP: 'DP',
+  ESFIO: 'ESFIO'
 }
