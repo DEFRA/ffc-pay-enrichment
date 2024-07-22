@@ -40,7 +40,7 @@ describe('verify SBI validity', () => {
 
   test('should return error if SBI does not map to FRN', async () => {
     paymentRequest.frn = 9876543210
-    await expect(verifySBI(paymentRequest, transaction)).resolves.toBe('Header is invalid, SBI 123456789 does not map to FRN 9876543210 - expected FRN 9876543210')
+    await expect(verifySBI(paymentRequest, transaction)).resolves.toBe('Header is invalid, SBI 123456789 does not map to FRN 9876543210 - expected FRN 1234567890')
   })
 
   test('should return error if customer is not found', async () => {
