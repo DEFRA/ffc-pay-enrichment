@@ -27,8 +27,8 @@ describe('validate header', () => {
   })
 
   test('should throw error if verifySBI returns an error', async () => {
-    verifySBI.mockResolvedValue('Header is invalid, SBI 123456789 does not map to FRN 1234567890')
-    await expect(validateHeader(paymentRequest)).rejects.toThrow('Header is invalid, SBI 123456789 does not map to FRN 1234567890')
+    verifySBI.mockResolvedValue('Header is invalid, SBI 123456789 does not map to FRN 1234567890 - expected FRN 9876543210')
+    await expect(validateHeader(paymentRequest)).rejects.toThrow('Header is invalid, SBI 123456789 does not map to FRN 1234567890 - expected FRN 9876543210')
   })
 
   test('should throw error with validation category if schema validation fails', async () => {
@@ -41,7 +41,7 @@ describe('validate header', () => {
   })
 
   test('should throw error with validation category if verifySBI returns an error', async () => {
-    verifySBI.mockResolvedValue('Header is invalid, SBI 123456789 does not map to FRN 1234567890')
+    verifySBI.mockResolvedValue('Header is invalid, SBI 123456789 does not map to FRN 1234567890 - expected FRN 9876543210')
     try {
       await validateHeader(paymentRequest)
     } catch (error) {

@@ -10,8 +10,10 @@ const verifySBI = async (header, transaction) => {
         reference: header.sbi.toString()
       }
     }, { transaction })
-    if (!customer || header.frn !== Number(customer.frn)) {
-      return `Header is invalid, SBI ${header.sbi} does not map to FRN ${header.frn}`
+    if (!customer) {
+      return `Header is invalid, SBI ${header.sbi} does not map to FRN ${header.frn} - expected FRN ${Number(customer.frn)}`
+    } else if (header.frn !== Number(customer.frn)) {
+      return `Header is invalid, SBI ${header.sbi} does not map to FRN ${header.frn} - no FRN record is held for this SBI`
     }
   }
   return null
