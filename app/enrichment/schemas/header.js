@@ -2,7 +2,7 @@ const { GBP, EUR } = require('../../constants/currency')
 const { DAX_DATE_FORMAT } = require('../../constants/date-formats')
 const { IRREGULAR, ADMINISTRATIVE } = require('../../constants/debt-types')
 const { AP, AR } = require('../../constants/ledgers')
-const { Q1, Q2, Q3, Q4, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12, T1, T2, T3, T4, Y2 } = require('../../constants/schedules')
+const { Q1, Q2, Q3, Q4, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12, T1, T2, T3, T4, Y1, Y2 } = require('../../constants/schedules')
 
 const Joi = require('joi').extend(require('@joi/date'))
 
@@ -25,7 +25,7 @@ module.exports = Joi.object({
   exchangeRate: Joi.string().optional(),
   pillar: Joi.string().optional(),
   currency: Joi.string().valid(GBP, EUR).required(),
-  schedule: Joi.string().valid(Q1, Q2, Q3, Q4, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12, T1, T2, T3, T4, Y2).optional(),
+  schedule: Joi.string().valid(Q1, Q2, Q3, Q4, M1, M2, M3, M4, M5, M6, M7, M8, M9, M10, M11, M12, T1, T2, T3, T4, Y1, Y2).optional(),
   dueDate: Joi.date().format(DAX_DATE_FORMAT).required(),
   eventDate: Joi.date().format(DAX_DATE_FORMAT).optional(),
   claimDate: Joi.date().format(DAX_DATE_FORMAT).optional(),
