@@ -7,7 +7,7 @@ const { validateValues } = require('./validate-values')
 
 const enrichPaymentRequest = async (paymentRequest) => {
   validateType(paymentRequest)
-  const scheme = getScheme(paymentRequest.schemeId, paymentRequest.sourceSystem)
+  const scheme = getScheme(paymentRequest.schemeId, paymentRequest.sourceSystem, paymentRequest.pillar)
   await enrichHeader(paymentRequest, scheme)
   await validateHeader(paymentRequest)
   paymentRequest.invoiceLines = await enrichInvoiceLines(paymentRequest.invoiceLines, paymentRequest.schemeId, paymentRequest.marketingYear, scheme)
