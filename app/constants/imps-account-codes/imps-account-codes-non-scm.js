@@ -1,4 +1,4 @@
-const { SOI711, SOI760, SOS210 } = require('./account-codes')
+const { SOI711, SOI760, SOS210 } = require('../account-codes')
 
 const standardCodes = require('../standard-codes')
 
