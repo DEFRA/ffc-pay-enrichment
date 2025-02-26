@@ -17,7 +17,7 @@ const hooks = {
       cfg.password = tokenProvider
     }
   }
-}}
+}
 
 const retry = {
   backoffBase: 500,
