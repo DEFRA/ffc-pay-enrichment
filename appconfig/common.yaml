@@ -1,0 +1,5 @@
+container.paymentTopicAddress: queue:ffc-pay-request
+container.processingTopicAddress: queue:ffc-pay-processing
+container.responseTopicAddress: queue:ffc-pay-request-response
+container.eventsTopicAddress: queue:ffc-pay-events
+container.customerTopicAddress: queue:ffc-pay-customer

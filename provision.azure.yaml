@@ -1,6 +1,19 @@
 resources:
+  identity: pay-enrichment
+  postgreSql:
+    name: ffc-pay-enrichment
   topics:
-    - name: payment
-    - name: processing
-    - name: response
-    - name: event
+    - name: ffc-pay-request
+      role: receiver
+      subscriptions:
+        - name: ffc-pay-enrichment
+    - name: ffc-pay-customer
+      role: receiver
+      subscriptions:
+        - name: ffc-pay-enrichment
+    - name: ffc-pay-processing
+      role: sender
+    - name: ffc-pay-request-response
+      role: sender
+    - name: ffc-pay-events
+      role: sender
