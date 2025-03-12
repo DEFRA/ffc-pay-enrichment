@@ -38,6 +38,7 @@ container:
   customerTopicAddress: ffc-pay-customer
   customerSubscriptionAddress: ffc-pay-enrichment
   useV2Events: true
+  processingActive: true
 
 postgresService:
   postgresDb: ffc_pay_enrichment
