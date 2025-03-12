@@ -21,4 +21,4 @@ const startApp = async () => {
   await startApp()
 })()
 
-module.exports = startAppgit 
+module.exports = startApp
