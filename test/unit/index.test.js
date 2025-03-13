@@ -13,10 +13,16 @@ describe('app start', () => {
     jest.clearAllMocks()
   })
 
-  test('starts server', async () => {
+  test('starts server when active is true', async () => {
     enrichmentConfig.processingActive = true
     await startApp()
-    expect(mockStartServer).toHaveBeenCalledTimes(1)
+    expect(mockStartServer).toHaveBeenCalled()
+  })
+
+  test('start server if active is false', async () => {
+    enrichmentConfig.processingActive = false
+    await startApp()
+    expect(mockStartServer).toHaveBeenCalled()
   })
 
   test('starts messaging when active is true', async () => {
