@@ -11,7 +11,7 @@ process.on(['SIGTERM', 'SIGINT'], async () => {
 })
 
 const startApp = async () => {
-  startServer()
+  await startServer()
   if (enrichmentConfig.processingActive) {
     await messageService.start()
   } else {
