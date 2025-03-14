@@ -3,11 +3,26 @@ const { enrichmentConfig } = require('../../app/config')
 jest.mock('../../app/messaging')
 const { start: mockStartMessaging } = require('../../app/messaging')
 
+jest.mock('../../app/server')
+const { start: mockStartServer } = require('../../app/server')
+
 const startApp = require('../../app')
 
 describe('app start', () => {
   beforeEach(() => {
     jest.clearAllMocks()
+  })
+
+  test('starts server when active is true', async () => {
+    enrichmentConfig.processingActive = true
+    await startApp()
+    expect(mockStartServer).toHaveBeenCalled()
+  })
+
+  test('start server if active is false', async () => {
+    enrichmentConfig.processingActive = false
+    await startApp()
+    expect(mockStartServer).toHaveBeenCalled()
   })
 
   test('starts messaging when active is true', async () => {

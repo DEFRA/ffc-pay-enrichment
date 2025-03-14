@@ -29,6 +29,7 @@ container:
   requestCpu: 40m
   limitMemory: 200Mi
   limitCpu: 200m
+  port: 3009
   messageQueueHost: namespace.servicebus.windows.net
   paymentTopicAddress: ffc-pay-request
   paymentSubscriptionAddress: ffc-pay-enrichment
@@ -39,6 +40,22 @@ container:
   customerSubscriptionAddress: ffc-pay-enrichment
   useV2Events: true
   processingActive: true
+
+readinessProbe:
+  path: /healthy
+  port: 3009
+  initialDelaySeconds: 60
+  periodSeconds: 120
+  failureThreshold: 5
+  timeoutSeconds: 30
+
+livenessProbe:
+  path: /healthz
+  port: 3009
+  initialDelaySeconds: 70
+  periodSeconds: 120
+  failureThreshold: 5
+  timeoutSeconds: 30
 
 postgresService:
   postgresDb: ffc_pay_enrichment

@@ -1,6 +1,7 @@
 require('log-timestamp')
 require('./insights').setup()
 
+const { start: startServer } = require('./server')
 const { enrichmentConfig } = require('./config')
 const messageService = require('./messaging')
 
@@ -10,6 +11,7 @@ process.on(['SIGTERM', 'SIGINT'], async () => {
 })
 
 const startApp = async () => {
+  startServer()
   if (enrichmentConfig.processingActive) {
     await messageService.start()
   } else {

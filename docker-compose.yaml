@@ -4,6 +4,9 @@ services:
       context: .
       target: production
     image: ffc-pay-enrichment
+    ports:
+      - "3009:3009"
+      - "9241:9229"
     depends_on: 
       - ffc-pay-enrichment-postgres
     environment:
