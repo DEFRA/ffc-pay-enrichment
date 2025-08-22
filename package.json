@@ -1,6 +1,6 @@
 {
   "name": "ffc-pay-enrichment",
-  "version": "1.29.33",
+  "version": "1.29.34",
   "description": "FFC Payment enrichment service",
   "homepage": "https://github.com/DEFRA/ffc-pay-enrichment",
   "main": "app/index.js",
