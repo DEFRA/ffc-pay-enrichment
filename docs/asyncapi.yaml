@@ -1,225 +1,300 @@
-asyncapi: 2.6.0
+asyncapi: 3.0.0
 info:
   title: Payment Hub Enrichment
   version: 1.6.0
   description: Validation and enrichment of payment requests
 channels:
   ffc-pay-request:
-    subscribe:
-      message:
-        $ref: "#/components/messages/PaymentRequest"
+    address: ffc-pay-request
+    messages:
+      subscribe.message:
+        $ref: '#/components/messages/PaymentRequest'
   ffc-pay-processing:
-    publish:
-      message:
-        $ref: "#/components/messages/EnrichedPaymentRequest"
+    address: ffc-pay-processing
+    messages:
+      publish.message:
+        $ref: '#/components/messages/EnrichedPaymentRequest'
   ffc-pay-request-response:
-    publish:
-      message:
-        $ref: "#/components/messages/Response"
+    address: ffc-pay-request-response
+    messages:
+      publish.message:
+        $ref: '#/components/messages/Response'
   ffc-pay-events:
-    publish:
-      message:
-        $ref: "#/components/messages/Event"
+    address: ffc-pay-events
+    messages:
+      publish.message:
+        $ref: '#/components/messages/Event'
+operations:
+  ffc-pay-request.subscribe:
+    action: send
+    channel:
+      $ref: '#/channels/ffc-pay-request'
+    messages:
+      - $ref: '#/channels/ffc-pay-request/messages/subscribe.message'
+  ffc-pay-processing.publish:
+    action: receive
+    channel:
+      $ref: '#/channels/ffc-pay-processing'
+    messages:
+      - $ref: '#/channels/ffc-pay-processing/messages/publish.message'
+  ffc-pay-request-response.publish:
+    action: receive
+    channel:
+      $ref: '#/channels/ffc-pay-request-response'
+    messages:
+      - $ref: '#/channels/ffc-pay-request-response/messages/publish.message'
+  ffc-pay-events.publish:
+    action: receive
+    channel:
+      $ref: '#/channels/ffc-pay-events'
+    messages:
+      - $ref: '#/channels/ffc-pay-events/messages/publish.message'
 components:
   messages:
     PaymentRequest:
       name: Payment request
       contentType: application/json
       payload:
-        $ref: "#/components/schemas/PaymentRequest"
+        $ref: '#/components/schemas/PaymentRequest'
     EnrichedPaymentRequest:
       name: Enriched payment request
       contentType: application/json
       payload:
-        $ref: "#/components/schemas/EnrichedPaymentRequest"
+        $ref: '#/components/schemas/EnrichedPaymentRequest'
     Response:
       name: Payment request response to source system
       contentType: application/json
       payload:
-        $ref: "#/components/schemas/Response"
+        $ref: '#/components/schemas/Response'
     Event:
       name: Payment event
       contentType: application/json
       payload:
-        $ref: "#/components/schemas/Event"
+        $ref: '#/components/schemas/Event'
   schemas:
     PaymentRequest:
       type: object
       required:
         - sourceSystem
-        - frn
-        - marketingYear
-        - agreementNumber
+        - deliveryBody
         - paymentRequestNumber
-        - value
         - invoiceLines
       properties:
         sourceSystem:
-          $ref: "#/components/schemas/SourceSystem"
-        frn:
-          $ref: "#/components/schemas/FRN"
-        sbi:
-          $ref: "#/components/schemas/SBI"
-        marketingYear:
-          $ref: "#/components/schemas/MarketingYear"
-        paymentRequestNumber:
-          $ref: "#/components/schemas/PaymentRequestNumber"
-        paymentType:
-          $ref: "#/components/schemas/PaymentType"  
-        correlationId:
-          $ref: "#/components/schemas/CorrelationId"
+          $ref: '#/components/schemas/SourceSystem'
+        batch:
+          $ref: '#/components/schemas/Batch'
+        schemeId:
+          $ref: '#/components/schemas/SchemeId'
+        ledger:
+          $ref: '#/components/schemas/Ledger'
+        deliveryBody:
+          $ref: '#/components/schemas/DeliveryBody'
         invoiceNumber:
-          $ref: "#/components/schemas/InvoiceNumber"
-        agreementNumber:
-          $ref: "#/components/schemas/AgreementNumber"
-        contractNumber:
-          $ref: "#/components/schemas/ContractNumber"
-        currency:
-          $ref: "#/components/schemas/Currency"
-        schedule:
-          $ref: "#/components/schemas/Schedule"
-        dueDate:
-          $ref: "#/components/schemas/DueDate"
-        value:
-          $ref: "#/components/schemas/ValueDecimal"
-        debtType:
-          $ref: "#/components/schemas/DebtType"
-        recoveryDate:
-          $ref: "#/components/schemas/RecoveryDate"
-        pillar:
-          $ref: "#/components/schemas/Pillar"
-        originalInvoiceNumber:
-          $ref: "#/components/schemas/OriginalInvoiceNumber"
-        originalSettlementDate:
-          $ref: "#/components/schemas/OriginalSettlementDate"
-        invoiceCorrectionReference:
-          $ref: "#/components/schemas/InvoiceCorrectionReference"
-        trader:
-          $ref: "#/components/schemas/Trader"
+          $ref: '#/components/schemas/InvoiceNumber'
+        frn:
+          $ref: '#/components/schemas/FRN'
+        sbi:
+          $ref: '#/components/schemas/SBI'
         vendor:
-          $ref: "#/components/schemas/Vendor"
+          $ref: '#/components/schemas/Vendor'
+        trader:
+          $ref: '#/components/schemas/Trader'
+        marketingYear:
+          $ref: '#/components/schemas/MarketingYear'
+        paymentRequestNumber:
+          $ref: '#/components/schemas/PaymentRequestNumber'
+        agreementNumber:
+          $ref: '#/components/schemas/AgreementNumber'
+        contractNumber:
+          $ref: '#/components/schemas/ContractNumber'
+        paymentType:
+          $ref: '#/components/schemas/PaymentType'
+        exchangeRate:
+          $ref: '#/components/schemas/ExchangeRate'
+        pillar:
+          $ref: '#/components/schemas/Pillar'
+        currency:
+          $ref: '#/components/schemas/Currency'
+        schedule:
+          $ref: '#/components/schemas/Schedule'
+        dueDate:
+          $ref: '#/components/schemas/DueDate'
+        eventDate:
+          $ref: '#/components/schemas/EventDate'
+        claimDate:
+          $ref: '#/components/schemas/ClaimDate'
+        value:
+          $ref: '#/components/schemas/ValueDecimal'
         invoiceLines:
           type: array
           description: List of Invoice lines that make up request
           items:
-            $ref: "#/components/schemas/InvoiceLine"
+            $ref: '#/components/schemas/EnrichedInvoiceLine'
+        debtType:
+          $ref: '#/components/schemas/DebtType'
+        recoveryDate:
+          $ref: '#/components/schemas/RecoveryDate'
+        correlationId:
+          $ref: '#/components/schemas/CorrelationId'
+        originalInvoiceNumber:
+          $ref: '#/components/schemas/OriginalInvoiceNumber'
+        originalSettlementDate:
+          $ref: '#/components/schemas/OriginalSettlementDate'
+        invoiceCorrectionReference:
+          $ref: '#/components/schemas/InvoiceCorrectionReference'
     InvoiceLine:
       type: object
       required:
-        - value
         - description
-        - schemeCode
+        - value
       properties:
-        value:
-          $ref: "#/components/schemas/ValueDecimal"
-        description:
-          $ref: "#/components/schemas/Description"
-        schemeCode:
-          $ref: "#/components/schemas/SchemeCode"
         standardCode:
-          $ref: "#/components/schemas/StandardCode"
+          $ref: '#/components/schemas/StandardCode'
+        schemeCode:
+          $ref: '#/components/schemas/SchemeCode'
         accountCode:
-          $ref: "#/components/schemas/AccountCode"
-        deliveryBody:
-          $ref: "#/components/schemas/DeliveryBody"
-        marketingYear:
-          $ref: "#/components/schemas/MarketingYear"
+          $ref: '#/components/schemas/AccountCode'
+        fundCode:
+          $ref: '#/components/schemas/FundCode'
+        agreementNumber:
+          $ref: '#/components/schemas/AgreementNumber'
+        description:
+          $ref: '#/components/schemas/Description'
+        value:
+          $ref: '#/components/schemas/ValueDecimal'
         convergence:
-          $ref: "#/components/schemas/Convergence"
+          $ref: '#/components/schemas/Convergence'
+        deliveryBody:
+          $ref: '#/components/schemas/DeliveryBody'
+        marketingYear:
+          $ref: '#/components/schemas/MarketingYear'
         stateAid:
-          $ref: "#/components/schemas/StateAid"
+          $ref: '#/components/schemas/StateAid'
+        exchangeRate:
+          $ref: '#/components/schemas/ExchangeRate'
     EnrichedPaymentRequest:
       type: object
       required:
         - sourceSystem
-        - frn
-        - marketingYear
-        - agreementNumber
-        - paymentRequestNumber
-        - paymentType
-        - value
-        - invoiceNumber
-        - ledger
-        - dueDate
         - schemeId
+        - ledger
+        - deliveryBody
+        - invoiceNumber
+        - frn
+        - paymentRequestNumber
+        - agreementNumber
         - currency
+        - dueDate
+        - value
         - invoiceLines
+        - correlationId
       properties:
         sourceSystem:
-          $ref: "#/components/schemas/SourceSystem"
-        frn:
-          $ref: "#/components/schemas/FRN"
-        sbi:
-          $ref: "#/components/schemas/SBI"
-        marketingYear:
-          $ref: "#/components/schemas/MarketingYear"
-        paymentRequestNumber:
-          $ref: "#/components/schemas/PaymentRequestNumber"
-        paymentType:
-          $ref: "#/components/schemas/PaymentType"
-        correlationId:
-          $ref: "#/components/schemas/CorrelationId"
+          $ref: '#/components/schemas/SourceSystem'
+        batch:
+          $ref: '#/components/schemas/Batch'
+        schemeId:
+          $ref: '#/components/schemas/SchemeId'
+        ledger:
+          $ref: '#/components/schemas/Ledger'
+        deliveryBody:
+          $ref: '#/components/schemas/DeliveryBody'
         invoiceNumber:
-          $ref: "#/components/schemas/InvoiceNumber"
+          $ref: '#/components/schemas/InvoiceNumber'
+        frn:
+          $ref: '#/components/schemas/FRN'
+        sbi:
+          $ref: '#/components/schemas/SBI'
+        vendor:
+          $ref: '#/components/schemas/Vendor'
+        trader:
+          $ref: '#/components/schemas/Trader'
+        marketingYear:
+          $ref: '#/components/schemas/MarketingYear'
+        paymentRequestNumber:
+          $ref: '#/components/schemas/PaymentRequestNumber'
         agreementNumber:
-          $ref: "#/components/schemas/AgreementNumber"
+          $ref: '#/components/schemas/AgreementNumber'
         contractNumber:
-          $ref: "#/components/schemas/ContractNumber"
-        currency:
-          $ref: "#/components/schemas/Currency"
-        schedule:
-          $ref: "#/components/schemas/Schedule"
-        dueDate:
-          $ref: "#/components/schemas/DueDate"
-        value:
-          $ref: "#/components/schemas/ValueInteger"
-        debtType:
-          $ref: "#/components/schemas/DebtType"
-        recoveryDate:
-          $ref: "#/components/schemas/RecoveryDate"
+          $ref: '#/components/schemas/ContractNumber'
+        paymentType:
+          $ref: '#/components/schemas/PaymentType'
+        exchangeRate:
+          $ref: '#/components/schemas/ExchangeRate'
         pillar:
-          $ref: "#/components/schemas/Pillar"
+          $ref: '#/components/schemas/Pillar'
+        currency:
+          $ref: '#/components/schemas/Currency'
+        schedule:
+          $ref: '#/components/schemas/Schedule'
+        dueDate:
+          $ref: '#/components/schemas/DueDate'
+        eventDate:
+          $ref: '#/components/schemas/EventDate'
+        claimDate:
+          $ref: '#/components/schemas/ClaimDate'
+        value:
+          $ref: '#/components/schemas/ValueInteger'
         invoiceLines:
           type: array
           description: List of Invoice lines that make up request
           items:
-            $ref: "#/components/schemas/EnrichedInvoiceLine"
+            $ref: '#/components/schemas/EnrichedInvoiceLine'
+        debtType:
+          $ref: '#/components/schemas/DebtType'
+        recoveryDate:
+          $ref: '#/components/schemas/RecoveryDate'
+        correlationId:
+          $ref: '#/components/schemas/CorrelationId'
+        originalInvoiceNumber:
+          $ref: '#/components/schemas/OriginalInvoiceNumber'
+        originalSettlementDate:
+          $ref: '#/components/schemas/OriginalSettlementDate'
+        invoiceCorrectionReference:
+          $ref: '#/components/schemas/InvoiceCorrectionReference'
     EnrichedInvoiceLine:
       type: object
       required:
-        - value
-        - description
         - schemeCode
+        - fundCode
+        - description
+        - value
         - deliveryBody
-        - marketingYear
       properties:
-        value:
-          $ref: "#/components/schemas/ValueInteger"
-        description:
-          $ref: "#/components/schemas/Description"
-        schemeCode:
-          $ref: "#/components/schemas/SchemeCode"
         standardCode:
-          $ref: "#/components/schemas/StandardCode"
+          $ref: '#/components/schemas/StandardCode'
+        schemeCode:
+          $ref: '#/components/schemas/SchemeCode'
         accountCode:
-          $ref: "#/components/schemas/AccountCode"
-        deliveryBody:
-          $ref: "#/components/schemas/DeliveryBody"
-        marketingYear:
-          $ref: "#/components/schemas/MarketingYear"
+          $ref: '#/components/schemas/AccountCode'
+        fundCode:
+          $ref: '#/components/schemas/FundCode'
+        agreementNumber:
+          $ref: '#/components/schemas/AgreementNumber'
+        description:
+          $ref: '#/components/schemas/Description'
+        value:
+          $ref: '#/components/schemas/ValueInteger'
         convergence:
-          $ref: "#/components/schemas/Convergence"
+          $ref: '#/components/schemas/Convergence'
+        deliveryBody:
+          $ref: '#/components/schemas/DeliveryBody'
+        marketingYear:
+          $ref: '#/components/schemas/MarketingYear'
         stateAid:
-          $ref: "#/components/schemas/StateAid"
+          $ref: '#/components/schemas/StateAid'
+        exchangeRate:
+          $ref: '#/components/schemas/ExchangeRate'
     Response:
       type: object
       properties:
         paymentRequest:
-          $ref: "#/components/messages/EnrichedPaymentRequest"
+          $ref: '#/components/messages/EnrichedPaymentRequest'
         accepted:
-          $ref: "#/components/schemas/Accepted"
+          $ref: '#/components/schemas/Accepted'
         error:
-          $ref: "#/components/schemas/Error"
+          $ref: '#/components/schemas/Error'
     Event:
       type: object
       required:
@@ -245,8 +320,8 @@ components:
           $ref: '#/components/schemas/Datacontenttype'
         data:
           oneOf:
-          - $ref: '#/components/schemas/PaymentData'
-          - $ref: '#/components/schemas/WarningData'
+            - $ref: '#/components/schemas/PaymentData'
+            - $ref: '#/components/schemas/WarningData'
     PaymentData:
       type: object
       required:
@@ -329,8 +404,8 @@ components:
     FRN:
       type: number
       description: >-
-        Firm Reference Number, 
-        if not supplied enrichment process will attempt to determine from SBI
+        Firm Reference Number,  if not supplied enrichment process will attempt
+        to determine from SBI
       minimum: 1000000000
       maximum: 9999999999
       example: 1234567890
@@ -342,7 +417,9 @@ components:
       example: 2022
     PaymentRequestNumber:
       type: number
-      description: Version of payment request starting with 1, anything greater than 1 is an adjustment
+      description: >-
+        Version of payment request starting with 1, anything greater than 1 is
+        an adjustment
       minimum: 1
       maximum: 99
       example: 1
@@ -354,9 +431,9 @@ components:
       example: 1
     AgreementNumber:
       type: string
-      description:  >-
-        Unique reference number for agreement/application,
-        if not supplied enrichment process will use contract number as agreement
+      description: >-
+        Unique reference number for agreement/application, if not supplied
+        enrichment process will use contract number as agreement
       example: AHWR12345678
     ContractNumber:
       type: string
@@ -372,28 +449,53 @@ components:
       default: GBP
     Schedule:
       type: string
-      description: Payment frequency instruction for DAX, eg Q4 for quarterly payments
+      description: 'Payment frequency instruction for DAX, eg Q4 for quarterly payments'
       enum:
-      - Q4
-      - M12
-      - T4
+        - Q1
+        - Q2
+        - Q3
+        - Q4
+        - M1
+        - M2
+        - M3
+        - M4
+        - M5
+        - M6
+        - M7
+        - M8
+        - M9
+        - M10
+        - M11
+        - M12
+        - T1
+        - T2
+        - T3
+        - T4
+        - Y1
+        - Y2
     DueDate:
       type: string
-      format: DD/MM/YYYY, YYYY/MM/DD, DD-MM-YYYY or YYYY-MM-DD
-      description: Date request should be issued from.  If not supplied will default to current date.
+      format: 'DD/MM/YYYY, YYYY/MM/DD, DD-MM-YYYY or YYYY-MM-DD'
+      description: >-
+        Date request should be issued from.  If not supplied will default to
+        current date.
       example: 09/11/2022
       default: Current date
     ValueDecimal:
       type: number
       format: decimal
-      description: Decimal net value of request before enrichment, ie decimal value in specified currency
-      minimum: 0.00
+      description: >-
+        Decimal net value of request before enrichment, ie decimal value in
+        specified currency
+      minimum: 0
       maximum: 999999999999.99
-      example: 500.00
+      example: 500
     ValueInteger:
       type: number
       format: integer
-      description: value of request or invoice line after enrichment with main and fractional currency combined
+      description: >-
+        value of request or invoice line after enrichment with main and
+        fractional currency combined
       minimum: 0
       maximum: 999999999999
       example: 50000
@@ -412,15 +514,17 @@ components:
     FundCode:
       type: string
       description: Unique fund code to pay from
+      pattern: '^[A-Z]{3}\d{2}$'
       example: DRD10
     DeliveryBody:
       type: string
       description: Delivery body responsible for payment
+      pattern: '^[A-Z]{2}\d{2}$'
       example: RP00
     Description:
       type: string
-      description: Description of invoice line item,
-      patten: ^[A-Z]\d{2} - .*$
+      description: 'Description of invoice line item,'
+      pattern: '^[A-Z]\d{2} - .*$'
       example: G00 - Gross value of claim
     Convergence:
       type: boolean
@@ -432,7 +536,9 @@ components:
       example: false
     Ledger:
       type: string
-      description: Target ledger for settlement, AP for Accounts Payable and AR for Accounts Receivable
+      description: >-
+        Target ledger for settlement, AP for Accounts Payable and AR for
+        Accounts Receivable
       enum:
         - AP
         - AR
@@ -440,15 +546,17 @@ components:
       default: AP
     DebtType:
       type: string
-      description: Only for recoveries, reason for recovery. adm for administrative and irr for irregular debt
+      description: >-
+        Only for recoveries, reason for recovery. adm for administrative and irr
+        for irregular debt
       enum:
         - irr
         - adm
       example: irr
     RecoveryDate:
       type: string
-      format: DD/MM/YYYY, YYYY/MM/DD, DD-MM-YYYY or YYYY-MM-DD
-      description: Only for recoveries, date debt was discovered
+      format: 'DD/MM/YYYY, YYYY/MM/DD, DD-MM-YYYY or YYYY-MM-DD'
+      description: 'Only for recoveries, date debt was discovered'
       example: 09/11/2021
     OriginalInvoiceNumber:
       type: string
@@ -456,11 +564,13 @@ components:
       example: S1234567S1234567V001
     InvoiceCorrectionReference:
       type: string
-      description: The invoice number used for the correction (only present in manual invoices).
+      description: >-
+        The invoice number used for the correction (only present in manual
+        invoices).
       example: S1234567S1234567V001
     OriginalSettlementDate:
       type: string
-      format: DD/MM/YYYY, YYYY/MM/DD, DD-MM-YYYY or YYYY-MM-DD
+      format: 'DD/MM/YYYY, YYYY/MM/DD, DD-MM-YYYY or YYYY-MM-DD'
       description: The original date of settlement (only present in manual invoices).
       example: 09/11/2021
     Trader:
@@ -485,8 +595,30 @@ components:
     Error:
       type: string
       description: Only present if payment request was rejected detailing the reason why
-      example: 'Error: Payment request for FRN 1234567890 is missing a scheme identifier.'
+      example: >-
+        Error: Payment request for FRN 1234567890 is missing a scheme
+        identifier.
     Message:
       type: string
       description: Warning message.
-      example: 'Warning: Payment request for FRN 1234567890 is missing a scheme identifier.'
+      example: >-
+        Warning: Payment request for FRN 1234567890 is missing a scheme
+        identifier.
+    Batch:
+      type: string
+      description: >-
+        Batch file name for the payment request. Applicable to payments received
+        as a file, not directly via service bus.
+      example: SITISFI0001_AP_2022110909119614.dat
+    ExchangeRate:
+      type: string
+      description: Exchange rate applied to the payment request if currency is EUR.
+      example: '1.15'
+    EventDate:
+      type: string
+      description: Date of the event
+      example: 01-APR-23
+    ClaimDate:
+      type: string
+      description: Date of the event
+      example: 01-APR-23
