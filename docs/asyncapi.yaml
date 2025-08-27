@@ -451,9 +451,28 @@ components:
       type: string
       description: 'Payment frequency instruction for DAX, eg Q4 for quarterly payments'
       enum:
+        - Q1
+        - Q2
+        - Q3
         - Q4
+        - M1
+        - M2
+        - M3
+        - M4
+        - M5
+        - M6
+        - M7
+        - M8
+        - M9
+        - M10
+        - M11
         - M12
+        - T1
+        - T2
+        - T3
         - T4
+        - Y1
+        - Y2
     DueDate:
       type: string
       format: 'DD/MM/YYYY, YYYY/MM/DD, DD-MM-YYYY or YYYY-MM-DD'
@@ -495,15 +514,17 @@ components:
     FundCode:
       type: string
       description: Unique fund code to pay from
+      pattern: '^[A-Z]{3}\d{2}$'
       example: DRD10
     DeliveryBody:
       type: string
       description: Delivery body responsible for payment
+      pattern: '^[A-Z]{2}\d{2}$'
       example: RP00
     Description:
       type: string
       description: 'Description of invoice line item,'
-      patten: '^[A-Z]\d{2} - .*$'
+      pattern: '^[A-Z]\d{2} - .*$'
       example: G00 - Gross value of claim
     Convergence:
       type: boolean
