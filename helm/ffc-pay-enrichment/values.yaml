@@ -23,6 +23,7 @@ deployment:
   maxReplicas: 20
   cpuThreshold: 80
   memoryThreshold: 80
+  priorityClassName: high
 
 container:
   requestMemory: 150Mi
