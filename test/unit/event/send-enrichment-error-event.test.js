@@ -13,7 +13,7 @@ jest.mock('ffc-pay-event-publisher', () => {
 })
 
 jest.mock('../../../app/config')
-const { enrichmentConfig, messageConfig } = require('../../../app/config')
+const { messageConfig } = require('../../../app/config')
 
 const { PAYMENT_REJECTED } = require('../../../app/constants/events')
 const { SOURCE } = require('../../../app/constants/source')
