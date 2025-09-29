@@ -30,24 +30,11 @@ describe('V2 enrichment error event', () => {
       message: 'Cannot enrich'
     }
 
-    enrichmentConfig.useV2Events = true
     messageConfig.eventsTopic = 'v2-events'
   })
 
   afterEach(() => {
     jest.clearAllMocks()
-  })
-
-  test('should send V2 event if V2 events enabled', async () => {
-    enrichmentConfig.useV2Events = true
-    await sendEnrichmentErrorEvent(paymentRequest, error)
-    expect(mockPublishEvent).toHaveBeenCalled()
-  })
-
-  test('should not send V2 event if V2 events disabled', async () => {
-    enrichmentConfig.useV2Events = false
-    await sendEnrichmentErrorEvent(paymentRequest, error)
-    expect(mockPublishEvent).not.toHaveBeenCalled()
   })
 
   test('should send event to V2 topic', async () => {
