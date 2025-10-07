@@ -120,7 +120,7 @@ describe('create invoice number', () => {
     expect(result).toEqual('D000000100000001V001')
   })
 
-  test('generate invoice number for Combined Offer', () => {
+  test('generate invoice number for SFI Expanded', () => {
     const result = createInvoiceNumber(sfiExpandedPaymentRequest)
     expect(result).toEqual('E000000100000001V001')
   })
