@@ -39,7 +39,6 @@ container:
   eventsTopicAddress: ffc-pay-events
   customerTopicAddress: ffc-pay-customer
   customerSubscriptionAddress: ffc-pay-enrichment
-  useV2Events: true
   processingActive: true
 
 readinessProbe:
