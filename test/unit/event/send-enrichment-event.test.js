@@ -13,7 +13,7 @@ jest.mock('ffc-pay-event-publisher', () => {
 })
 
 jest.mock('../../../app/config')
-const { enrichmentConfig, messageConfig } = require('../../../app/config')
+const { messageConfig } = require('../../../app/config')
 
 const { PAYMENT_ENRICHED } = require('../../../app/constants/events')
 const { SOURCE } = require('../../../app/constants/source')
@@ -27,24 +27,11 @@ describe('V2 enrichment event', () => {
     const paymentRequest = JSON.parse(JSON.stringify(require('../../mocks/payment-requests/payment-request')))
     paymentRequestComparison = { paymentRequest, originalPaymentRequest: paymentRequest }
 
-    enrichmentConfig.useV2Events = true
     messageConfig.eventsTopic = 'v2-events'
   })
 
   afterEach(() => {
     jest.clearAllMocks()
-  })
-
-  test('should send V2 event if V2 events enabled', async () => {
-    enrichmentConfig.useV2Events = true
-    await sendEnrichmentEvent(paymentRequestComparison)
-    expect(mockPublishEvent).toHaveBeenCalled()
-  })
-
-  test('should not send V2 event if V2 events disabled', async () => {
-    enrichmentConfig.useV2Events = false
-    await sendEnrichmentEvent(paymentRequestComparison)
-    expect(mockPublishEvent).not.toHaveBeenCalled()
   })
 
   test('should send event to V2 topic', async () => {
