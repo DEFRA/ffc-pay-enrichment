@@ -13,6 +13,7 @@ let impsPaymentRequest
 let sfi23PaymentRequest
 let delinkedPaymentRequest
 let combinedOfferPaymentRequest
+let cohtRevenuePaymentRequest
 let cohtCapitalPaymentRequest
 let unknownPaymentRequest
 
@@ -31,6 +32,7 @@ describe('create invoice number', () => {
     sfi23PaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/sfi23')))
     delinkedPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/delinked')))
     combinedOfferPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/combined-offer')))
+    cohtRevenuePaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/coht-revenue')))
     cohtCapitalPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/coht-capital')))
     unknownPaymentRequest = {
       schemeId: -1,
@@ -127,6 +129,11 @@ describe('create invoice number', () => {
     const result = createInvoiceNumber(unknownPaymentRequest)
     expect(result).toEqual('SIP00000000000011V001')
   })
+
+  test('generate default invoice format for CS Higher Tier Revenue', () => {
+    const result = createInvoiceNumber(cohtRevenuePaymentRequest)
+    expect(result).toEqual('C000000100000001V001')
+  })
   test('generate default invoice format for CS Higher Tier Capital', () => {
     const result = createInvoiceNumber(cohtCapitalPaymentRequest)
     expect(result).toEqual('C000000100000001V001')
@@ -198,7 +205,13 @@ describe('create invoice number', () => {
     expect(result).toBeUndefined()
   })
 
-  test('return undefined if payment request number missing for COHT invoice', () => {
+  test('return undefined if payment request number missing for COHT Revenue invoice', () => {
+    delete cohtRevenuePaymentRequest.paymentRequestNumber
+    const result = createInvoiceNumber(cohtRevenuePaymentRequest)
+    expect(result).toBeUndefined()
+  })
+
+  test('return undefined if payment request number missing for COHT Capital invoice', () => {
     delete cohtCapitalPaymentRequest.paymentRequestNumber
     const result = createInvoiceNumber(cohtCapitalPaymentRequest)
     expect(result).toBeUndefined()
