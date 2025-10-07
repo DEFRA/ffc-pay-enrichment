@@ -12,7 +12,7 @@ const {
   IMPS,
   SFI23,
   DELINKED,
-  COMBINED_OFFER,
+  SFI_EXPANDED,
   COHT_REVENUE,
   COHT_CAPITAL
 } = require('./schemes')
@@ -83,7 +83,7 @@ module.exports = [
   { schemeId: IMPS, sourceSystem: IMPS_SOURCE, pillar: IMPS_PILLAR, deliveryBody: RP00, fundCode: DOM00 },
   { schemeId: SFI23, sourceSystem: SFIA, pillar: SFI23_PILLAR, deliveryBody: RP00, fundCode: DRD10 },
   { schemeId: DELINKED, sourceSystem: DP, pillar: DP_PILLAR, deliveryBody: RP00, fundCode: DOM10 },
-  { schemeId: COMBINED_OFFER, sourceSystem: ESFIO, pillar: ESFIO_PILLAR, deliveryBody: RP00, fundCode: DRD10 },
+  { schemeId: SFI_EXPANDED, sourceSystem: ESFIO, pillar: ESFIO_PILLAR, deliveryBody: RP00, fundCode: DRD10 },
   { schemeId: COHT_REVENUE, sourceSystem: COHTR, pillar: COHTR_PILLAR, deliveryBody: RP00, fundCode: DRD10 },
   { schemeId: COHT_CAPITAL, sourceSystem: COHTC, pillar: COHTC_PILLAR, deliveryBody: RP00, fundCode: DRD10 }
 ]

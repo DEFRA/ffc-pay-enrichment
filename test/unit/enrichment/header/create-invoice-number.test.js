@@ -12,7 +12,7 @@ let esPaymentRequest
 let impsPaymentRequest
 let sfi23PaymentRequest
 let delinkedPaymentRequest
-let combinedOfferPaymentRequest
+let sfiExpandedPaymentRequest
 let cohtRevenuePaymentRequest
 let cohtCapitalPaymentRequest
 let unknownPaymentRequest
@@ -31,7 +31,7 @@ describe('create invoice number', () => {
     impsPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/imps')))
     sfi23PaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/sfi23')))
     delinkedPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/delinked')))
-    combinedOfferPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/combined-offer')))
+    sfiExpandedPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/sfi-expanded')))
     cohtRevenuePaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/coht-revenue')))
     cohtCapitalPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/coht-capital')))
     unknownPaymentRequest = {
@@ -121,7 +121,7 @@ describe('create invoice number', () => {
   })
 
   test('generate invoice number for Combined Offer', () => {
-    const result = createInvoiceNumber(combinedOfferPaymentRequest)
+    const result = createInvoiceNumber(sfiExpandedPaymentRequest)
     expect(result).toEqual('E000000100000001V001')
   })
 

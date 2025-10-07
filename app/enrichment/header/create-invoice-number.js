@@ -1,4 +1,4 @@
-const { SFI, SFI_PILOT, LUMP_SUMS, CS, BPS, FDMR, MANUAL, ES, FC, IMPS, SFI23, DELINKED, COMBINED_OFFER, COHT_REVENUE, COHT_CAPITAL } = require('../../constants/schemes')
+const { SFI, SFI_PILOT, LUMP_SUMS, CS, BPS, FDMR, MANUAL, ES, FC, IMPS, SFI23, DELINKED, SFI_EXPANDED, COHT_REVENUE, COHT_CAPITAL } = require('../../constants/schemes')
 const { INJECTION } = require('../../constants/source-systems')
 
 const createInvoiceNumber = (paymentRequest) => {
@@ -6,7 +6,7 @@ const createInvoiceNumber = (paymentRequest) => {
     return paymentRequest.invoiceNumber
   }
   try {
-    const standardSchemeInvoices = new Set([DELINKED, COMBINED_OFFER, COHT_REVENUE, COHT_CAPITAL])
+    const standardSchemeInvoices = new Set([DELINKED, SFI_EXPANDED, COHT_REVENUE, COHT_CAPITAL])
     if (standardSchemeInvoices.has(paymentRequest.schemeId)) {
       return createStandardSchemeInvoiceNumber(paymentRequest)
     }
