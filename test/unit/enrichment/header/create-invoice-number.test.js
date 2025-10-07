@@ -12,7 +12,8 @@ let esPaymentRequest
 let impsPaymentRequest
 let sfi23PaymentRequest
 let delinkedPaymentRequest
-let sfiExpandedPaymentRequest
+let combinedOfferPaymentRequest
+let cohtCapitalPaymentRequest
 let unknownPaymentRequest
 
 describe('create invoice number', () => {
@@ -29,7 +30,8 @@ describe('create invoice number', () => {
     impsPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/imps')))
     sfi23PaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/sfi23')))
     delinkedPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/delinked')))
-    sfiExpandedPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/sfi-expanded')))
+    combinedOfferPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/combined-offer')))
+    cohtCapitalPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/coht-capital')))
     unknownPaymentRequest = {
       schemeId: -1,
       paymentRequestNumber: 1,
@@ -116,14 +118,18 @@ describe('create invoice number', () => {
     expect(result).toEqual('D000000100000001V001')
   })
 
-  test('generate invoice number for SFI Expanded Offer', () => {
-    const result = createInvoiceNumber(sfiExpandedPaymentRequest)
+  test('generate invoice number for Combined Offer', () => {
+    const result = createInvoiceNumber(combinedOfferPaymentRequest)
     expect(result).toEqual('E000000100000001V001')
   })
 
   test('generate default invoice format for unknown scheme', () => {
     const result = createInvoiceNumber(unknownPaymentRequest)
     expect(result).toEqual('SIP00000000000011V001')
+  })
+  test('generate default invoice format for CS Higher Tier Capital', () => {
+    const result = createInvoiceNumber(cohtCapitalPaymentRequest)
+    expect(result).toEqual('C000000100000001V001')
   })
 
   test('generate default invoice format for undefined scheme', () => {
@@ -189,6 +195,12 @@ describe('create invoice number', () => {
   test('return undefined if payment request number missing for CS invoice', () => {
     delete csPaymentRequest.paymentRequestNumber
     const result = createInvoiceNumber(csPaymentRequest)
+    expect(result).toBeUndefined()
+  })
+
+  test('return undefined if payment request number missing for COHT invoice', () => {
+    delete cohtCapitalPaymentRequest.paymentRequestNumber
+    const result = createInvoiceNumber(cohtCapitalPaymentRequest)
     expect(result).toBeUndefined()
   })
 
