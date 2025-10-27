@@ -12,7 +12,9 @@ const {
   IMPS,
   SFI23,
   DELINKED,
-  SFI_EXPANDED
+  SFI_EXPANDED,
+  COHT_REVENUE,
+  COHT_CAPITAL
 } = require('./schemes')
 
 const {
@@ -29,7 +31,9 @@ const {
   IMPS: IMPS_SOURCE,
   SFIA,
   DP,
-  ESFIO
+  ESFIO,
+  COHTR,
+  COHTC
 } = require('./source-systems')
 
 const {
@@ -60,7 +64,9 @@ const {
   IMPS: IMPS_PILLAR,
   SFI23: SFI23_PILLAR,
   DP: DP_PILLAR,
-  ESFIO: ESFIO_PILLAR
+  ESFIO: ESFIO_PILLAR,
+  COHTR: COHTR_PILLAR,
+  COHTC: COHTC_PILLAR
 } = require('./pillars')
 
 module.exports = [
@@ -77,5 +83,7 @@ module.exports = [
   { schemeId: IMPS, sourceSystem: IMPS_SOURCE, pillar: IMPS_PILLAR, deliveryBody: RP00, fundCode: DOM00 },
   { schemeId: SFI23, sourceSystem: SFIA, pillar: SFI23_PILLAR, deliveryBody: RP00, fundCode: DRD10 },
   { schemeId: DELINKED, sourceSystem: DP, pillar: DP_PILLAR, deliveryBody: RP00, fundCode: DOM10 },
-  { schemeId: SFI_EXPANDED, sourceSystem: ESFIO, pillar: ESFIO_PILLAR, deliveryBody: RP00, fundCode: DRD10 }
+  { schemeId: SFI_EXPANDED, sourceSystem: ESFIO, pillar: ESFIO_PILLAR, deliveryBody: RP00, fundCode: DRD10 },
+  { schemeId: COHT_REVENUE, sourceSystem: COHTR, pillar: COHTR_PILLAR, deliveryBody: RP00, fundCode: DRD10 },
+  { schemeId: COHT_CAPITAL, sourceSystem: COHTC, pillar: COHTC_PILLAR, deliveryBody: RP00, fundCode: DRD10 }
 ]
