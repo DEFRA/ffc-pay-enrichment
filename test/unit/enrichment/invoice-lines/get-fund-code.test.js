@@ -3,15 +3,10 @@ const { getFundCode } = require('../../../../app/enrichment/invoice-lines/get-fu
 const defaultFundCode = 'A999'
 
 describe('get fund code', () => {
-  test('should return fund code if fund code already exists', async () => {
-    const invoiceLine = { fundCode: 'A123' }
-    const result = getFundCode(invoiceLine, defaultFundCode)
-    expect(result).toBe('A123')
-  })
-
-  test('should return default fund code if no existing fund code', async () => {
-    const invoiceLine = {}
-    const result = getFundCode(invoiceLine, defaultFundCode)
-    expect(result).toBe(defaultFundCode)
+  test.each([
+    [{ fundCode: 'A123' }, defaultFundCode, 'A123'],
+    [{}, defaultFundCode, defaultFundCode]
+  ])('returns correct fund code for invoiceLine %o with default %s', (invoiceLine, defaultCode, expected) => {
+    expect(getFundCode(invoiceLine, defaultCode)).toBe(expected)
   })
 })

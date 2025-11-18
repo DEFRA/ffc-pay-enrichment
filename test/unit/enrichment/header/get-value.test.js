@@ -1,70 +1,36 @@
 const { getValue } = require('../../../../app/enrichment/header/get-value')
 
-let paymentRequest
-
 describe('get value', () => {
+  let paymentRequest
+
   beforeEach(() => {
     paymentRequest = {}
   })
 
-  test('should convert existing value to pence if value exists', () => {
+  test('converts existing value to pence if value exists', () => {
     paymentRequest.value = 123.45
-    const result = getValue(paymentRequest)
-    expect(result).toBe(12345)
+    expect(getValue(paymentRequest)).toBe(12345)
   })
 
-  test('should convert total invoice values to pence if value does not exist', () => {
-    paymentRequest = {
-      invoiceLines: [{ value: 123.45 }, { value: 123.45 }]
-    }
-    const result = getValue(paymentRequest)
-    expect(result).toBe(24690)
+  test.each([
+    ['undefined value', undefined],
+    ['null value', null]
+  ])('converts total invoice values to pence if value is %s', (_, val) => {
+    paymentRequest.value = val
+    paymentRequest.invoiceLines = [{ value: 123.45 }, { value: 123.45 }]
+    expect(getValue(paymentRequest)).toBe(24690)
   })
 
-  test('should convert total invoice values to pence if value is undefined', () => {
-    paymentRequest = {
-      value: undefined,
-      invoiceLines: [{ value: 123.45 }, { value: 123.45 }]
-    }
-    const result = getValue(paymentRequest)
-    expect(result).toBe(24690)
+  test.each([
+    ['missing value', {}],
+    ['undefined value', { value: undefined }],
+    ['null value', { value: null }]
+  ])('returns NaN if any invoice lines have %s', (_, invalidLine) => {
+    paymentRequest.invoiceLines = [{ value: 123.45 }, invalidLine]
+    expect(getValue(paymentRequest)).toBe(NaN)
   })
 
-  test('should convert total invoice values to pence if value is null', () => {
-    paymentRequest = {
-      value: null,
-      invoiceLines: [{ value: 123.45 }, { value: 123.45 }]
-    }
-    const result = getValue(paymentRequest)
-    expect(result).toBe(24690)
-  })
-
-  test('should return NaN if any invoice lines missing value', () => {
-    paymentRequest = {
-      invoiceLines: [{ value: 123.45 }, { }]
-    }
-    const result = getValue(paymentRequest)
-    expect(result).toBe(NaN)
-  })
-
-  test('should return NaN if any invoice lines have undefined value', () => {
-    paymentRequest = {
-      invoiceLines: [{ value: 123.45 }, { value: undefined }]
-    }
-    const result = getValue(paymentRequest)
-    expect(result).toBe(NaN)
-  })
-
-  test('should return NaN if any invoice lines have null value', () => {
-    paymentRequest = {
-      invoiceLines: [{ value: 123.45 }, { value: null }]
-    }
-    const result = getValue(paymentRequest)
-    expect(result).toBe(NaN)
-  })
-
-  test('should return undefined if payment request does not have value or invoice lines', () => {
-    const result = getValue(paymentRequest)
-    expect(result).toBeUndefined()
+  test('returns undefined if payment request does not have value or invoice lines', () => {
+    expect(getValue(paymentRequest)).toBeUndefined()
   })
 })

@@ -1,62 +1,25 @@
 const { SCHEME_CODE } = require('../../../mocks/values/scheme-code')
-
 const standardCodes = require('../../../../app/constants/standard-codes')
 const schemeCodes = require('../../../../app/constants/scheme-codes')
-
 const { getSchemeCode } = require('../../../../app/enrichment/invoice-lines/get-scheme-code')
 
 describe('get scheme code', () => {
-  test('should return scheme code if scheme code already exists', async () => {
+  test('should return scheme code if scheme code already exists', () => {
     const invoiceLine = { schemeCode: SCHEME_CODE }
-    const result = getSchemeCode(invoiceLine)
-    expect(result).toBe(SCHEME_CODE)
+    expect(getSchemeCode(invoiceLine)).toBe(SCHEME_CODE)
   })
 
   test.each(
     Object.values(standardCodes).map(standardCode => [standardCode, schemeCodes[standardCode]])
-  )('should return scheme code for standard code %s', async (standardCode, expectedSchemeCode) => {
+  )('should return scheme code for standard code %s', (standardCode, expectedSchemeCode) => {
     const invoiceLine = { standardCode }
-    const result = getSchemeCode(invoiceLine)
-    expect(result).toBe(expectedSchemeCode)
+    expect(getSchemeCode(invoiceLine)).toBe(expectedSchemeCode)
   })
 
-  test('should return undefined if no schemeCode match', async () => {
-    const result = getSchemeCode('NOT A THING')
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if object provided', async () => {
-    const result = getSchemeCode({})
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if array provided', async () => {
-    const result = getSchemeCode([])
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if empty string provided', async () => {
-    const result = getSchemeCode('')
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if false provided', async () => {
-    const result = getSchemeCode(false)
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if true provided', async () => {
-    const result = getSchemeCode(true)
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if 1 provided', async () => {
-    const result = getSchemeCode(1)
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if 0 provided', async () => {
-    const result = getSchemeCode(0)
-    expect(result).toBeUndefined()
-  })
+  test.each(['NOT A THING', {}, [], '', false, true, 1, 0])(
+    'should return undefined for invalid input: %p',
+    (input) => {
+      expect(getSchemeCode(input)).toBeUndefined()
+    }
+  )
 })

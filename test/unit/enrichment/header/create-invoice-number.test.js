@@ -1,289 +1,108 @@
 const { createInvoiceNumber } = require('../../../../app/enrichment/header/create-invoice-number')
 
-let sfiPaymentRequest
-let sfiPilotPaymentRequest
-let lumpSumsPaymentRequest
-let vetVisitsPaymentRequest
-let csPaymentRequest
-let bpsPaymentRequest
-let fdmrPaymentRequest
-let manualPaymentRequest
-let esPaymentRequest
-let impsPaymentRequest
-let sfi23PaymentRequest
-let delinkedPaymentRequest
-let sfiExpandedPaymentRequest
-let cohtRevenuePaymentRequest
-let cohtCapitalPaymentRequest
-let unknownPaymentRequest
+let paymentRequests
 
-describe('create invoice number', () => {
+describe('createInvoiceNumber', () => {
   beforeEach(() => {
-    sfiPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/sfi')))
-    sfiPilotPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/sfi-pilot')))
-    lumpSumsPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/lump-sums')))
-    vetVisitsPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/vet-visits')))
-    csPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/cs')))
-    bpsPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/bps')))
-    fdmrPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/fdmr')))
-    manualPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/manual')))
-    esPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/es')))
-    impsPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/imps')))
-    sfi23PaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/sfi23')))
-    delinkedPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/delinked')))
-    sfiExpandedPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/sfi-expanded')))
-    cohtRevenuePaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/coht-revenue')))
-    cohtCapitalPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/coht-capital')))
-    unknownPaymentRequest = {
-      schemeId: -1,
-      paymentRequestNumber: 1,
-      agreementNumber: 'SIP00000000000011',
-      contractNumber: 'S1248977'
+    const clone = (path) => JSON.parse(JSON.stringify(require(`../../../mocks/payment-requests/${path}`)))
+    paymentRequests = {
+      sfi: clone('sfi'),
+      sfiPilot: clone('sfi-pilot'),
+      lumpSums: clone('lump-sums'),
+      vetVisits: clone('vet-visits'),
+      cs: clone('cs'),
+      bps: clone('bps'),
+      fdmr: clone('fdmr'),
+      manual: clone('manual'),
+      es: clone('es'),
+      imps: clone('imps'),
+      sfi23: clone('sfi23'),
+      delinked: clone('delinked'),
+      sfiExpanded: clone('sfi-expanded'),
+      cohtRevenue: clone('coht-revenue'),
+      cohtCapital: clone('coht-capital'),
+      unknown: {
+        schemeId: -1,
+        paymentRequestNumber: 1,
+        agreementNumber: 'SIP00000000000011',
+        contractNumber: 'S1248977'
+      }
     }
   })
 
-  test('generate invoice number for Sustainable Farming Incentive', () => {
-    const result = createInvoiceNumber(sfiPaymentRequest)
-    expect(result).toEqual('S000000100000001V001')
+  describe.each([
+    ['SFI', 'sfi', 'S000000100000001V001'],
+    ['SFI Pilot', 'sfiPilot', 'S000000100000001V001'],
+    ['Lump Sums', 'lumpSums', 'S000000100000001V001'],
+    ['Vet Visits', 'vetVisits', 'SIP00000000001V001'],
+    ['CS', 'cs', 'S000000100000001V001'],
+    ['BPS', 'bps', 'S000000100000001V001'],
+    ['FDMR', 'fdmr', 'F000000100000001V001'],
+    ['Manual Invoice', 'manual', (pr) => pr.invoiceNumber],
+    ['Environmental Stewardship', 'es', 'I(0000001)00000001'],
+    ['SFI 23', 'sfi23', 'S000000100000001V001'],
+    ['Delinked', 'delinked', 'D000000100000001V001'],
+    ['SFI Expanded', 'sfiExpanded', 'E000000100000001V001'],
+    ['COHT Revenue', 'cohtRevenue', 'C000000100000001V001'],
+    ['COHT Capital', 'cohtCapital', 'C000000100000001V001']
+  ])('%s', (_, key, expected) => {
+    test('generates correct invoice number', () => {
+      const result = createInvoiceNumber(paymentRequests[key])
+      const expectedValue = typeof expected === 'function' ? expected(paymentRequests[key]) : expected
+      expect(result).toEqual(expectedValue)
+    })
   })
 
-  test('generate invoice number for Sustainable Farming Incentive Pilot', () => {
-    const result = createInvoiceNumber(sfiPilotPaymentRequest)
-    expect(result).toEqual('S000000100000001V001')
+  describe('IMPS special handling', () => {
+    test('returns undefined if invoice does not include /', () => {
+      paymentRequests.imps.invoiceNumber = 'FVR'
+      expect(createInvoiceNumber(paymentRequests.imps)).toBeUndefined()
+    })
+
+    test('retains invoice number if it contains trader number after /', () => {
+      expect(createInvoiceNumber(paymentRequests.imps)).toEqual(paymentRequests.imps.invoiceNumber)
+    })
+
+    test('inserts trader number if missing after / and none after /', () => {
+      paymentRequests.imps.invoiceNumber = 'FVR/'
+      expect(createInvoiceNumber(paymentRequests.imps)).toEqual(`FVR/${paymentRequests.imps.trader}`)
+    })
+
+    test('inserts trader number if missing after / and some chars after /', () => {
+      paymentRequests.imps.invoiceNumber = 'FVR/ABC'
+      expect(createInvoiceNumber(paymentRequests.imps)).toEqual(`FVR/${paymentRequests.imps.trader}ABC`)
+    })
   })
 
-  test('generate invoice number for Lump sums', () => {
-    const result = createInvoiceNumber(lumpSumsPaymentRequest)
-    expect(result).toEqual('S000000100000001V001')
+  test('returns undefined for invalid or missing payment request', () => {
+    const invalidValues = [undefined, null, [], '', true, false, 0, 1]
+    invalidValues.forEach(val => {
+      expect(createInvoiceNumber(val)).toBeUndefined()
+    })
   })
 
-  test('generate invoice number for Vet Visits', () => {
-    const result = createInvoiceNumber(vetVisitsPaymentRequest)
-    expect(result).toEqual('SIP00000000001V001')
-  })
-
-  test('generate invoice number for Countryside Stewardship', () => {
-    const result = createInvoiceNumber(csPaymentRequest)
-    expect(result).toEqual('S000000100000001V001')
-  })
-
-  test('generate invoice number for Basic Payment Scheme', () => {
-    const result = createInvoiceNumber(bpsPaymentRequest)
-    expect(result).toEqual('S000000100000001V001')
-  })
-
-  test('generate invoice number for FDMR', () => {
-    const result = createInvoiceNumber(fdmrPaymentRequest)
-    expect(result).toEqual('F000000100000001V001')
-  })
-
-  test('generate invoice number for Manual Invoice', () => {
-    const result = createInvoiceNumber(manualPaymentRequest)
-    expect(result).toEqual(manualPaymentRequest.invoiceNumber)
-  })
-
-  test('generate invoice number for Environmental Stewardship', () => {
-    const result = createInvoiceNumber(esPaymentRequest)
-    expect(result).toEqual('I(0000001)00000001')
-  })
-
-  test('should return undefined for IMPS if current invoice number does not include /', () => {
-    impsPaymentRequest.invoiceNumber = 'FVR'
-    const result = createInvoiceNumber(impsPaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('should retain invoice number for IMPS if it contains trader number after /', () => {
-    const result = createInvoiceNumber(impsPaymentRequest)
-    expect(result).toEqual(impsPaymentRequest.invoiceNumber)
-  })
-
-  test('should insert trader number into invoice number for IMPS if it does not contain trader number after / and has no characters after /', () => {
-    impsPaymentRequest.invoiceNumber = 'FVR/'
-    const result = createInvoiceNumber(impsPaymentRequest)
-    expect(result).toEqual(`FVR/${impsPaymentRequest.trader}`)
-  })
-
-  test('should insert trader number into invoice number for IMPS if it does not contain trader number after / and has characters after /', () => {
-    impsPaymentRequest.invoiceNumber = 'FVR/ABC'
-    const result = createInvoiceNumber(impsPaymentRequest)
-    expect(result).toEqual(`FVR/${impsPaymentRequest.trader}ABC`)
-  })
-
-  test('generate invoice number for Sustainable Farming Incentive 23', () => {
-    const result = createInvoiceNumber(sfi23PaymentRequest)
-    expect(result).toEqual('S000000100000001V001')
-  })
-
-  test('generate invoice number for Delinked Payments', () => {
-    const result = createInvoiceNumber(delinkedPaymentRequest)
-    expect(result).toEqual('D000000100000001V001')
-  })
-
-  test('generate invoice number for SFI Expanded', () => {
-    const result = createInvoiceNumber(sfiExpandedPaymentRequest)
-    expect(result).toEqual('E000000100000001V001')
-  })
-
-  test('generate default invoice format for unknown scheme', () => {
-    const result = createInvoiceNumber(unknownPaymentRequest)
-    expect(result).toEqual('SIP00000000000011V001')
-  })
-
-  test('generate default invoice format for CS Higher Tier Revenue', () => {
-    const result = createInvoiceNumber(cohtRevenuePaymentRequest)
-    expect(result).toEqual('C000000100000001V001')
-  })
-  test('generate default invoice format for CS Higher Tier Capital', () => {
-    const result = createInvoiceNumber(cohtCapitalPaymentRequest)
-    expect(result).toEqual('C000000100000001V001')
-  })
-
-  test('generate default invoice format for undefined scheme', () => {
-    unknownPaymentRequest.schemeId = undefined
-    const result = createInvoiceNumber(unknownPaymentRequest)
-    expect(result).toEqual('SIP00000000000011V001')
-  })
-
-  test('return undefined if agreement number missing when needed', () => {
-    delete unknownPaymentRequest.agreementNumber
-    const result = createInvoiceNumber(unknownPaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if payment request number missing for default invoice', () => {
-    delete unknownPaymentRequest.paymentRequestNumber
-    const result = createInvoiceNumber(unknownPaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if invoice number missing for SFI', () => {
-    delete sfiPaymentRequest.invoiceNumber
-    const result = createInvoiceNumber(sfiPaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if payment request number missing for SFI invoice', () => {
-    delete sfiPaymentRequest.paymentRequestNumber
-    const result = createInvoiceNumber(sfiPaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if invoice number missing for SFI Pilot', () => {
-    delete sfiPilotPaymentRequest.invoiceNumber
-    const result = createInvoiceNumber(sfiPilotPaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if payment request number missing for SFI Pilot invoice', () => {
-    delete sfiPilotPaymentRequest.paymentRequestNumber
-    const result = createInvoiceNumber(sfiPilotPaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if invoice number missing for Lump Sums', () => {
-    delete lumpSumsPaymentRequest.invoiceNumber
-    const result = createInvoiceNumber(lumpSumsPaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if payment request number missing for Lump Sums invoice', () => {
-    delete lumpSumsPaymentRequest.paymentRequestNumber
-    const result = createInvoiceNumber(lumpSumsPaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if invoice number missing for CS', () => {
-    delete csPaymentRequest.invoiceNumber
-    const result = createInvoiceNumber(csPaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if payment request number missing for CS invoice', () => {
-    delete csPaymentRequest.paymentRequestNumber
-    const result = createInvoiceNumber(csPaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if payment request number missing for COHT Revenue invoice', () => {
-    delete cohtRevenuePaymentRequest.paymentRequestNumber
-    const result = createInvoiceNumber(cohtRevenuePaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if payment request number missing for COHT Capital invoice', () => {
-    delete cohtCapitalPaymentRequest.paymentRequestNumber
-    const result = createInvoiceNumber(cohtCapitalPaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if invoice number missing for BPS', () => {
-    delete bpsPaymentRequest.invoiceNumber
-    const result = createInvoiceNumber(bpsPaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if payment request number missing for BPS invoice', () => {
-    delete bpsPaymentRequest.paymentRequestNumber
-    const result = createInvoiceNumber(bpsPaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if invoice number missing for FDMR', () => {
-    delete fdmrPaymentRequest.invoiceNumber
-    const result = createInvoiceNumber(fdmrPaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if payment request number missing for FDMR invoice', () => {
-    delete fdmrPaymentRequest.paymentRequestNumber
-    const result = createInvoiceNumber(fdmrPaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if invoice number missing for Manual Invoice', () => {
-    delete manualPaymentRequest.invoiceNumber
-    const result = createInvoiceNumber(manualPaymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if payment request undefined', () => {
-    const result = createInvoiceNumber(undefined)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if payment request null', () => {
-    const result = createInvoiceNumber(null)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if payment request array', () => {
-    const result = createInvoiceNumber([])
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if payment request string', () => {
-    const result = createInvoiceNumber('')
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if payment request true', () => {
-    const result = createInvoiceNumber(true)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if payment request false', () => {
-    const result = createInvoiceNumber(false)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if payment request 0', () => {
-    const result = createInvoiceNumber(0)
-    expect(result).toBeUndefined()
-  })
-
-  test('return undefined if payment request 1', () => {
-    const result = createInvoiceNumber(1)
-    expect(result).toBeUndefined()
+  describe('returns undefined if required fields missing', () => {
+    test.each([
+      ['agreementNumber', 'unknown'],
+      ['paymentRequestNumber', 'unknown'],
+      ['invoiceNumber', 'sfi'],
+      ['paymentRequestNumber', 'sfi'],
+      ['invoiceNumber', 'sfiPilot'],
+      ['paymentRequestNumber', 'sfiPilot'],
+      ['invoiceNumber', 'lumpSums'],
+      ['paymentRequestNumber', 'lumpSums'],
+      ['invoiceNumber', 'cs'],
+      ['paymentRequestNumber', 'cs'],
+      ['paymentRequestNumber', 'cohtRevenue'],
+      ['paymentRequestNumber', 'cohtCapital'],
+      ['invoiceNumber', 'bps'],
+      ['paymentRequestNumber', 'bps'],
+      ['invoiceNumber', 'fdmr'],
+      ['paymentRequestNumber', 'fdmr'],
+      ['invoiceNumber', 'manual']
+    ])('%s missing for %s', (field, key) => {
+      delete paymentRequests[key][field]
+      expect(createInvoiceNumber(paymentRequests[key])).toBeUndefined()
+    })
   })
 })
