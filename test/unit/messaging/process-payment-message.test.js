@@ -61,92 +61,56 @@ describe('process payment message', () => {
     mockEnrichPaymentRequest.mockReset()
   })
 
+  const messageBase = { body: { frn: FRN } }
+
   test('completes valid message', async () => {
-    const message = {
-      body: {
-        frn: FRN
-      }
-    }
-    await processPaymentMessage(message, receiver)
-    expect(receiver.completeMessage).toHaveBeenCalledWith(message)
+    await processPaymentMessage(messageBase, receiver)
+    expect(receiver.completeMessage).toHaveBeenCalledWith(messageBase)
   })
 
-  test('sends enriched message if valid', async () => {
-    const message = {
-      body: {
-        frn: FRN
-      }
-    }
-    await processPaymentMessage(message, receiver)
-    expect(mockSendMessage.mock.calls[0][0].type).toBe(ENRICHED)
-  })
-
-  test('sends response message if valid', async () => {
-    const message = {
-      body: {
-        frn: FRN
-      }
-    }
-    await processPaymentMessage(message, receiver)
-    expect(mockSendMessage.mock.calls[1][0].type).toBe(ACCEPTED)
+  test.each([
+    ['enriched message', 0, ENRICHED],
+    ['accepted response', 1, ACCEPTED]
+  ])('sends %s if valid', async (_, callIndex, expectedType) => {
+    await processPaymentMessage(messageBase, receiver)
+    expect(mockSendMessage.mock.calls[callIndex][0].type).toBe(expectedType)
   })
 
   test('dead letters and sends rejected response if request fails validation', async () => {
     mockErrorInProcessing(true)
-    const message = {
-      body: {
-        frn: FRN
-      }
-    }
-    await processPaymentMessage(message, receiver)
-    expect(receiver.deadLetterMessage).toHaveBeenCalledWith(message)
-    expect(receiver.completeMessage).not.toHaveBeenCalledWith(message)
+    await processPaymentMessage(messageBase, receiver)
+    expect(receiver.deadLetterMessage).toHaveBeenCalledWith(messageBase)
+    expect(receiver.completeMessage).not.toHaveBeenCalled()
     expect(mockSendMessage.mock.calls[0][0].type).toBe(REJECTED)
   })
 
   test('does not dead letter or send response if non-validation error', async () => {
     mockErrorInProcessing()
-    const message = {
-      body: {
-        frn: FRN
-      }
-    }
-    await processPaymentMessage(message, receiver)
-    expect(receiver.deadLetterMessage).not.toHaveBeenCalledWith(message)
-    expect(receiver.completeMessage).not.toHaveBeenCalledWith(message)
+    await processPaymentMessage(messageBase, receiver)
+    expect(receiver.deadLetterMessage).not.toHaveBeenCalled()
+    expect(receiver.completeMessage).not.toHaveBeenCalled()
     expect(mockSendMessage).not.toHaveBeenCalled()
   })
 
-  test('sends response with source system metadata if valid', async () => {
-    const message = {
-      body: {
-        frn: FRN,
-        sourceSystem: SOURCE_SYSTEM
+  test.each([
+    ['valid', false, 1],
+    ['invalid', true, 0]
+  ])(
+    'sends response with source system metadata if %s',
+    async (_, validationError, callIndex) => {
+      if (validationError) {
+        mockErrorInProcessing(true)
       }
-    }
-    await processPaymentMessage(message, receiver)
-    expect(mockSendMessage.mock.calls[1][0].subject).toBe(message.body.sourceSystem)
-  })
 
-  test('sends response with source system metadata if invalid', async () => {
-    mockErrorInProcessing(true)
-    const message = {
-      body: {
-        frn: FRN,
-        sourceSystem: SOURCE_SYSTEM
-      }
+      const message = { body: { frn: FRN, sourceSystem: SOURCE_SYSTEM } }
+      await processPaymentMessage(message, receiver)
+      expect(mockSendMessage.mock.calls[callIndex][0].subject).toBe(message.body.sourceSystem)
     }
-    await processPaymentMessage(message, receiver)
-    expect(mockSendMessage.mock.calls[0][0].subject).toBe(message.body.sourceSystem)
-  })
+  )
 
   test('sends response without source system metadata if fails validation and no source system', async () => {
     mockErrorInProcessing(true)
-    const message = {
-      body: {
-        frn: FRN
-      }
-    }
+    const message = { body: { frn: FRN } }
     await processPaymentMessage(message, receiver)
     expect(mockSendMessage.mock.calls[0][0].subject).toBeUndefined()
   })

@@ -2,9 +2,7 @@ jest.mock('../../../../app/enrichment/invoice-lines/fc/get-marketing-year')
 const { getMarketingYear: mockGetMarketingYearFromInvoiceLine } = require('../../../../app/enrichment/invoice-lines/fc/get-marketing-year')
 
 const { STANDARD_CODE } = require('../../../mocks/values/standard-code')
-
 const { FC } = require('../../../../app/constants/schemes')
-
 const { getMarketingYear } = require('../../../../app/enrichment/header/get-marketing-year')
 
 let paymentRequest
@@ -12,52 +10,45 @@ let paymentRequest
 describe('get marketing year', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-
     mockGetMarketingYearFromInvoiceLine.mockReturnValue(2021)
-
     paymentRequest = {
-      invoiceLines: [{
-        standardCode: STANDARD_CODE
-      }]
+      invoiceLines: [{ standardCode: STANDARD_CODE }]
     }
   })
 
-  test('should return marketing year if marketing year exists and scheme is not FC', async () => {
-    paymentRequest.marketingYear = 2020
-    const result = getMarketingYear(paymentRequest)
-    expect(result).toBe(paymentRequest.marketingYear)
+  describe('Non-FC schemes', () => {
+    test('returns marketing year if it exists', () => {
+      paymentRequest.marketingYear = 2020
+      expect(getMarketingYear(paymentRequest)).toBe(2020)
+    })
+
+    test('returns undefined if marketing year does not exist', () => {
+      expect(getMarketingYear(paymentRequest)).toBeUndefined()
+    })
   })
 
-  test('should return undefined if marketing year does not exist and scheme is not FC', async () => {
-    const result = getMarketingYear(paymentRequest)
-    expect(result).toBeUndefined()
-  })
+  describe('FC scheme', () => {
+    beforeEach(() => {
+      paymentRequest.schemeId = FC
+    })
 
-  test('should return marketing year from invoice line if scheme is FC', async () => {
-    paymentRequest.marketingYear = 2020
-    paymentRequest.schemeId = FC
-    getMarketingYear(paymentRequest)
-    expect(mockGetMarketingYearFromInvoiceLine).toHaveBeenCalledWith(paymentRequest.invoiceLines[0].standardCode)
-  })
+    test('calls getMarketingYearFromInvoiceLine with standard code', () => {
+      paymentRequest.marketingYear = 2020
+      getMarketingYear(paymentRequest)
+      expect(mockGetMarketingYearFromInvoiceLine).toHaveBeenCalledWith(STANDARD_CODE)
+    })
 
-  test('should return marketing year from invoice line if scheme is FC', async () => {
-    paymentRequest.marketingYear = 2020
-    paymentRequest.schemeId = FC
-    const result = getMarketingYear(paymentRequest)
-    expect(result).toBe(2021)
-  })
+    test('returns marketing year from invoice line', () => {
+      paymentRequest.marketingYear = 2020
+      expect(getMarketingYear(paymentRequest)).toBe(2021)
+    })
 
-  test('should not error scheme is FC and payment request does not have a standard code', async () => {
-    paymentRequest.marketingYear = 2020
-    paymentRequest.schemeId = FC
-    delete paymentRequest.invoiceLines[0].standardCode
-    getMarketingYear(paymentRequest)
-  })
-
-  test('should not error scheme is FC and payment request does not have invoice lines', async () => {
-    paymentRequest.marketingYear = 2020
-    paymentRequest.schemeId = FC
-    delete paymentRequest.invoiceLines
-    getMarketingYear(paymentRequest)
+    test.each([
+      ['no standard code', () => delete paymentRequest.invoiceLines[0].standardCode],
+      ['no invoice lines', () => delete paymentRequest.invoiceLines]
+    ])('does not throw if %s', (_, modify) => {
+      modify()
+      expect(() => getMarketingYear(paymentRequest)).not.toThrow()
+    })
   })
 })

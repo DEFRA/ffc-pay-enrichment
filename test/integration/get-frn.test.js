@@ -2,33 +2,22 @@ const { FRN } = require('../mocks/values/frn')
 const { SBI } = require('../mocks/values/sbi')
 const { VENDOR } = require('../mocks/values/vendor')
 const { TRADER } = require('../mocks/values/trader')
-const { SBI: SBI_TYPE } = require('../../app/constants/reference-types')
-const { VENDOR: VENDOR_TYPE } = require('../../app/constants/reference-types')
-const { TRADER: TRADER_TYPE } = require('../../app/constants/reference-types')
+const { SBI: SBI_TYPE, VENDOR: VENDOR_TYPE, TRADER: TRADER_TYPE } = require('../../app/constants/reference-types')
 
 const db = require('../../app/data')
-
 const { getFrn } = require('../../app/enrichment/header/get-frn')
 
 let paymentRequest
 
-describe('get frn', () => {
+describe('getFrn', () => {
   beforeEach(async () => {
     await db.sequelize.truncate({ cascade: true })
 
-    await db.customer.bulkCreate([{
-      referenceType: SBI_TYPE,
-      reference: SBI,
-      frn: FRN
-    }, {
-      referenceType: VENDOR_TYPE,
-      reference: VENDOR,
-      frn: FRN
-    }, {
-      referenceType: TRADER_TYPE,
-      reference: TRADER,
-      frn: FRN
-    }])
+    await db.customer.bulkCreate([
+      { referenceType: SBI_TYPE, reference: SBI, frn: FRN },
+      { referenceType: VENDOR_TYPE, reference: VENDOR, frn: FRN },
+      { referenceType: TRADER_TYPE, reference: TRADER, frn: FRN }
+    ])
 
     paymentRequest = {}
   })
@@ -38,119 +27,31 @@ describe('get frn', () => {
     await db.sequelize.close()
   })
 
-  test('should return existing FRN if payment request already has FRN', async () => {
+  test('returns existing FRN if already present', async () => {
     paymentRequest.frn = FRN
-    const result = await getFrn(paymentRequest)
-    expect(result).toBe(FRN)
+    await expect(getFrn(paymentRequest)).resolves.toBe(FRN)
   })
 
-  test('should return frn for payment request with sbi', async () => {
-    paymentRequest.sbi = SBI
-    const result = await getFrn(paymentRequest)
-    expect(result).toBe(FRN)
+  describe.each([
+    ['sbi', SBI],
+    ['vendor', VENDOR],
+    ['trader', TRADER]
+  ])('lookup by %s', (key, value) => {
+    test('returns FRN for exact match', async () => {
+      paymentRequest[key] = value
+      await expect(getFrn(paymentRequest)).resolves.toBe(FRN)
+    })
+
+    test('returns undefined if no match', async () => {
+      paymentRequest[key] = 12345
+      await expect(getFrn(paymentRequest)).resolves.toBeUndefined()
+    })
   })
 
-  test('should return undefined if no match for sbi', async () => {
-    paymentRequest.sbi = 123
-    const result = await getFrn(paymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('should return frn for payment request with vendor', async () => {
-    paymentRequest.vendor = VENDOR
-    const result = await getFrn(paymentRequest)
-    expect(result).toBe(FRN)
-  })
-
-  test('should return undefined if no match for vendor', async () => {
-    paymentRequest.vendor = '123'
-    const result = await getFrn(paymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('should return frn for payment request with vendor if vendor includes letter C', async () => {
-    paymentRequest.vendor = `${VENDOR}C`
-    const result = await getFrn(paymentRequest)
-    expect(result).toBe(FRN)
-  })
-
-  test('should return frn for payment request with vendor if vendor includes letter G', async () => {
-    paymentRequest.vendor = `${VENDOR}G`
-    const result = await getFrn(paymentRequest)
-    expect(result).toBe(FRN)
-  })
-
-  test('should return frn for payment request with trader', async () => {
-    paymentRequest.trader = TRADER
-    const result = await getFrn(paymentRequest)
-    expect(result).toBe(FRN)
-  })
-
-  test('should return undefined if no match for trader', async () => {
-    paymentRequest.trader = '123'
-    const result = await getFrn(paymentRequest)
-    expect(result).toBeUndefined()
-  })
-
-  test('should return frn for payment request with trader if trader includes letter C', async () => {
-    paymentRequest.trader = `${TRADER}C`
-    const result = await getFrn(paymentRequest)
-    expect(result).toBe(FRN)
-  })
-
-  test('should return frn for payment request with trader if trader includes letter G', async () => {
-    paymentRequest.trader = `${TRADER}G`
-    const result = await getFrn(paymentRequest)
-    expect(result).toBe(FRN)
-  })
-
-  test('should return undefined if no identifier provided', async () => {
-    const result = await getFrn()
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if undefined provided', async () => {
-    const result = await getFrn(undefined)
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if null provided', async () => {
-    const result = await getFrn(null)
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if object provided', async () => {
-    const result = await getFrn({})
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if array provided', async () => {
-    const result = await getFrn([])
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if empty string provided', async () => {
-    const result = await getFrn('')
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if false provided', async () => {
-    const result = await getFrn(false)
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if true provided', async () => {
-    const result = await getFrn(true)
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if 1 provided', async () => {
-    const result = await getFrn(1)
-    expect(result).toBeUndefined()
-  })
-
-  test('should return undefined if 0 provided', async () => {
-    const result = await getFrn(0)
-    expect(result).toBeUndefined()
-  })
+  test.each([undefined, null, {}, [], '', false, true, 0, 1])(
+    'returns undefined for invalid input %p',
+    async (input) => {
+      await expect(getFrn(input)).resolves.toBeUndefined()
+    }
+  )
 })

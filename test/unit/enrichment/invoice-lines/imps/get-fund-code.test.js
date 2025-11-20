@@ -4,22 +4,16 @@ const { DEX00, DOM00 } = require('../../../../../app/constants/fund-codes')
 const { getFundCode } = require('../../../../../app/enrichment/invoice-lines/imps/get-fund-code')
 
 describe('get IMPS fund code', () => {
-  test('should return DEX00 if account code is SOI711', () => {
-    const result = getFundCode(SOI711)
-    expect(result).toBe(DEX00)
+  test.each([
+    [SOI711, DEX00],
+    [SOI760, DEX00],
+    [SOS228, DEX00]
+  ])('should return %s => %s', (accountCode, expected) => {
+    const result = getFundCode(accountCode)
+    expect(result).toBe(expected)
   })
 
-  test('should return DEX00 if account code is SOI760', () => {
-    const result = getFundCode(SOI760)
-    expect(result).toBe(DEX00)
-  })
-
-  test('should return DEX00 if account code is SOS228', () => {
-    const result = getFundCode(SOS228)
-    expect(result).toBe(DEX00)
-  })
-
-  test('should return DOM00 if account code is not SOI711, SOI760 or SOS228', () => {
+  test('should return DOM00 for other account codes', () => {
     const result = getFundCode(SOS210)
     expect(result).toBe(DOM00)
   })

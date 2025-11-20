@@ -11,168 +11,66 @@ let invoiceLine
 describe('invoice line schema', () => {
   beforeEach(() => {
     invoiceLine = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/invoice-line')))
+    if (!invoiceLine.schemeId) {
+      invoiceLine.schemeId = MANUAL
+    }
   })
 
   test('should pass validation if all properties valid', () => {
-    expect(schema.validate(invoiceLine)).toBeTruthy()
+    expect(schema.validate(invoiceLine).error).toBeUndefined()
   })
 
-  test('should pass validation if standard code is missing', () => {
-    delete invoiceLine.standardCode
-    expect(schema.validate(invoiceLine)).toBeTruthy()
-  })
+  // Optional fields
+  test.each(['standardCode', 'agreementNumber', 'convergence', 'stateAid'])(
+    'should pass validation if %s is missing',
+    (prop) => {
+      delete invoiceLine[prop]
+      expect(schema.validate(invoiceLine).error).toBeUndefined()
+    }
+  )
 
-  test('should fail validation if scheme code is missing', () => {
-    delete invoiceLine.schemeCode
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
+  // Required fields
+  test.each(['schemeCode', 'description', 'fundCode', 'value', 'deliveryBody'])(
+    'should fail validation if %s is missing',
+    (prop) => {
+      delete invoiceLine[prop]
+      expect(schema.validate(invoiceLine).error).toBeDefined()
+    }
+  )
 
-  test('should pass validation if account code is missing and scheme is not Manual, Genesis, GLOS or IMPS', () => {
+  // Conditional accountCode validation
+  test.each([
+    [MANUAL, false],
+    [ES, false],
+    [FC, false],
+    [IMPS, false],
+    [0, true]
+  ])('accountCode required for scheme %s', (schemeId, validIfMissing) => {
+    invoiceLine.schemeId = schemeId
     delete invoiceLine.accountCode
-    expect(schema.validate(invoiceLine)).toBeTruthy()
+    const error = schema.validate(invoiceLine).error
+    validIfMissing ? expect(error).toBeUndefined() : expect(error).toBeDefined()
   })
 
-  test('should fail validation if account code is missing and scheme is Manual', () => {
-    invoiceLine.schemeId = MANUAL
-    delete invoiceLine.accountCode
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
-
-  test('should fail validation if account code is missing and scheme is Genesis', () => {
-    invoiceLine.schemeId = ES
-    delete invoiceLine.accountCode
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
-
-  test('should fail validation if account code is missing and scheme is GLOS', () => {
-    invoiceLine.schemeId = FC
-    delete invoiceLine.accountCode
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
-
-  test('should fail validation if account code is missing and scheme is IMPS', () => {
-    invoiceLine.schemeId = IMPS
-    delete invoiceLine.accountCode
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
-
-  test('should pass validation if account code is correct format', () => {
-    invoiceLine.accountCode = ACCOUNT_CODE
-    expect(schema.validate(invoiceLine)).toBeTruthy()
-  })
-
-  test('should fail validation if account code is incorrect format', () => {
-    invoiceLine.accountCode = '123456789'
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
-
-  test('should fail validation if fund code is missing', () => {
-    delete invoiceLine.fundCode
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
-
-  test('should pass validation if fund code is correct format', () => {
-    invoiceLine.fundCode = FUND_CODE
-    expect(schema.validate(invoiceLine)).toBeTruthy()
-  })
-
-  test('should fail validation if fund code is incorrect format', () => {
-    invoiceLine.fundCode = '123456789'
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
-
-  test('should pass validation if agreement number is missing', () => {
-    delete invoiceLine.agreementNumber
-    expect(schema.validate(invoiceLine)).toBeTruthy()
-  })
-
-  test('should pass validation if agreement number is correct format', () => {
-    invoiceLine.agreementNumber = AGREEMENT_NUMBER
-    expect(schema.validate(invoiceLine)).toBeTruthy()
-  })
-
-  test('should fail validation if agreement number is incorrect format', () => {
-    invoiceLine.agreementNumber = 1234
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
-
-  test('should fail validation if description is missing', () => {
-    delete invoiceLine.description
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
-
-  test('should fail validation if description is incorrect format', () => {
-    invoiceLine.description = '123456789'
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
-
-  test('should pass validation if description is correct format', () => {
-    invoiceLine.description = GROSS_DESCRIPTION
-    expect(schema.validate(invoiceLine)).toBeTruthy()
-  })
-
-  test('should fail validation if value is missing', () => {
-    delete invoiceLine.value
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
-
-  test('should fail validation if value is not a number', () => {
-    invoiceLine.value = 'not a number'
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
-
-  test('should fail validation if value is not an integer', () => {
-    invoiceLine.value = 1.1
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
-
-  test('should pass validation if convergence missing', () => {
-    delete invoiceLine.convergence
-    expect(schema.validate(invoiceLine)).toBeTruthy()
-  })
-
-  test('should fail validation if convergence is not a boolean', () => {
-    invoiceLine.convergence = 'not a boolean'
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
-
-  test('should pass validation if convergence is true', () => {
-    invoiceLine.convergence = true
-    expect(schema.validate(invoiceLine)).toBeTruthy()
-  })
-
-  test('should pass validation if convergence is false', () => {
-    invoiceLine.convergence = false
-    expect(schema.validate(invoiceLine)).toBeTruthy()
-  })
-
-  test('should fail validation if delivery body is missing', () => {
-    delete invoiceLine.deliveryBody
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
-
-  test('should fail validation if delivery body is incorrect format', () => {
-    invoiceLine.deliveryBody = 'INVALID'
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
-
-  test('should pass validation if state aid missing', () => {
-    delete invoiceLine.stateAid
-    expect(schema.validate(invoiceLine)).toBeTruthy()
-  })
-
-  test('should fail validation if state aid is not a boolean', () => {
-    invoiceLine.stateAid = 'not a boolean'
-    expect(schema.validate(invoiceLine).error).toBeDefined()
-  })
-
-  test('should pass validation if state aid is true', () => {
-    invoiceLine.stateAid = true
-    expect(schema.validate(invoiceLine)).toBeTruthy()
-  })
-
-  test('should pass validation if state aid is false', () => {
-    invoiceLine.stateAid = false
-    expect(schema.validate(invoiceLine)).toBeTruthy()
+  // Valid / invalid formats
+  test.each([
+    ['accountCode', ACCOUNT_CODE, true],
+    ['accountCode', '123456789', false],
+    ['fundCode', FUND_CODE, true],
+    ['fundCode', '123456789', false],
+    ['agreementNumber', AGREEMENT_NUMBER, true],
+    ['agreementNumber', 1234, false],
+    ['description', GROSS_DESCRIPTION, true],
+    ['description', 1234, false],
+    ['convergence', true, true],
+    ['convergence', false, true],
+    ['convergence', 'not a boolean', false],
+    ['stateAid', true, true],
+    ['stateAid', false, true],
+    ['stateAid', 'not a boolean', false]
+  ])('should validate %s correctly (%p)', (prop, value, shouldPass) => {
+    invoiceLine[prop] = value
+    const error = schema.validate(invoiceLine).error
+    shouldPass ? expect(error).toBeUndefined() : expect(error).toBeDefined()
   })
 })

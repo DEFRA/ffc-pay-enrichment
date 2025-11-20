@@ -1,76 +1,32 @@
 const { validateValues } = require('../../../app/enrichment/validate-values')
 
-describe('validate value', () => {
-  test('does not error if value equals lines with one line', () => {
-    const lines = [{
-      value: 100
-    }]
-    expect(() => validateValues(100, lines)).not.toThrow()
-  })
+describe('validateValues', () => {
+  const validCases = [
+    [100, [{ value: 100 }]],
+    [100, [{ value: 50 }, { value: 50 }]],
+    [0, [{ value: 50 }, { value: -50 }]],
+    [50, [{ value: 100 }, { value: -50 }]],
+    [-100, [{ value: -100 }]],
+    [-50, [{ value: -100 }, { value: 50 }]]
+  ]
 
-  test('does not error if value equals lines with multiple lines', () => {
-    const lines = [{
-      value: 50
-    }, {
-      value: 50
-    }]
-    expect(() => validateValues(100, lines)).not.toThrow()
-  })
+  const invalidCases = [
+    [100, [{ value: 50 }]],
+    [100, [{ value: 150 }]],
+    [100, [{ value: 150 }, { value: -100 }]]
+  ]
 
-  test('does not error if net 0', () => {
-    const lines = [{
-      value: 50
-    }, {
-      value: -50
-    }]
-    expect(() => validateValues(0, lines)).not.toThrow()
-  })
+  test.each(validCases)(
+    'does not throw when value %p matches sum of lines %p',
+    (value, lines) => {
+      expect(() => validateValues(value, lines)).not.toThrow()
+    }
+  )
 
-  test('does not error if value equals lines with positive and negative', () => {
-    const lines = [{
-      value: 100
-    }, {
-      value: -50
-    }]
-    expect(() => validateValues(50, lines)).not.toThrow()
-  })
-
-  test('does not error if value equals lines with negative', () => {
-    const lines = [{
-      value: -100
-    }]
-    expect(() => validateValues(-100, lines)).not.toThrow()
-  })
-
-  test('does not error if value equals lines with negative and multiple lines', () => {
-    const lines = [{
-      value: -100
-    }, {
-      value: 50
-    }]
-    expect(() => validateValues(-50, lines)).not.toThrow()
-  })
-
-  test('errors if value higher', () => {
-    const lines = [{
-      value: 50
-    }]
-    expect(() => validateValues(100, lines)).toThrow()
-  })
-
-  test('errors if value lower', () => {
-    const lines = [{
-      value: 150
-    }]
-    expect(() => validateValues(100, lines)).toThrow()
-  })
-
-  test('errors if multiple lines', () => {
-    const lines = [{
-      value: 150
-    }, {
-      value: -100
-    }]
-    expect(() => validateValues(100, lines)).toThrow()
-  })
+  test.each(invalidCases)(
+    'throws when value %p does not match sum of lines %p',
+    (value, lines) => {
+      expect(() => validateValues(value, lines)).toThrow()
+    }
+  )
 })

@@ -1,13 +1,11 @@
 jest.mock('../../../../../app/enrichment/invoice-lines/fc/get-fund-code')
-const { getFundCode: mockGetFundCode } = require('../../../../../app/enrichment/invoice-lines/fc/get-fund-code')
-
 jest.mock('../../../../../app/enrichment/invoice-lines/fc/get-marketing-year')
-const { getMarketingYear: mockGetMarketingYear } = require('../../../../../app/enrichment/invoice-lines/fc/get-marketing-year')
-
 jest.mock('../../../../../app/enrichment/invoice-lines/fc/get-account-code')
-const { getAccountCode: mockGetAccountCode } = require('../../../../../app/enrichment/invoice-lines/fc/get-account-code')
-
 jest.mock('../../../../../app/enrichment/invoice-lines/fc/get-delivery-body')
+
+const { getFundCode: mockGetFundCode } = require('../../../../../app/enrichment/invoice-lines/fc/get-fund-code')
+const { getMarketingYear: mockGetMarketingYear } = require('../../../../../app/enrichment/invoice-lines/fc/get-marketing-year')
+const { getAccountCode: mockGetAccountCode } = require('../../../../../app/enrichment/invoice-lines/fc/get-account-code')
 const { getDeliveryBody: mockGetDeliveryBody } = require('../../../../../app/enrichment/invoice-lines/fc/get-delivery-body')
 
 const { DRD05 } = require('../../../../../app/constants/fund-codes')
@@ -30,23 +28,15 @@ describe('enrich FC invoice line', () => {
     invoiceLine = JSON.parse(JSON.stringify(require('../../../../mocks/payment-requests/invoice-line')))
   })
 
-  test('should get FC fund code', async () => {
-    enrichInvoiceLine(invoiceLine)
-    expect(mockGetFundCode).toHaveBeenCalledWith(invoiceLine.standardCode)
-  })
+  const mocks = [
+    ['fund code', mockGetFundCode],
+    ['marketing year', mockGetMarketingYear],
+    ['account code', mockGetAccountCode],
+    ['delivery body', mockGetDeliveryBody]
+  ]
 
-  test('should get FC marketing year', async () => {
+  test.each(mocks)('should get FC %s', async (_, mockFn) => {
     enrichInvoiceLine(invoiceLine)
-    expect(mockGetMarketingYear).toHaveBeenCalledWith(invoiceLine.standardCode)
-  })
-
-  test('should get FC account code', async () => {
-    enrichInvoiceLine(invoiceLine)
-    expect(mockGetAccountCode).toHaveBeenCalledWith(invoiceLine.standardCode)
-  })
-
-  test('should get FC delivery body', async () => {
-    enrichInvoiceLine(invoiceLine)
-    expect(mockGetDeliveryBody).toHaveBeenCalledWith(invoiceLine.standardCode)
+    expect(mockFn).toHaveBeenCalledWith(invoiceLine.standardCode)
   })
 })
