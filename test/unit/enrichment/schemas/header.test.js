@@ -21,7 +21,6 @@ describe('header schema', () => {
     expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
-  // Missing required fields
   test.each([
     'sourceSystem',
     'schemeId',
@@ -40,7 +39,6 @@ describe('header schema', () => {
     expect(schema.validate(paymentRequest).error).toBeDefined()
   })
 
-  // Optional fields that can be missing
   test.each([
     'batch',
     'sbi',
@@ -59,7 +57,6 @@ describe('header schema', () => {
     expect(schema.validate(paymentRequest).error).toBeUndefined()
   })
 
-  // Invalid values
   test.each([
     ['schemeId', 'SFI'],
     ['schemeId', -1],
@@ -78,14 +75,14 @@ describe('header schema', () => {
     ['currency', 'USD'],
     ['schedule', 'INVALID'],
     ['dueDate', 'INVALID'],
-    ['dueDate', '2019-01-01'], // fails DD/MM/YYYY
+    ['dueDate', '2019-01-01'], 
     ['value', 'INVALID'],
-    ['value', 1.1], // must be integer
+    ['value', 1.1], 
     ['invoiceLines', 'INVALID'],
     ['debtType', 'INVALID'],
     ['recoveryDate', 'INVALID'],
-    ['recoveryDate', '2019-01-01'], // fails DD/MM/YYYY
-    ['correlationId', 1], // must be string UUID
+    ['recoveryDate', '2019-01-01'],
+    ['correlationId', 1],
     ['correlationId', 'INVALID'],
     ['paymentType', NaN],
     ['paymentType', null]
@@ -94,7 +91,6 @@ describe('header schema', () => {
     expect(schema.validate(paymentRequest).error).toBeDefined()
   })
 
-  // Valid values
   test.each([
     ['ledger', AP],
     ['ledger', AR],

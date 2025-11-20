@@ -26,8 +26,8 @@ describe('enrichPaymentRequest', () => {
       dueDate: '2021-08-15',
       value: 150.0,
       invoiceLines: [
-        { schemeCode: '80001', agreementNumber: 'SIP00000000001', description: 'G00 - Gross value of claim', value: 250.0 },
-        { schemeCode: '80001', agreementNumber: 'SIP00000000001', description: 'P02 - Over declaration penalty', value: -100.0 }
+        { schemeCode: '80001', agreementNumber: 'SIP00000000001', description: 'G00 - Gross value of claim', value: 250.00 },
+        { schemeCode: '80001', agreementNumber: 'SIP00000000001', description: 'P02 - Over declaration penalty', value: -100.00 }
       ]
     }
 

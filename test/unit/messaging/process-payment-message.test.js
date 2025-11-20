@@ -98,7 +98,10 @@ describe('process payment message', () => {
   ])(
     'sends response with source system metadata if %s',
     async (_, validationError, callIndex) => {
-      if (validationError) mockErrorInProcessing(true)
+      if (validationError) {
+        mockErrorInProcessing(true)
+      }
+      
       const message = { body: { frn: FRN, sourceSystem: SOURCE_SYSTEM } }
       await processPaymentMessage(message, receiver)
       expect(mockSendMessage.mock.calls[callIndex][0].subject).toBe(message.body.sourceSystem)
