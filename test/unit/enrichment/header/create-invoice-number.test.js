@@ -2,9 +2,9 @@ const { createInvoiceNumber } = require('../../../../app/enrichment/header/creat
 
 let paymentRequests
 
-  const clone = (path) => {
-    return JSON.parse(JSON.stringify(require(`../../../mocks/payment-requests/${path}`)))
-  }
+const clone = (path) => {
+  return JSON.parse(JSON.stringify(require(`../../../mocks/payment-requests/${path}`)))
+}
 
 describe('createInvoiceNumber', () => {
   beforeEach(() => {

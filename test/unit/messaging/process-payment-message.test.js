@@ -101,7 +101,7 @@ describe('process payment message', () => {
       if (validationError) {
         mockErrorInProcessing(true)
       }
-      
+
       const message = { body: { frn: FRN, sourceSystem: SOURCE_SYSTEM } }
       await processPaymentMessage(message, receiver)
       expect(mockSendMessage.mock.calls[callIndex][0].subject).toBe(message.body.sourceSystem)
