@@ -20,7 +20,6 @@ describe('invoice line schema', () => {
     expect(schema.validate(invoiceLine).error).toBeUndefined()
   })
 
-  // Optional fields
   test.each(['standardCode', 'agreementNumber', 'convergence', 'stateAid'])(
     'should pass validation if %s is missing',
     (prop) => {
@@ -29,7 +28,6 @@ describe('invoice line schema', () => {
     }
   )
 
-  // Required fields
   test.each(['schemeCode', 'description', 'fundCode', 'value', 'deliveryBody'])(
     'should fail validation if %s is missing',
     (prop) => {
@@ -38,7 +36,6 @@ describe('invoice line schema', () => {
     }
   )
 
-  // Conditional accountCode validation
   test.each([
     [MANUAL, false],
     [ES, false],
@@ -52,7 +49,6 @@ describe('invoice line schema', () => {
     validIfMissing ? expect(error).toBeUndefined() : expect(error).toBeDefined()
   })
 
-  // Valid / invalid formats
   test.each([
     ['accountCode', ACCOUNT_CODE, true],
     ['accountCode', '123456789', false],

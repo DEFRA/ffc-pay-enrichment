@@ -1,7 +1,6 @@
 const { getMarketingYear } = require('../../../../../app/enrichment/invoice-lines/es/get-marketing-year')
 
 describe('get ES marketing year', () => {
-  // Edge cases
   test('should return -1 if sub account code is 0', () => {
     expect(getMarketingYear('0')).toBe(-1)
   })

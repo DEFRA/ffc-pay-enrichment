@@ -14,8 +14,8 @@ describe('convert date', () => {
     ['01/11/2021', '01/11/2021'], // already DAX
     ['2021-11-01', '01/11/2021'], // Siti Agri format
     ['01-NOV-21', '01/11/2021'], // IMPS format
-    ['2021/11/01', '01/11/2021'], // YYYY/MM/DD
-    ['01-11-2021', '01/11/2021'] // DD-MM-YYYY
+    ['2021/11/01', '01/11/2021'], 
+    ['01-11-2021', '01/11/2021'] 
   ])('converts %p to %p', (input, expected) => {
     expect(convertToDaxDate(input)).toBe(expected)
   })
