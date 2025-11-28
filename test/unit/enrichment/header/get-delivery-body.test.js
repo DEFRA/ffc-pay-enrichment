@@ -9,33 +9,27 @@ let csPaymentRequest
 describe('get header level delivery body', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-
     bpsPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/bps')))
     csPaymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/cs')))
   })
 
   test('returns scheme delivery body for non-CS payment request', () => {
-    const scheme = schemes.find(scheme => scheme.schemeId === BPS)
-    const result = getDeliveryBody(bpsPaymentRequest, scheme)
-    expect(result).toBe(scheme.deliveryBody)
+    const scheme = schemes.find(s => s.schemeId === BPS)
+    expect(getDeliveryBody(bpsPaymentRequest, scheme)).toBe(scheme.deliveryBody)
   })
 
   test('returns undefined if no scheme match', () => {
-    const result = getDeliveryBody(bpsPaymentRequest, {})
-    expect(result).toBe(undefined)
+    expect(getDeliveryBody(bpsPaymentRequest, {})).toBeUndefined()
   })
 
   test('returns scheme delivery body for CS payment request if invoice lines have same delivery body', () => {
-    const scheme = schemes.find(scheme => scheme.schemeId === CS)
-    const result = getDeliveryBody(csPaymentRequest, scheme)
-    expect(result).toBe(scheme.deliveryBody)
+    const scheme = schemes.find(s => s.schemeId === CS)
+    expect(getDeliveryBody(csPaymentRequest, scheme)).toBe(scheme.deliveryBody)
   })
 
   test('returns FC00 delivery body for CS payment request if invoice lines do not contain default delivery body', () => {
-    const scheme = schemes.find(scheme => scheme.schemeId === CS)
-    csPaymentRequest.invoiceLines[0].deliveryBody = FC00
-    csPaymentRequest.invoiceLines[1].deliveryBody = FC00
-    const result = getDeliveryBody(csPaymentRequest, scheme)
-    expect(result).toBe(FC00)
+    const scheme = schemes.find(s => s.schemeId === CS)
+    csPaymentRequest.invoiceLines.forEach(line => (line.deliveryBody = FC00))
+    expect(getDeliveryBody(csPaymentRequest, scheme)).toBe(FC00)
   })
 })

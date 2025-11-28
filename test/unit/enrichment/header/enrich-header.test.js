@@ -1,31 +1,23 @@
 jest.mock('../../../../app/enrichment/header/get-correlation-id')
-const { getCorrelationId: mockGetCorrelationId } = require('../../../../app/enrichment/header/get-correlation-id')
-
 jest.mock('../../../../app/enrichment/header/get-agreement-number')
-const { getAgreementNumber: mockGetAgreementNumber } = require('../../../../app/enrichment/header/get-agreement-number')
-
 jest.mock('../../../../app/enrichment/header/create-invoice-number')
-const { createInvoiceNumber: mockCreateInvoiceNumber } = require('../../../../app/enrichment/header/create-invoice-number')
-
 jest.mock('../../../../app/enrichment/header/get-frn')
-const { getFrn: mockGetFrn } = require('../../../../app/enrichment/header/get-frn')
-
 jest.mock('../../../../app/enrichment/header/get-ledger')
-const { getLedger: mockGetLedger } = require('../../../../app/enrichment/header/get-ledger')
-
 jest.mock('../../../../app/enrichment/header/get-currency')
-const { getCurrency: mockGetCurrency } = require('../../../../app/enrichment/header/get-currency')
-
 jest.mock('../../../../app/enrichment/header/get-value')
-const { getValue: mockGetValue } = require('../../../../app/enrichment/header/get-value')
-
 jest.mock('../../../../app/enrichment/header/confirm-due-date')
-const { confirmDueDate: mockConfirmDueDate } = require('../../../../app/enrichment/header/confirm-due-date')
-
 jest.mock('../../../../app/enrichment/header/get-delivery-body')
-const { getDeliveryBody: mockGetDeliveryBody } = require('../../../../app/enrichment/header/get-delivery-body')
-
 jest.mock('../../../../app/date-convert')
+
+const { getCorrelationId: mockGetCorrelationId } = require('../../../../app/enrichment/header/get-correlation-id')
+const { getAgreementNumber: mockGetAgreementNumber } = require('../../../../app/enrichment/header/get-agreement-number')
+const { createInvoiceNumber: mockCreateInvoiceNumber } = require('../../../../app/enrichment/header/create-invoice-number')
+const { getFrn: mockGetFrn } = require('../../../../app/enrichment/header/get-frn')
+const { getLedger: mockGetLedger } = require('../../../../app/enrichment/header/get-ledger')
+const { getCurrency: mockGetCurrency } = require('../../../../app/enrichment/header/get-currency')
+const { getValue: mockGetValue } = require('../../../../app/enrichment/header/get-value')
+const { confirmDueDate: mockConfirmDueDate } = require('../../../../app/enrichment/header/confirm-due-date')
+const { getDeliveryBody: mockGetDeliveryBody } = require('../../../../app/enrichment/header/get-delivery-body')
 const { convertToDaxDate: mockConvertToDaxDate } = require('../../../../app/date-convert')
 
 const { CORRELATION_ID } = require('../../../mocks/values/correlation-id')
@@ -37,14 +29,14 @@ const { EVENT_DATE_DAX } = require('../../../mocks/values/event-date')
 
 const { AP } = require('../../../../app/constants/ledgers')
 const { GBP } = require('../../../../app/constants/currency')
+const { NE00 } = require('../../../../app/constants/delivery-bodies')
 
 const { enrichHeader } = require('../../../../app/enrichment/header/enrich-header')
-const { NE00 } = require('../../../../app/constants/delivery-bodies')
 
 let scheme
 let paymentRequest
 
-describe('enrich header', () => {
+describe('enrichHeader', () => {
   beforeEach(() => {
     jest.clearAllMocks()
 
@@ -63,121 +55,68 @@ describe('enrich header', () => {
     paymentRequest = JSON.parse(JSON.stringify(require('../../../mocks/payment-requests/payment-request')))
   })
 
-  test('should set delivery body from output of getDeliveryBody', async () => {
+  test('should enrich scheme and deliveryBody', async () => {
     await enrichHeader(paymentRequest, scheme)
+    expect(paymentRequest.schemeId).toBe(scheme.schemeId)
     expect(paymentRequest.deliveryBody).toBe(NE00)
   })
 
-  test('should set scheme id if scheme defined', async () => {
-    await enrichHeader(paymentRequest, scheme)
-    expect(paymentRequest.schemeId).toBe(scheme.schemeId)
-  })
-
-  test('should not set scheme id if scheme not defined', async () => {
-    scheme = undefined
-    await enrichHeader(paymentRequest)
+  test('should handle missing scheme', async () => {
+    await enrichHeader(paymentRequest, undefined)
     expect(paymentRequest.schemeId).toBeUndefined()
   })
 
-  test('should get correlation id from existing correlation id', async () => {
+  test('should enrich correlationId', async () => {
     await enrichHeader(paymentRequest, scheme)
     expect(mockGetCorrelationId).toHaveBeenCalledWith(paymentRequest.correlationId)
-  })
-
-  test('should set correlation id', async () => {
-    await enrichHeader(paymentRequest, scheme)
     expect(paymentRequest.correlationId).toBe(CORRELATION_ID)
   })
 
-  test('should get agreement number for payment request', async () => {
+  test('should enrich agreementNumber', async () => {
     await enrichHeader(paymentRequest, scheme)
     expect(mockGetAgreementNumber).toHaveBeenCalledWith(paymentRequest)
-  })
-
-  test('should set agreement number', async () => {
-    await enrichHeader(paymentRequest, scheme)
     expect(paymentRequest.agreementNumber).toBe(AGREEMENT_NUMBER)
   })
 
-  test('should get invoice number', async () => {
+  test('should enrich invoice number', async () => {
     await enrichHeader(paymentRequest, scheme)
     expect(mockCreateInvoiceNumber).toHaveBeenCalledWith(paymentRequest)
-  })
-
-  test('should set invoice number', async () => {
-    await enrichHeader(paymentRequest, scheme)
     expect(paymentRequest.invoiceNumber).toBe(SFI_INVOICE_NUMBER)
   })
 
-  test('should get frn', async () => {
+  test('should enrich frn', async () => {
     await enrichHeader(paymentRequest, scheme)
     expect(mockGetFrn).toHaveBeenCalledWith(paymentRequest)
-  })
-
-  test('should set frn', async () => {
-    await enrichHeader(paymentRequest, scheme)
     expect(paymentRequest.frn).toBe(FRN)
   })
 
-  test('should get ledger', async () => {
+  test('should enrich ledger and currency', async () => {
     await enrichHeader(paymentRequest, scheme)
     expect(mockGetLedger).toHaveBeenCalledWith(paymentRequest.ledger)
-  })
-
-  test('should set ledger', async () => {
-    await enrichHeader(paymentRequest, scheme)
     expect(paymentRequest.ledger).toBe(AP)
-  })
-
-  test('should get currency', async () => {
-    await enrichHeader(paymentRequest, scheme)
     expect(mockGetCurrency).toHaveBeenCalledWith(paymentRequest.currency)
-  })
-
-  test('should set currency', async () => {
-    await enrichHeader(paymentRequest, scheme)
     expect(paymentRequest.currency).toBe(GBP)
   })
 
-  test('should get value', async () => {
+  test('should enrich value', async () => {
     await enrichHeader(paymentRequest, scheme)
     expect(mockGetValue).toHaveBeenCalledWith(paymentRequest)
-  })
-
-  test('should set value', async () => {
-    await enrichHeader(paymentRequest, scheme)
     expect(paymentRequest.value).toBe(100)
   })
 
-  test('should get due date', async () => {
+  test('should enrich dueDate and eventDate', async () => {
     await enrichHeader(paymentRequest, scheme)
     expect(mockConfirmDueDate).toHaveBeenCalledWith(paymentRequest.schemeId, paymentRequest.marketingYear, paymentRequest.dueDate)
-  })
-
-  test('should set due date', async () => {
-    await enrichHeader(paymentRequest, scheme)
     expect(paymentRequest.dueDate).toBe(DUE_DATE_DAX)
-  })
-
-  test('should get event date', async () => {
-    await enrichHeader(paymentRequest, scheme)
     expect(mockConvertToDaxDate).toHaveBeenCalledWith(paymentRequest.eventDate, false)
-  })
-
-  test('should set event date', async () => {
-    await enrichHeader(paymentRequest, scheme)
     expect(paymentRequest.eventDate).toBe(EVENT_DATE_DAX)
   })
 
-  test('should convert recoveryDate to DAX format when recovery date present', async () => {
+  test('should convert recoveryDate and originalSettlementDate', async () => {
     paymentRequest.recoveryDate = '2023-10-24'
-    await enrichHeader(paymentRequest, scheme)
-    expect(paymentRequest.recoveryDate).toBe(DUE_DATE_DAX)
-  })
-
-  test('should convert originalSettlementDate to DAX format when recovery date present', async () => {
     paymentRequest.originalSettlementDate = '2023-10-24'
     await enrichHeader(paymentRequest, scheme)
+    expect(paymentRequest.recoveryDate).toBe(DUE_DATE_DAX)
     expect(paymentRequest.originalSettlementDate).toBe(DUE_DATE_DAX)
   })
 })

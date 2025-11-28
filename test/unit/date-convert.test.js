@@ -10,118 +10,39 @@ describe('convert date', () => {
     jest.useRealTimers()
   })
 
-  test('does not change if already DAX format', () => {
-    const result = convertToDaxDate('01/11/2021')
-    expect(result).toEqual('01/11/2021')
+  test.each([
+    ['01/11/2021', '01/11/2021'], // already DAX
+    ['2021-11-01', '01/11/2021'], // Siti Agri format
+    ['01-NOV-21', '01/11/2021'], // IMPS format
+    ['2021/11/01', '01/11/2021'],
+    ['01-11-2021', '01/11/2021']
+  ])('converts %p to %p', (input, expected) => {
+    expect(convertToDaxDate(input)).toBe(expected)
   })
 
-  test('updates Siti Agri to DAX format', () => {
-    const result = convertToDaxDate('2021-11-01')
-    expect(result).toEqual('01/11/2021')
+  test.each([
+    'Monday 1st November 2021',
+    '12/30/2021',
+    '12-30-2021',
+    '32/11/2021',
+    true,
+    {},
+    [],
+    1,
+    '/'
+  ])('returns undefined for invalid input %p', (input) => {
+    expect(convertToDaxDate(input)).toBeUndefined()
   })
 
-  test('updates IMPS to DAX format', () => {
-    const result = convertToDaxDate('01-NOV-21')
-    expect(result).toEqual('01/11/2021')
-  })
-
-  test('uses current date in correct format if no date supplied', () => {
-    const result = convertToDaxDate()
-    expect(result).toMatch('01/06/2021')
-  })
-
-  test('uses current date in correct format if no date supplied and use default set to true', () => {
-    const result = convertToDaxDate(undefined, true)
-    expect(result).toMatch('01/06/2021')
-  })
-
-  test('returns undefined if no date supplied and use default set to false', () => {
-    const result = convertToDaxDate(undefined, false)
-    expect(result).toBeUndefined()
-  })
-
-  test('converts to correct format if YYYY/MM/DD', () => {
-    const result = convertToDaxDate('2021/11/01')
-    expect(result).toMatch('01/11/2021')
-  })
-
-  test('converts to correct format if DD-MM-YYYY', () => {
-    const result = convertToDaxDate('01-11-2021')
-    expect(result).toMatch('01/11/2021')
-  })
-
-  test('returns correct date if use default set to false and date provided', () => {
-    const result = convertToDaxDate('01-11-2021', false)
-    expect(result).toMatch('01/11/2021')
-  })
-
-  test('returns undefined if invalid date string', () => {
-    const result = convertToDaxDate('Monday 1st November 2021')
-    expect(result).toBeUndefined()
-  })
-
-  test('returns undefined if MM/DD/YYYY', () => {
-    const result = convertToDaxDate('12/30/2021')
-    expect(result).toBeUndefined()
-  })
-
-  test('returns undefined if MM-DD-YYYY', () => {
-    const result = convertToDaxDate('12-30-2021')
-    expect(result).toBeUndefined()
-  })
-
-  test('returns undefined if invalid date', () => {
-    const result = convertToDaxDate('32/11/2021')
-    expect(result).toBeUndefined()
-  })
-
-  test('uses current date in correct format if undefined', () => {
-    const result = convertToDaxDate(undefined)
-    expect(result).toMatch('01/06/2021')
-  })
-
-  test('uses current date in correct format if null', () => {
-    const result = convertToDaxDate(null)
-    expect(result).toMatch('01/06/2021')
-  })
-
-  test('returns undefined if true', () => {
-    const result = convertToDaxDate(true)
-    expect(result).toBeUndefined()
-  })
-
-  test('returns current date in correct format if false', () => {
-    const result = convertToDaxDate(false)
-    expect(result).toMatch('01/06/2021')
-  })
-
-  test('returns undefined if empty object', () => {
-    const result = convertToDaxDate({})
-    expect(result).toBeUndefined()
-  })
-
-  test('returns undefined if empty array', () => {
-    const result = convertToDaxDate([])
-    expect(result).toBeUndefined()
-  })
-
-  test('returns undefined if 1', () => {
-    const result = convertToDaxDate(1)
-    expect(result).toBeUndefined()
-  })
-
-  test('returns current date in correct format if 0', () => {
-    const result = convertToDaxDate(0)
-    expect(result).toMatch('01/06/2021')
-  })
-
-  test('uses current date in correct format if boolean', () => {
-    const result = convertToDaxDate(Boolean())
-    expect(result).toMatch('01/06/2021')
-  })
-
-  test('returns undefined if only slash', () => {
-    const result = convertToDaxDate('/')
-    expect(result).toBeUndefined()
+  test.each([
+    [undefined, true, '01/06/2021'],
+    [undefined, false, undefined],
+    [undefined, undefined, '01/06/2021'],
+    [null, undefined, '01/06/2021'],
+    [false, undefined, '01/06/2021'],
+    [0, undefined, '01/06/2021'],
+    [Boolean(), undefined, '01/06/2021']
+  ])('returns correct default for input %p with useDefault %p', (input, useDefault, expected) => {
+    expect(convertToDaxDate(input, useDefault)).toBe(expected)
   })
 })

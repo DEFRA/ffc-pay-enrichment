@@ -5,21 +5,14 @@ const { TRADER } = require('../mocks/values/trader')
 const { SBI: SBI_TYPE, VENDOR: VENDOR_TYPE, TRADER: TRADER_TYPE } = require('../../app/constants/reference-types')
 
 const db = require('../../app/data')
-
 const { saveUpdate } = require('../../app/customer')
 
 let customerUpdate
 
-describe('get frn', () => {
+describe('saveUpdate', () => {
   beforeEach(async () => {
     await db.sequelize.truncate({ cascade: true })
-
-    customerUpdate = {
-      sbi: SBI,
-      vendor: VENDOR,
-      trader: TRADER,
-      frn: FRN
-    }
+    customerUpdate = { sbi: SBI, vendor: VENDOR, trader: TRADER, frn: FRN }
   })
 
   afterAll(async () => {
@@ -27,46 +20,26 @@ describe('get frn', () => {
     await db.sequelize.close()
   })
 
-  test('should save update for customer with sbi', async () => {
-    await saveUpdate(customerUpdate)
-    const result = await db.customer.findAll({ where: { referenceType: SBI_TYPE, reference: SBI.toString(), frn: FRN } })
-    expect(result).toHaveLength(1)
+  describe.each([
+    ['sbi', SBI, SBI_TYPE],
+    ['vendor', VENDOR, VENDOR_TYPE],
+    ['trader', TRADER, TRADER_TYPE]
+  ])('customer with %s', (key, value, type) => {
+    test('saves new customer update', async () => {
+      await saveUpdate(customerUpdate)
+      const result = await db.customer.findAll({ where: { referenceType: type, reference: value.toString(), frn: FRN } })
+      expect(result).toHaveLength(1)
+    })
+
+    test('updates FRN for existing customer', async () => {
+      await db.customer.create({ referenceType: type, reference: value.toString(), frn: 123 })
+      await saveUpdate(customerUpdate)
+      const result = await db.customer.findAll({ where: { referenceType: type, reference: value.toString(), frn: FRN } })
+      expect(result).toHaveLength(1)
+    })
   })
 
-  test('should save update for customer with vendor', async () => {
-    await saveUpdate(customerUpdate)
-    const result = await db.customer.findAll({ where: { referenceType: VENDOR_TYPE, reference: VENDOR, frn: FRN } })
-    expect(result).toHaveLength(1)
-  })
-
-  test('should save update for customer with trader', async () => {
-    await saveUpdate(customerUpdate)
-    const result = await db.customer.findAll({ where: { referenceType: TRADER_TYPE, reference: TRADER, frn: FRN } })
-    expect(result).toHaveLength(1)
-  })
-
-  test('should update frn for existing customer with sbi', async () => {
-    await db.customer.create({ referenceType: SBI_TYPE, reference: SBI.toString(), frn: 123 })
-    await saveUpdate(customerUpdate)
-    const result = await db.customer.findAll({ where: { referenceType: SBI_TYPE, reference: SBI.toString(), frn: FRN } })
-    expect(result).toHaveLength(1)
-  })
-
-  test('should update frn for existing customer with vendor', async () => {
-    await db.customer.create({ referenceType: VENDOR_TYPE, reference: VENDOR, frn: 123 })
-    await saveUpdate(customerUpdate)
-    const result = await db.customer.findAll({ where: { referenceType: VENDOR_TYPE, reference: VENDOR, frn: FRN } })
-    expect(result).toHaveLength(1)
-  })
-
-  test('should update frn for existing customer with trader', async () => {
-    await db.customer.create({ referenceType: TRADER_TYPE, reference: TRADER, frn: 123 })
-    await saveUpdate(customerUpdate)
-    const result = await db.customer.findAll({ where: { referenceType: TRADER_TYPE, reference: TRADER, frn: FRN } })
-    expect(result).toHaveLength(1)
-  })
-
-  test('should not save update for customer without sbi, trader or vendor', async () => {
+  test('does not save update if no sbi, vendor, or trader', async () => {
     delete customerUpdate.sbi
     delete customerUpdate.vendor
     delete customerUpdate.trader

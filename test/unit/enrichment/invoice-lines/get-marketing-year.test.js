@@ -1,21 +1,11 @@
 const { getMarketingYear } = require('../../../../app/enrichment/invoice-lines/get-marketing-year')
 
 describe('get marketing year', () => {
-  test('should return undefined marketing year if marketing year is -1', () => {
-    const invoiceLine = { marketingYear: -1 }
-    const result = getMarketingYear(invoiceLine, 2023)
-    expect(result).toBeUndefined()
-  })
-
-  test('should return marketing year if marketing year already exists', () => {
-    const invoiceLine = { marketingYear: 2020 }
-    const result = getMarketingYear(invoiceLine, 2023)
-    expect(result).toBe(2020)
-  })
-
-  test('should return default marketing year if no existing marketing year', () => {
-    const invoiceLine = {}
-    const result = getMarketingYear(invoiceLine, 2023)
-    expect(result).toBe(2023)
+  test.each([
+    [{ marketingYear: -1 }, 2023, undefined],
+    [{ marketingYear: 2020 }, 2023, 2020],
+    [{}, 2023, 2023]
+  ])('returns correct marketing year for invoiceLine %o with default %s', (invoiceLine, defaultYear, expected) => {
+    expect(getMarketingYear(invoiceLine, defaultYear)).toBe(expected)
   })
 })
