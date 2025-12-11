@@ -1,4 +1,4 @@
-const { trackException } = require('../insights')
+const insights = require('../insights')
 
 const createDiagnosticsHandler = (name) => (args) => {
   const error = args?.error
@@ -9,7 +9,7 @@ const createDiagnosticsHandler = (name) => (args) => {
     stack: error?.stack
   })
 
-  trackException(error)
+  insights.trackException(error)
 }
 
 module.exports = { createDiagnosticsHandler }
