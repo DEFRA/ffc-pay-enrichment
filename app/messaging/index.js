@@ -4,8 +4,9 @@ const { processPaymentMessage } = require('./process-payment-message')
 const { processCustomerMessage } = require('./process-customer-message')
 const { createDiagnosticsHandler } = require('./diagnostics')
 
-const paymentReceivers = []
 let customerReceiver
+
+const receivers = []
 
 const start = async () => {
   for (let i = 0; i < messageConfig.paymentSubscription.numberOfReceivers; i++) {
@@ -14,23 +15,21 @@ const start = async () => {
     paymentReceiver = new MessageReceiver(messageConfig.paymentSubscription, paymentAction)
     await paymentReceiver.subscribe(createDiagnosticsHandler(`payment-receiver-${i + 1}`))
 
-    paymentReceivers.push(paymentReceiver)
+    receivers.push(paymentReceiver)
     console.info(`Receiver ${i + 1} ready to receive payment requests`)
   }
 
   const customerAction = message => processCustomerMessage(message, customerReceiver)
   customerReceiver = new MessageReceiver(messageConfig.customerSubscription, customerAction)
   await customerReceiver.subscribe(createDiagnosticsHandler('customer-receiver'))
+  receivers.push(customerReceiver)
 
   console.info('Ready to receive customer requests')
 }
 
 const stop = async () => {
-  for (const receiver of paymentReceivers) {
+  for (const receiver of receivers) {
     await receiver.closeConnection()
-  }
-  if (customerReceiver) {
-    await customerReceiver.closeConnection()
   }
 }
 
