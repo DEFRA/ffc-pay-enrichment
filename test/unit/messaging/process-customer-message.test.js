@@ -1,4 +1,5 @@
 jest.mock('../../../app/customer')
+jest.mock('../../../app/messaging/send-message')
 const { saveUpdate: mockSaveUpdate } = require('../../../app/customer')
 
 const { FRN } = require('../../../test/mocks/values/frn')
@@ -11,7 +12,8 @@ describe('process payment message', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     receiver = {
-      completeMessage: jest.fn()
+      completeMessage: jest.fn(),
+      deadLetterMessage: jest.fn()
     }
   })
 
