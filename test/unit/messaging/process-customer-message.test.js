@@ -1,4 +1,5 @@
 jest.mock('../../../app/customer')
+jest.mock('../../../app/messaging/send-message')
 const { saveUpdate: mockSaveUpdate } = require('../../../app/customer')
 
 const { FRN } = require('../../../test/mocks/values/frn')
@@ -9,28 +10,36 @@ let receiver
 
 describe('process payment message', () => {
   beforeEach(() => {
+    jest.clearAllMocks()
     receiver = {
-      completeMessage: jest.fn()
+      completeMessage: jest.fn(),
+      deadLetterMessage: jest.fn()
     }
   })
 
   test('completes valid message', async () => {
     const message = {
       body: {
-        frn: FRN
+        frn: FRN,
+        vendor: 'TEST_VENDOR'
       }
     }
+
     await processCustomerMessage(message, receiver)
+
     expect(receiver.completeMessage).toHaveBeenCalledWith(message)
   })
 
   test('saves update if valid', async () => {
     const message = {
       body: {
-        frn: FRN
+        frn: FRN,
+        vendor: 'TEST_VENDOR'
       }
     }
+
     await processCustomerMessage(message, receiver)
+
     expect(mockSaveUpdate).toHaveBeenCalledWith(message.body)
   })
 
@@ -38,12 +47,29 @@ describe('process payment message', () => {
     mockSaveUpdate.mockImplementation(() => {
       throw new Error()
     })
+
+    const message = {
+      body: {
+        frn: FRN,
+        vendor: 'TEST_VENDOR'
+      }
+    }
+
+    await processCustomerMessage(message, receiver)
+
+    expect(receiver.completeMessage).not.toHaveBeenCalled()
+  })
+
+  test('does not process message without vendor, trader or sbi', async () => {
     const message = {
       body: {
         frn: FRN
       }
     }
+
     await processCustomerMessage(message, receiver)
+
+    expect(mockSaveUpdate).not.toHaveBeenCalled()
     expect(receiver.completeMessage).not.toHaveBeenCalled()
   })
 })
