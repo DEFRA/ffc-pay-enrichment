@@ -2,28 +2,34 @@ const { MessageReceiver } = require('ffc-messaging')
 const { messageConfig } = require('../config')
 const { processPaymentMessage } = require('./process-payment-message')
 const { processCustomerMessage } = require('./process-customer-message')
-const paymentReceivers = []
+const { createDiagnosticsHandler } = require('./diagnostics')
+
 let customerReceiver
+
+const receivers = []
 
 const start = async () => {
   for (let i = 0; i < messageConfig.paymentSubscription.numberOfReceivers; i++) {
     let paymentReceiver  // eslint-disable-line
     const paymentAction = message => processPaymentMessage(message, paymentReceiver)
     paymentReceiver = new MessageReceiver(messageConfig.paymentSubscription, paymentAction)
-    paymentReceivers.push(paymentReceiver)
-    await paymentReceiver.subscribe()
+    await paymentReceiver.subscribe(createDiagnosticsHandler(`payment-receiver-${i + 1}`))
+
+    receivers.push(paymentReceiver)
     console.info(`Receiver ${i + 1} ready to receive payment requests`)
   }
 
   const customerAction = message => processCustomerMessage(message, customerReceiver)
   customerReceiver = new MessageReceiver(messageConfig.customerSubscription, customerAction)
-  await customerReceiver.subscribe()
+  await customerReceiver.subscribe(createDiagnosticsHandler('customer-receiver'))
+  receivers.push(customerReceiver)
+
   console.info('Ready to receive customer requests')
 }
 
 const stop = async () => {
-  for (const paymentReceiver of paymentReceivers) {
-    await paymentReceiver.closeConnection()
+  for (const receiver of receivers) {
+    await receiver.closeConnection()
   }
 }
 
