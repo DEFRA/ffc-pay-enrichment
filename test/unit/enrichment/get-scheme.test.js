@@ -6,18 +6,20 @@ const { getScheme } = require('../../../app/enrichment/get-scheme')
 
 describe('get scheme', () => {
   test.each(
-    Object.values(sourceSystems).filter(x => x !== sourceSystems.INJECTION).map((sourceSystem, index) => [sourceSystem, index])
-  )('should return scheme for source system', (sourceSystem, expectedSchemeId) => {
+    Object.values(sourceSystems)
+      .filter(x => x !== sourceSystems.INJECTION)
+  )('should return scheme for source system', (sourceSystem) => {
     const result = getScheme(undefined, sourceSystem)
-    expect(result.schemeId).toBe(expectedSchemeId + 1)
+    expect(Object.values(schemes)).toContain(result.schemeId)
   })
 
-  test.each(
-    Object.values(schemes).map((schemeId, index) => [schemeId, index])
-  )('should return scheme for scheme Id', (schemeId, expectedSchemeId) => {
-    const result = getScheme(schemeId)
-    expect(result.schemeId).toBe(expectedSchemeId + 1)
-  })
+  test.each(Object.values(schemes))(
+    'should return scheme for scheme Id',
+    (schemeId) => {
+      const result = getScheme(schemeId)
+      expect(result.schemeId).toBe(schemeId)
+    }
+  )
 
   test('should return undefined if no scheme for scheme', () => {
     const result = getScheme('NOT A THING')

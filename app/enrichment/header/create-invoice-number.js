@@ -1,4 +1,4 @@
-const { SFI, SFI_PILOT, LUMP_SUMS, CS, BPS, FDMR, MANUAL, ES, FC, IMPS, SFI23, DELINKED, SFI_EXPANDED, COHT_REVENUE, COHT_CAPITAL } = require('../../constants/schemes')
+const { SFI, SFI_PILOT, LUMP_SUMS, CS, BPS, MANUAL, ES, FC, IMPS, SFI23, DELINKED, SFI_EXPANDED, COHT_REVENUE, COHT_CAPITAL } = require('../../constants/schemes')
 const { INJECTION } = require('../../constants/source-systems')
 
 const createInvoiceNumber = (paymentRequest) => {
@@ -15,8 +15,6 @@ const createInvoiceNumber = (paymentRequest) => {
       return createSitiAgriInvoiceNumber(paymentRequest)
     }
     switch (paymentRequest.schemeId) {
-      case FDMR:
-        return createFdmrInvoiceNumber(paymentRequest)
       case MANUAL:
       case FC:
         return paymentRequest.invoiceNumber
@@ -36,13 +34,6 @@ const createSitiAgriInvoiceNumber = (paymentRequest) => {
   const sitiInvoiceNumberElementLength = 7
   if (paymentRequest.invoiceNumber.length >= sitiInvoiceNumberElementLength && paymentRequest.contractNumber && paymentRequest.paymentRequestNumber) {
     return `S${paymentRequest.invoiceNumber.slice(-sitiInvoiceNumberElementLength)}${paymentRequest.contractNumber}V${paymentRequest.paymentRequestNumber.toString().padStart(3, '0')}`
-  }
-}
-
-const createFdmrInvoiceNumber = (paymentRequest) => {
-  const sitiInvoiceNumberElementLength = 7
-  if (paymentRequest.invoiceNumber.length >= sitiInvoiceNumberElementLength && paymentRequest.contractNumber && paymentRequest.paymentRequestNumber) {
-    return `F${paymentRequest.invoiceNumber.slice(-sitiInvoiceNumberElementLength)}${paymentRequest.contractNumber}V${paymentRequest.paymentRequestNumber.toString().padStart(3, '0')}`
   }
 }
 

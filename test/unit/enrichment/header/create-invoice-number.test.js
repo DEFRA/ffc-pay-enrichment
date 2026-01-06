@@ -15,7 +15,6 @@ describe('createInvoiceNumber', () => {
       vetVisits: clone('vet-visits'),
       cs: clone('cs'),
       bps: clone('bps'),
-      fdmr: clone('fdmr'),
       manual: clone('manual'),
       es: clone('es'),
       imps: clone('imps'),
@@ -40,7 +39,6 @@ describe('createInvoiceNumber', () => {
     ['Vet Visits', 'vetVisits', 'SIP00000000001V001'],
     ['CS', 'cs', 'S000000100000001V001'],
     ['BPS', 'bps', 'S000000100000001V001'],
-    ['FDMR', 'fdmr', 'F000000100000001V001'],
     ['Manual Invoice', 'manual', (pr) => pr.invoiceNumber],
     ['Environmental Stewardship', 'es', 'I(0000001)00000001'],
     ['SFI 23', 'sfi23', 'S000000100000001V001'],
@@ -100,8 +98,6 @@ describe('createInvoiceNumber', () => {
       ['paymentRequestNumber', 'cohtCapital'],
       ['invoiceNumber', 'bps'],
       ['paymentRequestNumber', 'bps'],
-      ['invoiceNumber', 'fdmr'],
-      ['paymentRequestNumber', 'fdmr'],
       ['invoiceNumber', 'manual']
     ])('%s missing for %s', (field, key) => {
       delete paymentRequests[key][field]
