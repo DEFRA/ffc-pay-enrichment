@@ -1,0 +1,35 @@
+---
+environment: production
+environmentCode: prd
+container:
+  messageQueueHost: PRDFFCINFSB1001.servicebus.windows.net
+  processingActive: true
+  paymentTopicAddress: ffc-pay-request
+  paymentSubscriptionAddress: ffc-pay-enrichment
+  processingTopicAddress: ffc-pay-processing
+  responseTopicAddress: ffc-pay-request-response
+  eventsTopicAddress: ffc-pay-events
+  customerTopicAddress: ffc-pay-customer
+  customerSubscriptionAddress: ffc-pay-enrichment
+postgresService:
+  postgresDb: ffc-pay-enrichment-prd
+  postgresqlHost: prdffcdbssq1001.postgres.database.azure.com
+  postgresPort: 5432
+  postgresSchema: public
+secretProviderClass:
+  azure:
+    keyvaultName: PRDFFCINFKV1001
+    objects:
+      - objectName: prd-ffcahwr-appInsights-connectionString
+        objectType: secret
+      - objectName: prd-postgresPayEnrichmentUser
+        objectType: secret
+
+  secretObjects:
+    - secretName: ffc-pay-batch-processor
+      type: Opaque
+      data:
+        - objectName: prd-ffcahwr-appInsights-connectionString
+          key: APPINSIGHTS_CONNECTION_STRING
+        - objectName: prd-postgresPayEnrichmentUser
+          key: POSTGRES_USERNAME

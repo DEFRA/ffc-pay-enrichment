@@ -1,15 +1,16 @@
 ---
 environment: production
-environmentCode: snd
+environmentCode: snd2
+pr: true
 container:
   messageQueueHost: SNDFFCINFSB2001.servicebus.windows.net
   processingActive: true
-  paymentTopicAddress: ffc-pay-request-snd2
+  paymentTopicAddress: topic:ffc-pay-request
   paymentSubscriptionAddress: ffc-pay-enrichment
-  processingTopicAddress: ffc-pay-processing-snd2
-  responseTopicAddress: ffc-pay-request-response-snd2
-  eventsTopicAddress: ffc-pay-events-snd2
-  customerTopicAddress: ffc-pay-customer-snd2
+  processingTopicAddress: topic:ffc-pay-processing
+  responseTopicAddress: topic:ffc-pay-request-response
+  eventsTopicAddress: topic:ffc-pay-events
+  customerTopicAddress: topic:ffc-pay-customer
   customerSubscriptionAddress: ffc-pay-enrichment
 postgresService:
   postgresDb: ffc-pay-enrichment-snd2
