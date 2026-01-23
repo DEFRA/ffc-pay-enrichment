@@ -11,13 +11,19 @@ data:
   RESPONSE_TOPIC_ADDRESS: {{ .Values.container.responseTopicAddress }}-{{ .Values.environmentCode }}
   EVENTS_TOPIC_ADDRESS: {{ .Values.container.eventsTopicAddress }}-{{ .Values.environmentCode }}
   CUSTOMER_TOPIC_ADDRESS: {{ .Values.container.customerTopicAddress }}-{{ .Values.environmentCode }}
-  {{ else }}
+  {{- else if and (.Values.environmentCode) (.Values.pr) }}
+  PAYMENT_TOPIC_ADDRESS: {{ quote .Values.container.paymentTopicAddress }}-snd
+  PROCESSING_TOPIC_ADDRESS: {{ quote .Values.container.processingTopicAddress }}-snd
+  RESPONSE_TOPIC_ADDRESS: {{ quote .Values.container.responseTopicAddress }}-snd
+  EVENTS_TOPIC_ADDRESS: {{ quote .Values.container.eventsTopicAddress }}-snd
+  CUSTOMER_TOPIC_ADDRESS: {{ quote .Values.container.customerTopicAddress }}-snd
+  {{- else }}
   PAYMENT_TOPIC_ADDRESS: {{ quote .Values.container.paymentTopicAddress }}
   PROCESSING_TOPIC_ADDRESS: {{ quote .Values.container.processingTopicAddress }}
   RESPONSE_TOPIC_ADDRESS: {{ quote .Values.container.responseTopicAddress }}
   EVENTS_TOPIC_ADDRESS: {{ quote .Values.container.eventsTopicAddress }}
   CUSTOMER_TOPIC_ADDRESS: {{ quote .Values.container.customerTopicAddress }}
-  {{- end }}
+  {{- end -}}
   PAYMENT_SUBSCRIPTION_ADDRESS: {{ quote .Values.container.paymentSubscriptionAddress }}
   CUSTOMER_SUBSCRIPTION_ADDRESS: {{ quote .Values.container.customerSubscriptionAddress }}
   POSTGRES_DB: {{ quote .Values.postgresService.postgresDb }}
