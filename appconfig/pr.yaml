@@ -4,16 +4,10 @@ environmentCode: snd2
 pr: true
 container:
   messageQueueHost: SNDFFCINFSB2001.servicebus.windows.net
-  processingActive: true
-  paymentTopicAddress: topic:ffc-pay-request
+  paymentTopicAddress: queue:ffc-pay-request
   paymentSubscriptionAddress: ffc-pay-enrichment
-  processingTopicAddress: topic:ffc-pay-processing
-  responseTopicAddress: topic:ffc-pay-request-response
-  eventsTopicAddress: topic:ffc-pay-events
-  customerTopicAddress: topic:ffc-pay-customer
+  processingTopicAddress: queue:ffc-pay-processing
+  responseTopicAddress: queue:ffc-pay-request-response
+  eventsTopicAddress: queue:ffc-pay-events
+  customerTopicAddress: queue:ffc-pay-customer
   customerSubscriptionAddress: ffc-pay-enrichment
-postgresService:
-  postgresDb: ffc-pay-enrichment-snd2
-  postgresqlHost: snd2ffcdbssq1001.postgres.database.azure.com
-  postgresPort: 5432
-  postgresSchema: public

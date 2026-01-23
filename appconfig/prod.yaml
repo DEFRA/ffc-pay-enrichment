@@ -11,18 +11,11 @@ container:
   eventsTopicAddress: ffc-pay-events
   customerTopicAddress: ffc-pay-customer
   customerSubscriptionAddress: ffc-pay-enrichment
-postgresService:
-  postgresDb: ffc-pay-enrichment-prd
-  postgresqlHost: prdffcdbssq1001.postgres.database.azure.com
-  postgresPort: 5432
-  postgresSchema: public
 secretProviderClass:
   azure:
     keyvaultName: PRDFFCINFKV1001
     objects:
       - objectName: prd-ffcahwr-appInsights-connectionString
-        objectType: secret
-      - objectName: prd-postgresPayEnrichmentUser
         objectType: secret
 
   secretObjects:
@@ -31,5 +24,3 @@ secretProviderClass:
       data:
         - objectName: prd-ffcahwr-appInsights-connectionString
           key: APPINSIGHTS_CONNECTION_STRING
-        - objectName: prd-postgresPayEnrichmentUser
-          key: POSTGRES_USERNAME

@@ -3,7 +3,6 @@ environment: production
 environmentCode: pre
 container:
   messageQueueHost: PREFFCINFSB1001.servicebus.windows.net
-  processingActive: true
   paymentTopicAddress: ffc-pay-request-pre
   paymentSubscriptionAddress: ffc-pay-enrichment
   processingTopicAddress: ffc-pay-processing-pre
@@ -11,18 +10,11 @@ container:
   eventsTopicAddress: ffc-pay-events-pre
   customerTopicAddress: ffc-pay-customer-pre
   customerSubscriptionAddress: ffc-pay-enrichment
-postgresService:
-  postgresDb: ffc-pay-enrichment-pre
-  postgresqlHost: preffcdbssq1001.postgres.database.azure.com
-  postgresPort: 5432
-  postgresSchema: public
 secretProviderClass:
   azure:
     keyvaultName: PREFFCINFKV1001
     objects:
       - objectName: pre-ffcahwr-appInsights-connectionString
-        objectType: secret
-      - objectName: pre-postgresPayEnrichmentUser
         objectType: secret
 
   secretObjects:
@@ -31,5 +23,3 @@ secretProviderClass:
       data:
         - objectName: pre-ffcahwr-appInsights-connectionString
           key: APPINSIGHTS_CONNECTION_STRING
-        - objectName: pre-postgresPayEnrichmentUser
-          key: POSTGRES_USERNAME

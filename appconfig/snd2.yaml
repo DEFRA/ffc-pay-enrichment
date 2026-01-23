@@ -11,8 +11,3 @@ container:
   eventsTopicAddress: ffc-pay-events-snd2
   customerTopicAddress: ffc-pay-customer-snd2
   customerSubscriptionAddress: ffc-pay-enrichment
-postgresService:
-  postgresDb: ffc-pay-enrichment-snd2
-  postgresqlHost: snd2ffcdbssq1001.postgres.database.azure.com
-  postgresPort: 5432
-  postgresSchema: public
