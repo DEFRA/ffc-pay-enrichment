@@ -5,25 +5,19 @@ data:
   APPINSIGHTS_CLOUDROLE: {{ quote .Values.name }}
   MESSAGE_QUEUE_HOST: {{ quote .Values.container.messageQueueHost }}
   PROCESSING_ACTIVE: {{ quote .Values.container.processingActive }}
-  {{- if and (.Values.environmentCode) (not .Values.pr) }}
+  {{- if (.Values.environmentCode) }}
   PAYMENT_TOPIC_ADDRESS: {{ .Values.container.paymentTopicAddress }}-{{ .Values.environmentCode }}
   PROCESSING_TOPIC_ADDRESS: {{ .Values.container.processingTopicAddress }}-{{ .Values.environmentCode }}
   RESPONSE_TOPIC_ADDRESS: {{ .Values.container.responseTopicAddress }}-{{ .Values.environmentCode }}
   EVENTS_TOPIC_ADDRESS: {{ .Values.container.eventsTopicAddress }}-{{ .Values.environmentCode }}
   CUSTOMER_TOPIC_ADDRESS: {{ .Values.container.customerTopicAddress }}-{{ .Values.environmentCode }}
-  {{- else if and (.Values.environmentCode) (.Values.pr) }}
-  PAYMENT_TOPIC_ADDRESS: {{ quote .Values.container.paymentTopicAddress }}-snd
-  PROCESSING_TOPIC_ADDRESS: {{ quote .Values.container.processingTopicAddress }}-snd
-  RESPONSE_TOPIC_ADDRESS: {{ quote .Values.container.responseTopicAddress }}-snd
-  EVENTS_TOPIC_ADDRESS: {{ quote .Values.container.eventsTopicAddress }}-snd
-  CUSTOMER_TOPIC_ADDRESS: {{ quote .Values.container.customerTopicAddress }}-snd
-  {{- else }}
+  {{ else }}
   PAYMENT_TOPIC_ADDRESS: {{ quote .Values.container.paymentTopicAddress }}
   PROCESSING_TOPIC_ADDRESS: {{ quote .Values.container.processingTopicAddress }}
   RESPONSE_TOPIC_ADDRESS: {{ quote .Values.container.responseTopicAddress }}
   EVENTS_TOPIC_ADDRESS: {{ quote .Values.container.eventsTopicAddress }}
   CUSTOMER_TOPIC_ADDRESS: {{ quote .Values.container.customerTopicAddress }}
-  {{- end -}}
+  {{- end }}
   PAYMENT_SUBSCRIPTION_ADDRESS: {{ quote .Values.container.paymentSubscriptionAddress }}
   CUSTOMER_SUBSCRIPTION_ADDRESS: {{ quote .Values.container.customerSubscriptionAddress }}
   POSTGRES_DB: {{ quote .Values.postgresService.postgresDb }}
