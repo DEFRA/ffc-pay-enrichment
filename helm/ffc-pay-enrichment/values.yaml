@@ -15,7 +15,7 @@ containerConfigMap:
   name: ffc-pay-enrichment-config-map
 
 containerSecret:
-  name: ffc-pay-enrichment-container-secret
+  name: ffc-pay-enrichment
   type: Opaque
 
 deployment:
