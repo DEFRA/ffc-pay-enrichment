@@ -3,12 +3,12 @@ environment: production
 environmentCode: dev
 container:
   messageQueueHost: DEVFFCINFSB1001.servicebus.windows.net
-  paymentTopicAddress: ffc-pay-request-dev
+  paymentTopicAddress: ffc-pay-request
   paymentSubscriptionAddress: ffc-pay-enrichment
-  processingTopicAddress: ffc-pay-processing-dev
-  responseTopicAddress: ffc-pay-request-response-dev
-  eventsTopicAddress: ffc-pay-events-dev
-  customerTopicAddress: ffc-pay-customer-dev
+  processingTopicAddress: ffc-pay-processing
+  responseTopicAddress: ffc-pay-request-response
+  eventsTopicAddress: ffc-pay-events
+  customerTopicAddress: ffc-pay-customer
   customerSubscriptionAddress: ffc-pay-enrichment
 secretProviderClass:
   azure:

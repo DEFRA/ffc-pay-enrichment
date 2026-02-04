@@ -3,12 +3,12 @@ environment: production
 environmentCode: pre
 container:
   messageQueueHost: PREFFCINFSB1001.servicebus.windows.net
-  paymentTopicAddress: ffc-pay-request-pre
+  paymentTopicAddress: ffc-pay-request
   paymentSubscriptionAddress: ffc-pay-enrichment
-  processingTopicAddress: ffc-pay-processing-pre
-  responseTopicAddress: ffc-pay-request-response-pre
-  eventsTopicAddress: ffc-pay-events-pre
-  customerTopicAddress: ffc-pay-customer-pre
+  processingTopicAddress: ffc-pay-processing
+  responseTopicAddress: ffc-pay-request-response
+  eventsTopicAddress: ffc-pay-events
+  customerTopicAddress: ffc-pay-customer
   customerSubscriptionAddress: ffc-pay-enrichment
 secretProviderClass:
   azure:
