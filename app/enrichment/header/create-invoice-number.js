@@ -2,8 +2,11 @@ const { SFI, SFI_PILOT, LUMP_SUMS, CS, BPS, MANUAL, ES, FC, IMPS, SFI23, DELINKE
 const { INJECTION } = require('../../constants/source-systems')
 
 const createInvoiceNumber = (paymentRequest) => {
+  if (paymentRequest?.sourceSystem === INJECTION) {
+    return paymentRequest.invoiceNumber
+  }
   try {
-    const schemesWithAcceptedInvoiceNumbers = new Set([INJECTION, FPTT])
+    const schemesWithAcceptedInvoiceNumbers = new Set([MANUAL, FC, FPTT])
     if (schemesWithAcceptedInvoiceNumbers.has(paymentRequest.schemeId)) {
       return paymentRequest.invoiceNumber
     }
@@ -16,9 +19,6 @@ const createInvoiceNumber = (paymentRequest) => {
       return createSitiAgriInvoiceNumber(paymentRequest)
     }
     switch (paymentRequest.schemeId) {
-      case MANUAL:
-      case FC:
-        return paymentRequest.invoiceNumber
       case ES:
         return createESInvoiceNumber(paymentRequest)
       case IMPS:
