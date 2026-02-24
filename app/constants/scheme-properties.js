@@ -13,7 +13,8 @@ const {
   DELINKED,
   SFI_EXPANDED,
   COHT_REVENUE,
-  COHT_CAPITAL
+  COHT_CAPITAL,
+  FPTT
 } = require('./schemes')
 
 const {
@@ -31,7 +32,8 @@ const {
   DP,
   ESFIO,
   COHTR,
-  COHTC
+  COHTC,
+  FPTT: FPTT_SOURCE
 } = require('./source-systems')
 
 const {
@@ -63,7 +65,8 @@ const {
   DP: DP_PILLAR,
   ESFIO: ESFIO_PILLAR,
   COHTR: COHTR_PILLAR,
-  COHTC: COHTC_PILLAR
+  COHTC: COHTC_PILLAR,
+  FPTT: FPTT_PILLAR
 } = require('./pillars')
 
 module.exports = [
@@ -81,5 +84,6 @@ module.exports = [
   { schemeId: DELINKED, sourceSystem: DP, pillar: DP_PILLAR, deliveryBody: RP00, fundCode: DOM10 },
   { schemeId: SFI_EXPANDED, sourceSystem: ESFIO, pillar: ESFIO_PILLAR, deliveryBody: RP00, fundCode: DRD10 },
   { schemeId: COHT_REVENUE, sourceSystem: COHTR, pillar: COHTR_PILLAR, deliveryBody: RP00, fundCode: DRD10 },
-  { schemeId: COHT_CAPITAL, sourceSystem: COHTC, pillar: COHTC_PILLAR, deliveryBody: RP00, fundCode: DRD10 }
+  { schemeId: COHT_CAPITAL, sourceSystem: COHTC, pillar: COHTC_PILLAR, deliveryBody: RP00, fundCode: DRD10 },
+  { schemeId: FPTT, sourceSystem: FPTT_SOURCE, pillar: FPTT_PILLAR, deliveryBody: RP00, fundCode: DRD10 }
 ]
