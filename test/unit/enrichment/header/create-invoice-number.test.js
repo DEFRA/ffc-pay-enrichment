@@ -23,7 +23,6 @@ describe('createInvoiceNumber', () => {
       sfiExpanded: clone('sfi-expanded'),
       cohtRevenue: clone('coht-revenue'),
       cohtCapital: clone('coht-capital'),
-      fptt: clone('fptt'),
       unknown: {
         schemeId: -1,
         paymentRequestNumber: 1,
@@ -46,8 +45,7 @@ describe('createInvoiceNumber', () => {
     ['Delinked', 'delinked', 'D000000100000001V001'],
     ['SFI Expanded', 'sfiExpanded', 'E000000100000001V001'],
     ['COHT Revenue', 'cohtRevenue', 'C000000100000001V001'],
-    ['COHT Capital', 'cohtCapital', 'C000000100000001V001'],
-    ['Future Payments Technical Test', 'fptt', (pr) => pr.invoiceNumber]
+    ['COHT Capital', 'cohtCapital', 'C000000100000001V001']
   ])('%s', (_, key, expected) => {
     test('generates correct invoice number', () => {
       const result = createInvoiceNumber(paymentRequests[key])

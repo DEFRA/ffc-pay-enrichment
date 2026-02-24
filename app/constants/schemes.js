@@ -13,6 +13,5 @@ module.exports = {
   DELINKED: 13,
   SFI_EXPANDED: 14,
   COHT_REVENUE: 15,
-  COHT_CAPITAL: 16,
-  FPTT: 17
+  COHT_CAPITAL: 16
 }
