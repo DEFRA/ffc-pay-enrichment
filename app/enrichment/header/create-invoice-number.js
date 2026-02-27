@@ -1,4 +1,4 @@
-const { SFI, SFI_PILOT, LUMP_SUMS, CS, BPS, MANUAL, ES, FC, IMPS, SFI23, DELINKED, SFI_EXPANDED, COHT_REVENUE, COHT_CAPITAL } = require('../../constants/schemes')
+const { SFI, SFI_PILOT, LUMP_SUMS, CS, BPS, MANUAL, ES, FC, IMPS, SFI23, DELINKED, SFI_EXPANDED, COHT_REVENUE, COHT_CAPITAL, FPTT } = require('../../constants/schemes')
 const { INJECTION } = require('../../constants/source-systems')
 
 const createInvoiceNumber = (paymentRequest) => {
@@ -6,6 +6,10 @@ const createInvoiceNumber = (paymentRequest) => {
     return paymentRequest.invoiceNumber
   }
   try {
+    const schemesWithAcceptedInvoiceNumbers = new Set([MANUAL, FC, FPTT])
+    if (schemesWithAcceptedInvoiceNumbers.has(paymentRequest.schemeId)) {
+      return paymentRequest.invoiceNumber
+    }
     const standardSchemeInvoices = new Set([DELINKED, SFI_EXPANDED, COHT_REVENUE, COHT_CAPITAL])
     if (standardSchemeInvoices.has(paymentRequest.schemeId)) {
       return createStandardSchemeInvoiceNumber(paymentRequest)
@@ -15,9 +19,6 @@ const createInvoiceNumber = (paymentRequest) => {
       return createSitiAgriInvoiceNumber(paymentRequest)
     }
     switch (paymentRequest.schemeId) {
-      case MANUAL:
-      case FC:
-        return paymentRequest.invoiceNumber
       case ES:
         return createESInvoiceNumber(paymentRequest)
       case IMPS:

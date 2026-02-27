@@ -1,0 +1,13 @@
+---
+environment: production
+environmentCode: snd2
+container:
+  messageQueueHost: SNDFFCINFSB2001.servicebus.windows.net
+  processingActive: true
+  paymentTopicAddress: ffc-pay-request
+  paymentSubscriptionAddress: ffc-pay-enrichment
+  processingTopicAddress: ffc-pay-processing
+  responseTopicAddress: ffc-pay-request-response
+  eventsTopicAddress: ffc-pay-events
+  customerTopicAddress: ffc-pay-customer
+  customerSubscriptionAddress: ffc-pay-enrichment

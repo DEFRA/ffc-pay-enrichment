@@ -14,5 +14,6 @@ module.exports = {
   DP: 'DP',
   ESFIO: 'ESFIO',
   COHTR: 'COHTR',
-  COHTC: 'COHTC'
+  COHTC: 'COHTC',
+  FPTT: 'FPTT'
 }
