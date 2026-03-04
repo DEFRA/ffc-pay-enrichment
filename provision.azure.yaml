@@ -12,14 +12,22 @@ resources:
         - name: receiver
         subscriptions:
           - name: ffc-pay-enrichment
+            deadLetteringOnMessageExpiration: false
+            defaultMessageTimeToLive: P3650D
+            lockDuration: PT5M
+            maxDeliveryCount: 2000
       - name: ffc-pay-customer
         defaultMessageTimeToLive: P3650D
         duplicateDetectionHistoryTimeWindow: PT10M30S
-        requiresDuplicateDetection: false
+        requiresDuplicateDetection: true
         roles: 
         - name: receiver
         subscriptions:
           - name: ffc-pay-enrichment
+            deadLetteringOnMessageExpiration: false
+            defaultMessageTimeToLive: P3650D
+            lockDuration: PT5M
+            maxDeliveryCount: 2000
       - name: ffc-pay-events
         defaultMessageTimeToLive: P3650D
         duplicateDetectionHistoryTimeWindow: PT10M30S
