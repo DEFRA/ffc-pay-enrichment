@@ -13,9 +13,9 @@ resources:
         subscriptions:
           - name: ffc-pay-enrichment
       - name: ffc-pay-customer
-        defaultMessageTimeToLive: P3650D
-        duplicateDetectionHistoryTimeWindow: PT10M30S
-        requiresDuplicateDetection: true
+        defaultMessageTimeToLive: P14D
+        duplicateDetectionHistoryTimeWindow: PT10M
+        requiresDuplicateDetection: false
         roles: 
         - name: receiver
         subscriptions:
