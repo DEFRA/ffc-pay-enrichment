@@ -19,7 +19,7 @@ secretProviderClass:
         objectType: secret
 
   secretObjects:
-    - secretName: ffc-pay-batch-processor
+    - secretName: ffc-pay-enrichment
       type: Opaque
       data:
         - objectName: devtest-ffcahwr-appInsights-connectionString
