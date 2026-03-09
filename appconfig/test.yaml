@@ -4,12 +4,12 @@ environmentCode: test
 container:
   messageQueueHost: DEVFFCINFSB1001.servicebus.windows.net
   processingActive: true
-  paymentTopicAddress: ffc-pay-request-test
+  paymentTopicAddress: ffc-pay-request
   paymentSubscriptionAddress: ffc-pay-enrichment
-  processingTopicAddress: ffc-pay-processing-test
-  responseTopicAddress: ffc-pay-request-response-test
-  eventsTopicAddress: ffc-pay-events-test
-  customerTopicAddress: ffc-pay-customer-test
+  processingTopicAddress: ffc-pay-processing
+  responseTopicAddress: ffc-pay-request-response
+  eventsTopicAddress: ffc-pay-events
+  customerTopicAddress: ffc-pay-customer
   customerSubscriptionAddress: ffc-pay-enrichment
 secretProviderClass:
   azure:
