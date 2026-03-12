@@ -9,7 +9,7 @@ LABEL uk.gov.defra.ffc.parent-image=defradigital/node-development:${PARENT_VERSI
 
 ARG PORT
 ARG PORT_DEBUG
-ENV ${PORT}
+ENV PORT ${PORT}
 EXPOSE ${PORT} ${PORT_DEBUG}
 
 COPY --chown=node:node package*.json ./
