@@ -39,7 +39,7 @@
     "joi": "17.6.0",
     "log-timestamp": "0.3.0",
     "moment": "2.29.4",
-    "sequelize": "^6.37.8",
+    "sequelize": "6.37.8",
     "uuid": "9.0.0"
   },
   "devDependencies": {
