@@ -3,7 +3,6 @@ environment: production
 environmentCode: test
 container:
   messageQueueHost: DEVFFCINFSB1001.servicebus.windows.net
-  processingActive: true
   paymentTopicAddress: ffc-pay-request
   paymentSubscriptionAddress: ffc-pay-enrichment
   processingTopicAddress: ffc-pay-processing
