@@ -52,7 +52,7 @@ describe('enrichPaymentRequest', () => {
       paymentRequest.marketingYear,
       mockScheme
     )
-    expect(validateValues).toHaveBeenCalledWith(paymentRequest.value, paymentRequest.invoiceLines)
+    expect(validateValues).toHaveBeenCalledWith(paymentRequest.value, paymentRequest.invoiceLines, paymentRequest.schemeId)
   })
 
   describe('error handling', () => {
