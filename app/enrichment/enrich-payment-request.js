@@ -11,7 +11,7 @@ const enrichPaymentRequest = async (paymentRequest) => {
   await enrichHeader(paymentRequest, scheme)
   await validateHeader(paymentRequest)
   paymentRequest.invoiceLines = await enrichInvoiceLines(paymentRequest.invoiceLines, paymentRequest.schemeId, paymentRequest.marketingYear, scheme)
-  validateValues(paymentRequest.value, paymentRequest.invoiceLines)
+  validateValues(paymentRequest.value, paymentRequest.invoiceLines, paymentRequest.schemeId)
 }
 
 module.exports = {

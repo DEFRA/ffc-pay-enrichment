@@ -1,6 +1,6 @@
 {
   "name": "ffc-pay-enrichment",
-  "version": "1.29.53",
+  "version": "1.29.57",
   "description": "FFC Payment enrichment service",
   "homepage": "https://github.com/DEFRA/ffc-pay-enrichment",
   "main": "app/index.js",
@@ -29,12 +29,12 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "@azure/identity": "4.4.1",
-    "@hapi/hapi": "20.2.2",
+    "@hapi/hapi": "21.4.8",
     "@joi/date": "2.1.0",
     "applicationinsights": "2.9.6",
     "ffc-database": "1.0.24",
-    "ffc-messaging": "2.10.4",
-    "ffc-pay-event-publisher": "1.2.1",
+    "ffc-messaging": "2.10.5",
+    "ffc-pay-event-publisher": "1.2.3",
     "hapi-pino": "13.0.0",
     "joi": "17.6.0",
     "log-timestamp": "0.3.0",
