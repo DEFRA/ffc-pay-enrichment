@@ -3,6 +3,7 @@ module.exports = {
   AHWR_BEEF: 'AHWR-Beef',
   AHWR_DAIRY: 'AHWR-Dairy',
   AHWR_PIGS: 'AHWR-Pigs',
+  AHWR_POULTRY: 'AHWR-Poultry',
   ES_1: '01370',
   ES_2: '01372',
   ES_3: '01374',

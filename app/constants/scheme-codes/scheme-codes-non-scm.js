@@ -5,6 +5,7 @@ module.exports = {
   [standardCodes.AHWR_BEEF]: '18002',
   [standardCodes.AHWR_DAIRY]: '18003',
   [standardCodes.AHWR_PIGS]: '18004',
+  [standardCodes.AHWR_POULTRY]: '18005',
   [standardCodes.ES_1]: '41201',
   [standardCodes.ES_2]: '41202',
   [standardCodes.ES_3]: '41203',
