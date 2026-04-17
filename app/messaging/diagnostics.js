@@ -1,5 +1,3 @@
-const insights = require('../insights')
-
 const createDiagnosticsHandler = (name) => (args) => {
   const error = args?.error
 
@@ -8,8 +6,6 @@ const createDiagnosticsHandler = (name) => (args) => {
     message: error?.message,
     stack: error?.stack
   })
-
-  insights.trackException(error)
 }
 
 module.exports = { createDiagnosticsHandler }
