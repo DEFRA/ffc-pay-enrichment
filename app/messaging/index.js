@@ -2,7 +2,7 @@ const { MessageReceiver } = require('ffc-messaging')
 const { messageConfig } = require('../config')
 const { processPaymentMessage } = require('./process-payment-message')
 const { processCustomerMessage } = require('./process-customer-message')
-const { createDiagnosticsHandler } = require('./diagnostics') 
+const { createDiagnosticsHandler } = require('./diagnostics')
 
 let customerReceiver
 
