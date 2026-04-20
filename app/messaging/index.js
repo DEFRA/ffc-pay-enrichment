@@ -2,7 +2,7 @@ const { MessageReceiver } = require('ffc-messaging')
 const { messageConfig } = require('../config')
 const { processPaymentMessage } = require('./process-payment-message')
 const { processCustomerMessage } = require('./process-customer-message')
-const { createDiagnosticsHandler } = require('./diagnostics')
+const { createDiagnosticsHandler } = require('./diagnostics') 
 
 let customerReceiver
 
@@ -18,6 +18,7 @@ const start = async () => {
     receivers.push(paymentReceiver)
     console.info(`Receiver ${i + 1} ready to receive payment requests`)
   }
+  console.info(`Active schemes - AHWR: ${messageConfig.activeSchemes.ahwr}, FPTT: ${messageConfig.activeSchemes.fptt}`)
 
   const customerAction = message => processCustomerMessage(message, customerReceiver)
   customerReceiver = new MessageReceiver(messageConfig.customerSubscription, customerAction)
