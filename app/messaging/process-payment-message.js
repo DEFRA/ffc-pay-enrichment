@@ -4,11 +4,20 @@ const { VALIDATION } = require('../constants/errors')
 const { enrichPaymentRequest } = require('../enrichment')
 const { sendMessage } = require('./send-message')
 const { sendEnrichmentEvent, sendEnrichmentErrorEvent } = require('../event')
+const { isSchemeActive } = require('./isSchemeActive')
 
 const processPaymentMessage = async (message, receiver) => {
   const paymentRequest = message.body
   try {
     console.log('Payment request received:', util.inspect(paymentRequest, false, null, true))
+
+    if (!isSchemeActive(paymentRequest.sourceSystem)) {
+      console.warn(`Payment request rejected: scheme ${paymentRequest.sourceSystem} is currently inactive`)
+      const inactiveError = new Error(`Scheme ${paymentRequest.sourceSystem} is inactive`)
+      await sendEnrichmentErrorEvent(paymentRequest, inactiveError)
+      await receiver.deadLetterMessage(message, { deadLetterReason: `Scheme ${paymentRequest.sourceSystem} is inactive` })
+      return
+    }
     const originalPaymentRequest = JSON.parse(JSON.stringify(paymentRequest))
     await enrichPaymentRequest(paymentRequest)
     await sendMessage(paymentRequest, ENRICHED)
