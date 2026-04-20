@@ -10,7 +10,7 @@ const receivers = []
 
 const start = async () => {
   for (let i = 0; i < messageConfig.paymentSubscription.numberOfReceivers; i++) {
-    let paymentReceiver
+    let paymentReceiver // eslint-disable-line prefer-const
     const paymentAction = message => processPaymentMessage(message, paymentReceiver)
     paymentReceiver = new MessageReceiver(messageConfig.paymentSubscription, paymentAction)
     await paymentReceiver.subscribe(createDiagnosticsHandler(`payment-receiver-${i + 1}`))
