@@ -1,9 +1,11 @@
 const { AHWR, FPTT } = require('../constants/source-systems')
 const { messageConfig } = require('../config')
+const isAhwrActive = () => messageConfig.activeSchemes.ahwr
+const isFpttActive = () => messageConfig.activeSchemes.fptt
 
 const schemeActiveMap = {
-  [AHWR]: () => messageConfig.activeSchemes.ahwr,
-  [FPTT]: () => messageConfig.activeSchemes.fptt,
+  [AHWR]: isAhwrActive,
+  [FPTT]: isFpttActive,
 }
 
 const isSchemeActive = (sourceSystem) => {
