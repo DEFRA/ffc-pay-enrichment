@@ -4,7 +4,7 @@ const { VALIDATION } = require('../constants/errors')
 const { enrichPaymentRequest } = require('../enrichment')
 const { sendMessage } = require('./send-message')
 const { sendEnrichmentEvent, sendEnrichmentErrorEvent } = require('../event')
-const { isSchemeActive } = require('./isSchemeActive')
+const { isSchemeActive } = require('./is-scheme-active')
 
 const processPaymentMessage = async (message, receiver) => {
   const paymentRequest = message.body

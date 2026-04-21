@@ -33,7 +33,7 @@ jest.mock('../../../app/event', () => ({
   sendEnrichmentEvent: jest.fn(),
   sendEnrichmentErrorEvent: jest.fn()
 }))
-jest.mock('../../../app/messaging/isSchemeActive')
+jest.mock('../../../app/messaging/is-scheme-active')
 
 const { FRN } = require('../../mocks/values/frn')
 const { SOURCE_SYSTEM } = require('../../mocks/values/source-system')
@@ -43,7 +43,7 @@ const { ENRICHED, ACCEPTED, REJECTED } = require('../../../app/constants/types')
 
 const { enrichPaymentRequest: mockEnrichPaymentRequest } = require('../../../app/enrichment')
 const { sendEnrichmentErrorEvent: mockSendEnrichmentErrorEvent } = require('../../../app/event')
-const { isSchemeActive: mockIsSchemeActive } = require('../../../app/messaging/isSchemeActive')
+const { isSchemeActive: mockIsSchemeActive } = require('../../../app/messaging/is-scheme-active')
 
 const { processPaymentMessage } = require('../../../app/messaging/process-payment-message')
 

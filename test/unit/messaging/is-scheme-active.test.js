@@ -2,7 +2,7 @@ jest.mock('../../../app/config')
 const { messageConfig } = require('../../../app/config')
 
 const { AHWR, FPTT } = require('../../../app/constants/source-systems')
-const { isSchemeActive } = require('../../../app/messaging/isSchemeActive')
+const { isSchemeActive } = require('../../../app/messaging/is-scheme-active')
 
 describe('isSchemeActive', () => {
   beforeEach(() => {
