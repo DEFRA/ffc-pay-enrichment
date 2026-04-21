@@ -29,6 +29,8 @@ services:
       POSTGRES_SCHEMA_NAME: ${POSTGRES_SCHEMA_NAME:-public}
       POSTGRES_USERNAME: ${POSTGRES_SCHEMA_USERNAME:-postgres}
       PROCESSING_ACTIVE: ${PROCESSING_ACTIVE:-true}
+      AHWR_SERVICE_BUS_ACTIVE: ${AHWR_SERVICE_BUS_ACTIVE:-true}
+      FPTT_SERVICE_BUS_ACTIVE: ${FPTT_SERVICE_BUS_ACTIVE:-true}
   
   ffc-pay-enrichment-postgres:
     image: postgres:11.4-alpine
