@@ -19,6 +19,8 @@ services:
       - ./package.json:/home/node/package.json
     environment:
       PROCESSING_ACTIVE: true
+      AHWR_SERVICE_BUS_ACTIVE: true
+      FPTT_SERVICE_BUS_ACTIVE: true
       MESSAGE_QUEUE_HOST: servicebus-emulator
       MESSAGE_QUEUE_USER: RootManageSharedAccessKey
       MESSAGE_QUEUE_PASSWORD: SAS_KEY_VALUE
