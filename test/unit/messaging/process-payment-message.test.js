@@ -25,8 +25,15 @@ jest.mock('ffc-pay-event-publisher', () => {
   }
 })
 
-jest.mock('../../../app/data')
-jest.mock('../../../app/enrichment')
+jest.mock('../../../app/data', () => ({}))
+jest.mock('../../../app/enrichment', () => ({
+  enrichPaymentRequest: jest.fn()
+}))
+jest.mock('../../../app/event', () => ({
+  sendEnrichmentEvent: jest.fn(),
+  sendEnrichmentErrorEvent: jest.fn()
+}))
+jest.mock('../../../app/messaging/is-scheme-active')
 
 const { FRN } = require('../../mocks/values/frn')
 const { SOURCE_SYSTEM } = require('../../mocks/values/source-system')
@@ -35,6 +42,8 @@ const { VALIDATION } = require('../../../app/constants/errors')
 const { ENRICHED, ACCEPTED, REJECTED } = require('../../../app/constants/types')
 
 const { enrichPaymentRequest: mockEnrichPaymentRequest } = require('../../../app/enrichment')
+const { sendEnrichmentErrorEvent: mockSendEnrichmentErrorEvent } = require('../../../app/event')
+const { isSchemeActive: mockIsSchemeActive } = require('../../../app/messaging/is-scheme-active')
 
 const { processPaymentMessage } = require('../../../app/messaging/process-payment-message')
 
@@ -50,6 +59,7 @@ const mockErrorInProcessing = (validation = false) => {
 
 describe('process payment message', () => {
   beforeEach(() => {
+    mockIsSchemeActive.mockReturnValue(true)
     receiver = {
       completeMessage: jest.fn(),
       deadLetterMessage: jest.fn()
@@ -113,5 +123,51 @@ describe('process payment message', () => {
     const message = { body: { frn: FRN } }
     await processPaymentMessage(message, receiver)
     expect(mockSendMessage.mock.calls[0][0].subject).toBeUndefined()
+  })
+
+  describe('when scheme is inactive', () => {
+    let warnSpy
+    const inactiveMessage = { body: { frn: FRN, sourceSystem: SOURCE_SYSTEM } }
+
+    beforeEach(() => {
+      mockIsSchemeActive.mockReturnValue(false)
+      warnSpy = jest.spyOn(console, 'warn').mockImplementation(() => {})
+    })
+
+    afterEach(() => {
+      warnSpy.mockRestore()
+    })
+
+    test('dead letters message with inactive scheme reason', async () => {
+      await processPaymentMessage(inactiveMessage, receiver)
+      expect(receiver.deadLetterMessage).toHaveBeenCalledWith(inactiveMessage, {
+        deadLetterReason: `Scheme ${SOURCE_SYSTEM} is inactive`
+      })
+    })
+
+    test('does not complete message', async () => {
+      await processPaymentMessage(inactiveMessage, receiver)
+      expect(receiver.completeMessage).not.toHaveBeenCalled()
+    })
+
+    test('does not send any messages', async () => {
+      await processPaymentMessage(inactiveMessage, receiver)
+      expect(mockSendMessage).not.toHaveBeenCalled()
+    })
+
+    test('logs a warning with the inactive scheme name', async () => {
+      await processPaymentMessage(inactiveMessage, receiver)
+      expect(warnSpy).toHaveBeenCalledWith(
+        `Payment request rejected: scheme ${SOURCE_SYSTEM} is currently inactive`
+      )
+    })
+
+    test('sends enrichment error event with inactive scheme error', async () => {
+      await processPaymentMessage(inactiveMessage, receiver)
+      expect(mockSendEnrichmentErrorEvent).toHaveBeenCalledWith(
+        inactiveMessage.body,
+        expect.objectContaining({ message: `Scheme ${SOURCE_SYSTEM} is inactive` })
+      )
+    })
   })
 })
