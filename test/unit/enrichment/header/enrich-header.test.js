@@ -61,9 +61,22 @@ describe('enrichHeader', () => {
     expect(paymentRequest.deliveryBody).toBe(NE00)
   })
 
+  test('should set providesAccountingValues to false for non-accounting schemes', async () => {
+    await enrichHeader(paymentRequest, scheme)
+    expect(paymentRequest.providesAccountingValues).toBe(false)
+  })
+
+  test('should set providesAccountingValues to true for FPTT', async () => {
+    const { FPTT } = require('../../../../app/constants/schemes')
+    scheme.schemeId = FPTT
+    await enrichHeader(paymentRequest, scheme)
+    expect(paymentRequest.providesAccountingValues).toBe(true)
+  })
+
   test('should handle missing scheme', async () => {
     await enrichHeader(paymentRequest, undefined)
     expect(paymentRequest.schemeId).toBeUndefined()
+    expect(paymentRequest.providesAccountingValues).toBe(false)
   })
 
   test('should enrich correlationId', async () => {

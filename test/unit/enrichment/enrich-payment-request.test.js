@@ -4,7 +4,6 @@ const { validateHeader } = require('../../../app/enrichment/validate-header')
 const { enrichInvoiceLines } = require('../../../app/enrichment/invoice-lines')
 const { validateValues } = require('../../../app/enrichment/validate-values')
 const { enrichPaymentRequest } = require('../../../app/enrichment/enrich-payment-request')
-const { FPTT } = require('../../../app/constants/schemes')
 
 jest.mock('../../../app/enrichment/get-scheme')
 jest.mock('../../../app/enrichment/header')
@@ -29,7 +28,7 @@ describe('enrichPaymentRequest', () => {
     }
 
     getScheme.mockReturnValue(mockScheme)
-    enrichHeader.mockImplementation((pr, scheme) => pr)
+    enrichHeader.mockImplementation((pr) => { pr.providesAccountingValues = false })
     validateHeader.mockImplementation(jest.fn())
     enrichInvoiceLines.mockImplementation(
       (invoiceLines, schemeId, marketingYear, scheme) => invoiceLines
@@ -53,18 +52,7 @@ describe('enrichPaymentRequest', () => {
       paymentRequest.marketingYear,
       mockScheme
     )
-    expect(validateValues).toHaveBeenCalledWith(paymentRequest.value, paymentRequest.invoiceLines, false)
-  })
-
-  test('should set providesAccountingValues to false for non-accounting schemes', async () => {
-    await enrichPaymentRequest(paymentRequest)
-    expect(paymentRequest.providesAccountingValues).toBe(false)
-  })
-
-  test('should set providesAccountingValues to true for FPTT', async () => {
-    paymentRequest.schemeId = FPTT
-    await enrichPaymentRequest(paymentRequest)
-    expect(paymentRequest.providesAccountingValues).toBe(true)
+    expect(validateValues).toHaveBeenCalledWith(paymentRequest.value, paymentRequest.invoiceLines, paymentRequest.providesAccountingValues)
   })
 
   describe('error handling', () => {
