@@ -31,7 +31,11 @@ const schema = Joi.object({
   },
   eventsTopic: {
     address: Joi.string()
-  }
+  },
+  activeSchemes: Joi.object({
+    ahwr: Joi.boolean().default(true),
+    fptt: Joi.boolean().default(true),
+  }).default()
 })
 
 const config = {
@@ -64,6 +68,10 @@ const config = {
   },
   eventsTopic: {
     address: process.env.EVENTS_TOPIC_ADDRESS
+  },
+  activeSchemes: {
+    ahwr: process.env.AHWR_SERVICE_BUS_ACTIVE,
+    fptt: process.env.FPTT_SERVICE_BUS_ACTIVE,
   }
 }
 
@@ -81,6 +89,7 @@ const processingTopic = { ...result.value.messageQueue, ...result.value.processi
 const responseTopic = { ...result.value.messageQueue, ...result.value.responseTopic }
 const eventTopic = { ...result.value.messageQueue, ...result.value.eventTopic }
 const eventsTopic = { ...result.value.messageQueue, ...result.value.eventsTopic }
+const activeSchemes = result.value.activeSchemes
 
 module.exports = {
   paymentSubscription,
@@ -88,5 +97,6 @@ module.exports = {
   processingTopic,
   responseTopic,
   eventTopic,
-  eventsTopic
+  eventsTopic,
+  activeSchemes
 }
