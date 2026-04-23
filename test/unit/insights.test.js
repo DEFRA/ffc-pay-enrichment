@@ -12,6 +12,12 @@ describe('Application Insights', () => {
     useAzureMonitor = require('@azure/monitor-opentelemetry').useAzureMonitor
 
     process.env = { ...DEFAULT_ENV }
+
+    jest.spyOn(console, 'log').mockImplementation(() => {})
+  })
+
+  afterEach(() => {
+    jest.restoreAllMocks()
   })
 
   afterAll(() => {
@@ -34,5 +40,37 @@ describe('Application Insights', () => {
     appInsights.setup()
 
     expect(useAzureMonitor).toHaveBeenCalledTimes(1)
+  })
+
+  test('trackException does not throw if telemetry not initialized', () => {
+    const appInsights = require('../../app/insights')
+    const error = new Error('Test error')
+
+    expect(() => appInsights.trackException(error)).not.toThrow()
+  })
+
+  test('trackException logs the error', () => {
+    const appInsights = require('../../app/insights')
+    const error = new Error('Test error')
+
+    appInsights.trackException(error)
+
+    expect(console.log).toHaveBeenCalledWith('Track Exception: ', error)
+  })
+
+  test('trackTrace does not throw if telemetry not initialized', () => {
+    const appInsights = require('../../app/insights')
+    const message = 'Test trace'
+
+    expect(() => appInsights.trackTrace(message)).not.toThrow()
+  })
+
+  test('trackTrace logs the message', () => {
+    const appInsights = require('../../app/insights')
+    const message = 'Test trace'
+
+    appInsights.trackTrace(message)
+
+    expect(console.log).toHaveBeenCalledWith('Track trace: ', message)
   })
 })
