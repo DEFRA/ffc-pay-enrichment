@@ -40,6 +40,9 @@ container:
   customerTopicAddress: ffc-pay-customer
   customerSubscriptionAddress: ffc-pay-enrichment
   processingActive: true
+  activeSchemes:
+    ahwr: true
+    fptt: true
 
 readinessProbe:
   path: /healthy

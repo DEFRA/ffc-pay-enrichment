@@ -10,7 +10,7 @@ const receivers = []
 
 const start = async () => {
   for (let i = 0; i < messageConfig.paymentSubscription.numberOfReceivers; i++) {
-    let paymentReceiver  // eslint-disable-line
+    let paymentReceiver // eslint-disable-line prefer-const
     const paymentAction = message => processPaymentMessage(message, paymentReceiver)
     paymentReceiver = new MessageReceiver(messageConfig.paymentSubscription, paymentAction)
     await paymentReceiver.subscribe(createDiagnosticsHandler(`payment-receiver-${i + 1}`))
@@ -18,7 +18,6 @@ const start = async () => {
     receivers.push(paymentReceiver)
     console.info(`Receiver ${i + 1} ready to receive payment requests`)
   }
-
   const customerAction = message => processCustomerMessage(message, customerReceiver)
   customerReceiver = new MessageReceiver(messageConfig.customerSubscription, customerAction)
   await customerReceiver.subscribe(createDiagnosticsHandler('customer-receiver'))

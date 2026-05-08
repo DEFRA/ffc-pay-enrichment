@@ -47,13 +47,25 @@ extends:
     variableGroupName: ffc-pay-enrichment-env-var
     pr_params:
       container.processingActive: $(pr_processingActive)
+      container.activeSchemes.ahwr: $(pr_activeSchemesAhwr)
+      container.activeSchemes.fptt: $(pr_activeSchemesFptt)
     snd2_params:
       container.processingActive: $(snd2_processingActive)
+      container.activeSchemes.ahwr: $(snd2_activeSchemesAhwr)
+      container.activeSchemes.fptt: $(snd2_activeSchemesFptt)
     dev_params:
       container.processingActive: $(dev_processingActive)
+      container.activeSchemes.ahwr: $(dev_activeSchemesAhwr)
+      container.activeSchemes.fptt: $(dev_activeSchemesFptt)
     test_params:
       container.processingActive: $(test_processingActive)
+      container.activeSchemes.ahwr: $(test_activeSchemesAhwr)
+      container.activeSchemes.fptt: $(test_activeSchemesFptt)
     pre_params:
       container.processingActive: $(pre_processingActive)
+      container.activeSchemes.ahwr: $(pre_activeSchemesAhwr)
+      container.activeSchemes.fptt: $(pre_activeSchemesFptt)
     prd_params:
       container.processingActive: $(prd_processingActive)
+      container.activeSchemes.ahwr: $(prd_activeSchemesAhwr)
+      container.activeSchemes.fptt: $(prd_activeSchemesFptt)
