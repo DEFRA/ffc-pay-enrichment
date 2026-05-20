@@ -77,8 +77,10 @@ jobs:
 
       - name: Commit and push version bump
         if: steps.version-check.outputs.needs_bump == 'true'
+        env:
+          HEAD_REF: ${{ github.head_ref }}
         run: |
           NEW_VERSION=$(node -p "require('./package.json').version")
           git add package.json package-lock.json
           git commit -S -m "chore: bump version to ${NEW_VERSION} [skip ci]"
-          git push origin ${{ github.head_ref }}
+          git push origin "$HEAD_REF"
