@@ -28,7 +28,7 @@ describe('enrichPaymentRequest', () => {
     }
 
     getScheme.mockReturnValue(mockScheme)
-    enrichHeader.mockImplementation((pr, scheme) => pr)
+    enrichHeader.mockImplementation((pr) => { pr.providesAccountingValues = false })
     validateHeader.mockImplementation(jest.fn())
     enrichInvoiceLines.mockImplementation(
       (invoiceLines, schemeId, marketingYear, scheme) => invoiceLines
@@ -52,7 +52,7 @@ describe('enrichPaymentRequest', () => {
       paymentRequest.marketingYear,
       mockScheme
     )
-    expect(validateValues).toHaveBeenCalledWith(paymentRequest.value, paymentRequest.invoiceLines, paymentRequest.schemeId)
+    expect(validateValues).toHaveBeenCalledWith(paymentRequest.value, paymentRequest.invoiceLines, paymentRequest.providesAccountingValues)
   })
 
   describe('error handling', () => {

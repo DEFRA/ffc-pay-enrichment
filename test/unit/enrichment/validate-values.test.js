@@ -1,4 +1,3 @@
-const { SFI, FPTT } = require('../../../app/constants/schemes')
 const { validateValues } = require('../../../app/enrichment/validate-values')
 
 describe('validateValues', () => {
@@ -21,14 +20,14 @@ describe('validateValues', () => {
     test.each(validCases)(
       'does not throw when value %p matches sum of lines %p',
       (value, lines) => {
-        expect(() => validateValues(value, lines, SFI)).not.toThrow()
+        expect(() => validateValues(value, lines, false)).not.toThrow()
       }
     )
 
     test.each(invalidCases)(
       'throws when value %p does not match sum of lines %p',
       (value, lines) => {
-        expect(() => validateValues(value, lines, SFI)).toThrow()
+        expect(() => validateValues(value, lines, false)).toThrow()
       }
     )
   })
@@ -52,14 +51,14 @@ describe('validateValues', () => {
     test.each(validCases)(
       'does not throw when value %p matches sum of lines %p',
       (value, lines) => {
-        expect(() => validateValues(value, lines, FPTT)).not.toThrow()
+        expect(() => validateValues(value, lines, true)).not.toThrow()
       }
     )
 
     test.each(invalidCases)(
       'throws when value %p does not match sum of lines %p',
       (value, lines) => {
-        expect(() => validateValues(value, lines, FPTT)).toThrow()
+        expect(() => validateValues(value, lines, true)).toThrow()
       }
     )
   })

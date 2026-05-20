@@ -1,4 +1,3 @@
-const { SFI, FPTT } = require('../../../../app/constants/schemes')
 const { getValue } = require('../../../../app/enrichment/header/get-value')
 
 describe('get value', () => {
@@ -18,7 +17,7 @@ describe('get value', () => {
     ['null value', null]
   ])('converts total invoice values to pence if value is %s and scheme does not provide accounting values', (_, val) => {
     paymentRequest.value = val
-    paymentRequest.schemeId = SFI
+    paymentRequest.providesAccountingValues = false
     paymentRequest.invoiceLines = [{ value: 123.45 }, { value: 123.45 }]
     expect(getValue(paymentRequest)).toBe(24690)
   })
@@ -28,7 +27,7 @@ describe('get value', () => {
     ['null value', null]
   ])('converts total invoice values to pence * -1 if value is %s and scheme provides accounting values', (_, val) => {
     paymentRequest.value = val
-    paymentRequest.schemeId = FPTT
+    paymentRequest.providesAccountingValues = true
     paymentRequest.invoiceLines = [{ value: 123.45 }, { value: 123.45 }]
     expect(getValue(paymentRequest)).toBe(-24690)
   })

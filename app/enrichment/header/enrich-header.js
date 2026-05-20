@@ -10,10 +10,12 @@ const { confirmDueDate } = require('./confirm-due-date')
 const { convertToDaxDate } = require('../../date-convert')
 const { getMarketingYear } = require('./get-marketing-year')
 const { getDeliveryBody } = require('./get-delivery-body')
+const accountingValueSchemes = require('../../constants/accounting-value-schemes')
 
 const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.deliveryBody = getDeliveryBody(paymentRequest, scheme)
   paymentRequest.schemeId = scheme?.schemeId
+  paymentRequest.providesAccountingValues = accountingValueSchemes.includes(scheme?.schemeId)
   paymentRequest.correlationId = getCorrelationId(paymentRequest.correlationId)
   paymentRequest.contractNumber = getContractNumber(paymentRequest)
   paymentRequest.agreementNumber = getAgreementNumber(paymentRequest)
