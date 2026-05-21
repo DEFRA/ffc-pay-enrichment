@@ -1,3 +1,4 @@
+const util = require('util')
 const { ENRICHED, ACCEPTED, REJECTED } = require('../constants/types')
 const { VALIDATION } = require('../constants/errors')
 const { enrichPaymentRequest } = require('../enrichment')
@@ -25,7 +26,7 @@ const processPaymentMessage = async (message, receiver) => {
     console.log(`Payment request enriched: ${paymentRequest.id} from ${paymentRequest.sourceSystem}`)
     await receiver.completeMessage(message)
   } catch (err) {
-    console.error(`Unable to process payment request: ${paymentRequest.id} from ${paymentRequest.sourceSystem}`)
+    console.error('Unable to process payment request:', util.inspect(err.message, false, null, true))
     await sendEnrichmentErrorEvent(paymentRequest, err)
     if (err.category === VALIDATION) {
       await sendMessage({ paymentRequest, accepted: false, error: err.message }, REJECTED, { subject: paymentRequest?.sourceSystem })
