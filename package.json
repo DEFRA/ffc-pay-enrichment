@@ -1,6 +1,6 @@
 {
   "name": "ffc-pay-enrichment",
-  "version": "1.30.2",
+  "version": "1.30.3",
   "description": "FFC Payment enrichment service",
   "homepage": "https://github.com/DEFRA/ffc-pay-enrichment",
   "main": "app/index.js",
@@ -29,9 +29,9 @@
   "license": "OGL-UK-3.0",
   "dependencies": {
     "@azure/identity": "4.13.1",
+    "@azure/monitor-opentelemetry": "1.18.0",
     "@hapi/hapi": "21.4.8",
     "@joi/date": "2.1.0",
-    "@azure/monitor-opentelemetry": "1.16.0",
     "ffc-database": "1.0.24",
     "ffc-messaging": "2.10.6",
     "ffc-pay-event-publisher": "1.2.5",
@@ -55,5 +55,8 @@
     "ignore": [
       "**/test-output/**"
     ]
+  },
+  "overrides": {
+    "protobufjs": "8.2.0"
   }
 }
