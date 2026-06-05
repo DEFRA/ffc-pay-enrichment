@@ -1,6 +1,6 @@
 {
   "name": "ffc-pay-enrichment",
-  "version": "1.30.3",
+  "version": "1.30.4",
   "description": "FFC Payment enrichment service",
   "homepage": "https://github.com/DEFRA/ffc-pay-enrichment",
   "main": "app/index.js",
@@ -40,7 +40,7 @@
     "log-timestamp": "0.3.0",
     "moment": "2.29.4",
     "sequelize": "6.37.8",
-    "uuid": "9.0.0"
+    "uuid": "11.1.1"
   },
   "devDependencies": {
     "blipp": "4.0.2",
@@ -57,6 +57,7 @@
     ]
   },
   "overrides": {
-    "protobufjs": "8.2.0"
+    "protobufjs": "8.2.0",
+    "uuid": "11.1.1"
   }
 }
