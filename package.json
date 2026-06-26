@@ -33,9 +33,9 @@
     "@azure/monitor-opentelemetry": "1.18.0",
     "@hapi/hapi": "21.4.8",
     "@joi/date": "2.1.0",
-    "ffc-database": "1.0.24",
-    "ffc-messaging": "2.10.6",
-    "ffc-pay-event-publisher": "1.2.5",
+    "ffc-database": "1.0.26",
+    "ffc-messaging": "2.10.7",
+    "ffc-pay-event-publisher": "1.2.6",
     "hapi-pino": "13.0.0",
     "joi": "18.2.1",
     "log-timestamp": "0.3.0",
@@ -58,9 +58,8 @@
     ]
   },
   "overrides": {
-    "protobufjs": "8.6.3",
     "uuid": "11.1.1",
-    "joi": "18.2.1",
+    "protobufjs": "8.6.3",
     "js-yaml": "4.2.0",
     "@opentelemetry/core": "2.8.0"
   }
