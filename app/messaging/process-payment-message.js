@@ -1,4 +1,4 @@
-const util = require('util')
+const util = require('node:util')
 const { ENRICHED, ACCEPTED, REJECTED } = require('../constants/types')
 const { VALIDATION } = require('../constants/errors')
 const { enrichPaymentRequest } = require('../enrichment')
@@ -9,7 +9,7 @@ const { isSchemeActive } = require('./is-scheme-active')
 const processPaymentMessage = async (message, receiver) => {
   const paymentRequest = message.body
   try {
-    console.log(`Payment request received: ${paymentRequest.id} from ${paymentRequest.sourceSystem}`)
+    console.log(`Payment request received for ${paymentRequest.frn}, agreement ${paymentRequest.agreementNumber}, from ${paymentRequest.sourceSystem}`)
 
     if (!isSchemeActive(paymentRequest.sourceSystem)) {
       console.warn(`Payment request rejected: scheme ${paymentRequest.sourceSystem} is currently inactive`)
@@ -18,12 +18,12 @@ const processPaymentMessage = async (message, receiver) => {
       await receiver.deadLetterMessage(message, { deadLetterReason: `Scheme ${paymentRequest.sourceSystem} is inactive` })
       return
     }
-    const originalPaymentRequest = JSON.parse(JSON.stringify(paymentRequest))
+    const originalPaymentRequest = structuredClone(paymentRequest)
     await enrichPaymentRequest(paymentRequest)
     await sendMessage(paymentRequest, ENRICHED)
     await sendMessage({ paymentRequest, accepted: true }, ACCEPTED, { subject: paymentRequest.sourceSystem })
     await sendEnrichmentEvent({ originalPaymentRequest, paymentRequest })
-    console.log(`Payment request enriched: ${paymentRequest.id} from ${paymentRequest.sourceSystem}`)
+    console.log(`Payment request enriched for ${paymentRequest.frn}, agreement ${paymentRequest.agreementNumber}, from ${paymentRequest.sourceSystem}`)
     await receiver.completeMessage(message)
   } catch (err) {
     console.error('Unable to process payment request:', util.inspect(err.message, false, null, true))
