@@ -18,6 +18,7 @@ const start = async () => {
     receivers.push(paymentReceiver)
     console.info(`Receiver ${i + 1} ready to receive payment requests`)
   }
+
   const customerAction = message => processCustomerMessage(message, customerReceiver)
   customerReceiver = new MessageReceiver(messageConfig.customerSubscription, customerAction)
   await customerReceiver.subscribe(createDiagnosticsHandler('customer-receiver'))

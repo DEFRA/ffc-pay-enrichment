@@ -49,23 +49,29 @@ extends:
       container.processingActive: $(pr_processingActive)
       container.activeSchemes.ahwr: $(pr_activeSchemesAhwr)
       container.activeSchemes.fptt: $(pr_activeSchemesFptt)
+      container.activeSchemes.wmp: $(pr_activeSchemesWmp)
     snd2_params:
       container.processingActive: $(snd2_processingActive)
       container.activeSchemes.ahwr: $(snd2_activeSchemesAhwr)
       container.activeSchemes.fptt: $(snd2_activeSchemesFptt)
+      container.activeSchemes.wmp: $(snd2_activeSchemesWmp)
     dev_params:
       container.processingActive: $(dev_processingActive)
       container.activeSchemes.ahwr: $(dev_activeSchemesAhwr)
       container.activeSchemes.fptt: $(dev_activeSchemesFptt)
+      container.activeSchemes.wmp: $(dev_activeSchemesWmp)
     test_params:
       container.processingActive: $(test_processingActive)
       container.activeSchemes.ahwr: $(test_activeSchemesAhwr)
       container.activeSchemes.fptt: $(test_activeSchemesFptt)
+      container.activeSchemes.wmp: $(test_activeSchemesWmp)
     pre_params:
       container.processingActive: $(pre_processingActive)
       container.activeSchemes.ahwr: $(pre_activeSchemesAhwr)
       container.activeSchemes.fptt: $(pre_activeSchemesFptt)
+      container.activeSchemes.wmp: $(pre_activeSchemesWmp)
     prd_params:
       container.processingActive: $(prd_processingActive)
       container.activeSchemes.ahwr: $(prd_activeSchemesAhwr)
       container.activeSchemes.fptt: $(prd_activeSchemesFptt)
+      container.activeSchemes.wmp: $(prd_activeSchemesWmp)
