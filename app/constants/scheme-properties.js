@@ -14,7 +14,8 @@ const {
   SFI_EXPANDED,
   COHT_REVENUE,
   COHT_CAPITAL,
-  FPTT
+  FPTT,
+  WMP
 } = require('./schemes')
 
 const {
@@ -33,11 +34,13 @@ const {
   ESFIO,
   COHTR,
   COHTC,
-  FPTT: FPTT_SOURCE
+  FPTT: FPTT_SOURCE,
+  WMP: WMP_SOURCE
 } = require('./source-systems')
 
 const {
   RP00,
+  RP10,
   NE00,
   FC00
 } = require('./delivery-bodies')
@@ -66,7 +69,8 @@ const {
   ESFIO: ESFIO_PILLAR,
   COHTR: COHTR_PILLAR,
   COHTC: COHTC_PILLAR,
-  FPTT: FPTT_PILLAR
+  FPTT: FPTT_PILLAR,
+  WMP: WMP_PILLAR
 } = require('./pillars')
 
 module.exports = [
@@ -85,5 +89,6 @@ module.exports = [
   { schemeId: SFI_EXPANDED, sourceSystem: ESFIO, pillar: ESFIO_PILLAR, deliveryBody: RP00, fundCode: DRD10 },
   { schemeId: COHT_REVENUE, sourceSystem: COHTR, pillar: COHTR_PILLAR, deliveryBody: RP00, fundCode: DRD10 },
   { schemeId: COHT_CAPITAL, sourceSystem: COHTC, pillar: COHTC_PILLAR, deliveryBody: RP00, fundCode: DRD10 },
-  { schemeId: FPTT, sourceSystem: FPTT_SOURCE, pillar: FPTT_PILLAR, deliveryBody: RP00, fundCode: DRD10 }
+  { schemeId: FPTT, sourceSystem: FPTT_SOURCE, pillar: FPTT_PILLAR, deliveryBody: RP00, fundCode: DRD10 },
+  { schemeId: WMP, sourceSystem: WMP_SOURCE, pillar: WMP_PILLAR, deliveryBody: RP10, fundCode: DRD10 }
 ]

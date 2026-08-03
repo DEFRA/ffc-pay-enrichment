@@ -35,6 +35,7 @@ const schema = Joi.object({
   activeSchemes: Joi.object({
     ahwr: Joi.boolean().default(true),
     fptt: Joi.boolean().default(true),
+    wmp: Joi.boolean().default(true)
   }).default()
 })
 
@@ -72,6 +73,7 @@ const config = {
   activeSchemes: {
     ahwr: process.env.AHWR_SERVICE_BUS_ACTIVE,
     fptt: process.env.FPTT_SERVICE_BUS_ACTIVE,
+    wmp: process.env.WMP_SERVICE_BUS_ACTIVE
   }
 }
 

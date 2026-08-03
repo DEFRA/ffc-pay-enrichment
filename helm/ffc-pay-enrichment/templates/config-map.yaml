@@ -28,5 +28,6 @@ data:
   POSTGRES_USERNAME: {{ .Values.postgresService.postgresUser | quote }}
   AHWR_SERVICE_BUS_ACTIVE: {{ quote .Values.container.activeSchemes.ahwr }}
   FPTT_SERVICE_BUS_ACTIVE: {{ quote .Values.container.activeSchemes.fptt }}
+  WMP_SERVICE_BUS_ACTIVE: {{ quote .Values.container.activeSchemes.wmp }}
   AZURE_LOG_LEVEL: {{ quote .Values.container.azureLogLevel }}
 {{- end -}}

@@ -31,7 +31,8 @@ services:
       PROCESSING_ACTIVE: ${PROCESSING_ACTIVE:-true}
       AHWR_SERVICE_BUS_ACTIVE: ${AHWR_SERVICE_BUS_ACTIVE:-true}
       FPTT_SERVICE_BUS_ACTIVE: ${FPTT_SERVICE_BUS_ACTIVE:-true}
-  
+      WMP_SERVICE_BUS_ACTIVE: ${WMP_SERVICE_BUS_ACTIVE:-true}
+
   ffc-pay-enrichment-postgres:
     image: postgres:11.4-alpine
     environment:

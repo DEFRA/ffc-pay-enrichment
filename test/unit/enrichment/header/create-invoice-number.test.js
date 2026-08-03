@@ -24,6 +24,7 @@ describe('createInvoiceNumber', () => {
       cohtRevenue: clone('coht-revenue'),
       cohtCapital: clone('coht-capital'),
       fptt: clone('fptt'),
+      wmp: clone('wmp'),
       unknown: {
         schemeId: -1,
         paymentRequestNumber: 1,
@@ -47,7 +48,8 @@ describe('createInvoiceNumber', () => {
     ['SFI Expanded', 'sfiExpanded', 'E000000100000001V001'],
     ['COHT Revenue', 'cohtRevenue', 'C000000100000001V001'],
     ['COHT Capital', 'cohtCapital', 'C000000100000001V001'],
-    ['Farm Payments Technical Test', 'fptt', (pr) => pr.invoiceNumber]
+    ['Farm Payments Technical Test', 'fptt', (pr) => pr.invoiceNumber],
+    ['Woodland Management Plan', 'wmp', (pr) => pr.invoiceNumber]
   ])('%s', (_, key, expected) => {
     test('generates correct invoice number', () => {
       const result = createInvoiceNumber(paymentRequests[key])
