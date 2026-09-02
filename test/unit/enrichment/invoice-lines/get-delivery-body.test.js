@@ -1,4 +1,4 @@
-const { RP00, NE00 } = require('../../../../app/constants/delivery-bodies')
+const { RP00, NE00 } = require('../../../../app/constants/fc-delivery-bodies')
 const { getDeliveryBody } = require('../../../../app/enrichment/invoice-lines/get-delivery-body')
 
 describe('get delivery body', () => {

@@ -1,7 +1,7 @@
+const { getSchemeIds } = require('ffc-pay-schemes')
 const { GBP } = require('../../../app/constants/currency')
 const { AP } = require('../../../app/constants/ledgers')
 const { M12 } = require('../../../app/constants/schedules')
-const { SFI } = require('../../../app/constants/schemes')
 const { AGREEMENT_NUMBER } = require('../values/agreement-number')
 const { BATCH } = require('../values/batch')
 const { CONTRACT_NUMBER } = require('../values/contract-number')
@@ -18,6 +18,8 @@ const { SOURCE_SYSTEM } = require('../values/source-system')
 const { BALANCE } = require('../values/payment-type')
 const { EVENT_DATE_DAX } = require('../values/event-date')
 const invoiceLine = require('./invoice-line')
+
+const { SFI } = getSchemeIds()
 
 module.exports = {
   correlationId: CORRELATION_ID,

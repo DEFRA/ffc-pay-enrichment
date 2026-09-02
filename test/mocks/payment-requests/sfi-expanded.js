@@ -1,6 +1,8 @@
-const { SFI_EXPANDED } = require('../../../app/constants/schemes')
+const { getSchemeIds } = require('ffc-pay-schemes')
 const { SFI_EXPANDED_INVOICE_NUMBER } = require('../values/invoice-number')
 const paymentRequest = require('./payment-request')
+
+const { SFI_EXPANDED } = getSchemeIds()
 
 module.exports = {
   ...paymentRequest,

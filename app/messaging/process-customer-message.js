@@ -1,4 +1,4 @@
-const util = require('util')
+const util = require('node:util')
 const { saveUpdate } = require('../customer')
 const { sendMessage } = require('./send-message')
 const { CUSTOMER_UPDATE_PROCESSING_FAILED } = require('../constants/types')
