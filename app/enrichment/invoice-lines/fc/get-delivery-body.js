@@ -1,4 +1,4 @@
-const { FC00, FC99 } = require('../../../constants/delivery-bodies')
+const { FC00, FC99 } = require('../../../constants/fc-delivery-bodies')
 const { _028Q031Q, _028E031Q } = require('../../../constants/standard-codes')
 
 const getDeliveryBody = (standardCode) => {

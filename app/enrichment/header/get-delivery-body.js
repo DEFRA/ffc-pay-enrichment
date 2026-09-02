@@ -1,5 +1,7 @@
-const { FC00 } = require('../../constants/delivery-bodies')
-const { CS } = require('../../constants/schemes')
+const { getSchemeIds } = require('ffc-pay-schemes')
+const { FC00 } = require('../../constants/fc-delivery-bodies')
+
+const { CS } = getSchemeIds()
 
 const getDeliveryBody = (paymentRequest, scheme) => {
   if (paymentRequest.schemeId === CS) {

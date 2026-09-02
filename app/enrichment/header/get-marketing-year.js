@@ -1,5 +1,7 @@
-const { FC } = require('../../constants/schemes')
+const { getSchemeIds } = require('ffc-pay-schemes')
 const { getMarketingYear: getMarketingYearFromInvoiceLine } = require('../invoice-lines/fc/get-marketing-year')
+
+const { FC } = getSchemeIds()
 
 const getMarketingYear = (paymentRequest) => {
   if (paymentRequest.schemeId === FC) {

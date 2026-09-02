@@ -1,4 +1,4 @@
-const { ES, IMPS, FC } = require('../../constants/schemes')
+const { getSchemeIds } = require('ffc-pay-schemes')
 const { enrichInvoiceLine: enrichESInvoiceLine } = require('./es')
 const { enrichInvoiceLine: enrichIMPSInvoiceLine } = require('./imps')
 const { enrichInvoiceLine: enrichFCInvoiceLine } = require('./fc')
@@ -8,6 +8,8 @@ const { getFundCode } = require('./get-fund-code')
 const { getMarketingYear } = require('./get-marketing-year')
 const { getSchemeCode } = require('./get-scheme-code')
 const { isStateAid } = require('./is-state-aid')
+
+const { ES, FC, IMPS } = getSchemeIds()
 
 const enrichInvoiceLine = (invoiceLine, marketingYear, scheme) => {
   if (scheme?.schemeId === ES) {

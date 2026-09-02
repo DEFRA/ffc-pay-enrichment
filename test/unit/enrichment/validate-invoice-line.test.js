@@ -1,9 +1,10 @@
+const { getSchemeIds } = require('ffc-pay-schemes')
 jest.mock('../../../app/enrichment/schemas/invoice-line')
 const mockSchema = require('../../../app/enrichment/schemas/invoice-line')
 
 const invoiceLine = require('../../mocks/payment-requests/invoice-line')
 
-const { SFI } = require('../../../app/constants/schemes')
+const { SFI } = getSchemeIds()
 const { VALIDATION } = require('../../../app/constants/errors')
 
 const { validateInvoiceLine } = require('../../../app/enrichment/validate-invoice-line')

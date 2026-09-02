@@ -1,11 +1,13 @@
-const { AHWR, FPTT, WMP } = require('../constants/source-systems')
+const { getSourceSystems } = require('ffc-pay-schemes')
 const { messageConfig } = require('../config')
 const isAhwrActive = () => messageConfig.activeSchemes.ahwr
 const isFpttActive = () => messageConfig.activeSchemes.fptt
 const isWmpActive = () => messageConfig.activeSchemes.wmp
 
+const { VET_VISITS, FPTT, WMP } = getSourceSystems()
+
 const schemeActiveMap = {
-  [AHWR]: isAhwrActive,
+  [VET_VISITS]: isAhwrActive,
   [FPTT]: isFpttActive,
   [WMP]: isWmpActive
 }

@@ -1,6 +1,8 @@
+const { getSchemeIds } = require('ffc-pay-schemes')
 const { SBI } = require('../constants/reference-types')
-const { FC } = require('../constants/schemes')
 const db = require('../data')
+
+const { FC } = getSchemeIds()
 
 const verifySBI = async (header, transaction) => {
   if (header.sbi && header.schemeId === FC) {

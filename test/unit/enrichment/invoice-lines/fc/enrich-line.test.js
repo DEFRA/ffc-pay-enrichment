@@ -10,7 +10,7 @@ const { getDeliveryBody: mockGetDeliveryBody } = require('../../../../../app/enr
 
 const { DRD05 } = require('../../../../../app/constants/fund-codes')
 const { SOS710 } = require('../../../../../app/constants/account-codes')
-const { FC00 } = require('../../../../../app/constants/delivery-bodies')
+const { FC00 } = require('../../../../../app/constants/fc-delivery-bodies')
 
 const { enrichInvoiceLine } = require('../../../../../app/enrichment/invoice-lines/fc/enrich-invoice-line')
 

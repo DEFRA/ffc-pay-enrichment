@@ -1,6 +1,8 @@
-const { SFI23 } = require('../../../app/constants/schemes')
+const { getSchemeIds } = require('ffc-pay-schemes')
 const { SFI23_INVOICE_NUMBER } = require('../values/invoice-number')
 const paymentRequest = require('./payment-request')
+
+const { SFI23 } = getSchemeIds()
 
 module.exports = {
   ...paymentRequest,

@@ -1,10 +1,12 @@
-const { MANUAL } = require('../../../app/constants/schemes')
+const { getSchemeIds } = require('ffc-pay-schemes')
 const { MANUAL_INVOICE_NUMBER } = require('../values/invoice-number')
 const { MANUAL_ORIGINAL_INVOICE_NUMBER } = require('../values/original-invoice-number')
 const { ORIGINAL_SETTLEMENT_DATE } = require('../values/original-settlement-date')
 const { MANUAL_INVOICE_CORRECTION_REFERENCE } = require('../values/invoice-correction-reference')
 const { PILLAR } = require('../values/pillar')
 const paymentRequest = require('./payment-request')
+
+const { MANUAL } = getSchemeIds()
 
 module.exports = {
   ...paymentRequest,

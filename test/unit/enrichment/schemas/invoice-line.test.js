@@ -1,8 +1,19 @@
+jest.mock('ffc-pay-schemes', () => ({
+  getSchemeIds: jest.fn(() => ({
+    MANUAL: 8,
+    ES: 9,
+    FC: 10,
+    IMPS: 11
+  }))
+}))
+
+const { getSchemeIds } = require('ffc-pay-schemes')
 const { ACCOUNT_CODE } = require('../../../mocks/values/account-code')
 const { FUND_CODE } = require('../../../mocks/values/fund-code')
 const { GROSS_DESCRIPTION } = require('../../../mocks/values/description')
 const { AGREEMENT_NUMBER } = require('../../../mocks/values/agreement-number')
-const { MANUAL, FC, ES, IMPS } = require('../../../../app/constants/schemes')
+
+const { MANUAL, FC, ES, IMPS } = getSchemeIds()
 
 const schema = require('../../../../app/enrichment/schemas/invoice-line')
 
