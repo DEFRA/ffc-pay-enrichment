@@ -1,8 +1,6 @@
-const { getSchemeIds, getSchemeProperties } = require('ffc-pay-schemes')
+const { getSchemeProperties } = require('ffc-pay-schemes')
 const { getDeliveryBody } = require('../../../../app/enrichment/header/get-delivery-body')
 const { FC00 } = require('../../../../app/constants/fc-delivery-bodies')
-
-const { BPS, CS } = getSchemeIds()
 
 let bpsPaymentRequest
 let csPaymentRequest
