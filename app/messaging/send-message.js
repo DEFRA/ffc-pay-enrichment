@@ -1,14 +1,12 @@
-const { MessageSender } = require('ffc-messaging')
 const { messageConfig } = require('../config')
+const { getSender, sendMessage: sendServiceBusMessage } = require('./service-bus')
 const { createMessage } = require('./create-message')
 const { ENRICHED } = require('../constants/types')
 
 const sendMessage = async (body, type, metadata) => {
+  const sender = getSender(getTopic(type))
   const message = createMessage(body, type, metadata)
-  const topic = getTopic(type)
-  const sender = new MessageSender(topic)
-  await sender.sendMessage(message)
-  await sender.closeConnection()
+  await sendServiceBusMessage(sender, message)
 }
 
 const getTopic = (type) => {

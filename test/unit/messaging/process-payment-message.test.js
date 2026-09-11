@@ -1,15 +1,6 @@
-jest.mock('ffc-messaging')
-const mockSendMessage = jest.fn()
-jest.mock('ffc-messaging', () => {
-  return {
-    MessageSender: jest.fn().mockImplementation(() => {
-      return {
-        sendMessage: mockSendMessage,
-        closeConnection: jest.fn()
-      }
-    })
-  }
-})
+jest.mock('../../../app/messaging/send-message', () => ({
+  sendMessage: jest.fn()
+}))
 jest.mock('ffc-pay-event-publisher', () => {
   return {
     PublishEvent: jest.fn().mockImplementation(() => {
@@ -44,6 +35,7 @@ const { ENRICHED, ACCEPTED, REJECTED } = require('../../../app/constants/types')
 const { enrichPaymentRequest: mockEnrichPaymentRequest } = require('../../../app/enrichment')
 const { sendEnrichmentErrorEvent: mockSendEnrichmentErrorEvent } = require('../../../app/event')
 const { isSchemeActive: mockIsSchemeActive } = require('../../../app/messaging/is-scheme-active')
+const { sendMessage: mockSendMessage } = require('../../../app/messaging/send-message')
 
 const { processPaymentMessage } = require('../../../app/messaging/process-payment-message')
 
@@ -83,7 +75,7 @@ describe('process payment message', () => {
     ['accepted response', 1, ACCEPTED]
   ])('sends %s if valid', async (_, callIndex, expectedType) => {
     await processPaymentMessage(messageBase, receiver)
-    expect(mockSendMessage.mock.calls[callIndex][0].type).toBe(expectedType)
+    expect(mockSendMessage.mock.calls[callIndex][1]).toBe(expectedType)
   })
 
   test('dead letters and sends rejected response if request fails validation', async () => {
@@ -91,7 +83,7 @@ describe('process payment message', () => {
     await processPaymentMessage(messageBase, receiver)
     expect(receiver.deadLetterMessage).toHaveBeenCalledWith(messageBase)
     expect(receiver.completeMessage).not.toHaveBeenCalled()
-    expect(mockSendMessage.mock.calls[0][0].type).toBe(REJECTED)
+    expect(mockSendMessage.mock.calls[0][1]).toBe(REJECTED)
   })
 
   test('does not dead letter or send response if non-validation error', async () => {
@@ -114,7 +106,7 @@ describe('process payment message', () => {
 
       const message = { body: { frn: FRN, sourceSystem: SOURCE_SYSTEM } }
       await processPaymentMessage(message, receiver)
-      expect(mockSendMessage.mock.calls[callIndex][0].subject).toBe(message.body.sourceSystem)
+      expect(mockSendMessage.mock.calls[callIndex][2]).toEqual({ subject: message.body.sourceSystem })
     }
   )
 
@@ -122,7 +114,7 @@ describe('process payment message', () => {
     mockErrorInProcessing(true)
     const message = { body: { frn: FRN } }
     await processPaymentMessage(message, receiver)
-    expect(mockSendMessage.mock.calls[0][0].subject).toBeUndefined()
+    expect(mockSendMessage.mock.calls[0][2]).toEqual({ subject: undefined })
   })
 
   describe('when scheme is inactive', () => {
