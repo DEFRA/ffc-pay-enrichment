@@ -15,7 +15,7 @@ const start = async () => {
     let paymentReceiver // eslint-disable-line prefer-const
     const paymentAction = message => processPaymentMessage(message, paymentReceiver)
     paymentReceiver = createReceiver(sbClient, messageConfig.paymentSubscription)
-    await subscribeReceiver(paymentReceiver, paymentAction, createDiagnosticsHandler(`payment-receiver-${i + 1}`), messageConfig.paymentSubscription)
+    subscribeReceiver(paymentReceiver, paymentAction, createDiagnosticsHandler(`payment-receiver-${i + 1}`), messageConfig.paymentSubscription)
 
     receivers.push(paymentReceiver)
     console.info(`Receiver ${i + 1} ready to receive payment requests`)
@@ -23,7 +23,7 @@ const start = async () => {
 
   const customerAction = message => processCustomerMessage(message, customerReceiver)
   customerReceiver = createReceiver(sbClient, messageConfig.customerSubscription)
-  await subscribeReceiver(customerReceiver, customerAction, createDiagnosticsHandler('customer-receiver'), messageConfig.customerSubscription)
+  subscribeReceiver(customerReceiver, customerAction, createDiagnosticsHandler('customer-receiver'), messageConfig.customerSubscription)
   receivers.push(customerReceiver)
 
   console.info('Ready to receive customer requests')
