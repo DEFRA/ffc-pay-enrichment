@@ -1,8 +1,10 @@
+const { getSchemeIds } = require('ffc-pay-schemes')
 const paymentRequest = require('./payment-request')
 const esInvoiceLine = require('./es-invoice-line')
-const { ES } = require('../../../app/constants/schemes')
 const { ES_INVOICE_NUMBER } = require('../values/invoice-number')
 const { VENDOR } = require('../values/vendor')
+
+const { ES } = getSchemeIds()
 
 module.exports = {
   ...paymentRequest,

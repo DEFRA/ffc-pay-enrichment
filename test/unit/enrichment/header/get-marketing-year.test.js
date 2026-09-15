@@ -1,9 +1,15 @@
+jest.mock('ffc-pay-schemes', () => ({
+  getSchemeIds: jest.fn(() => ({ FC: 'FC' }))
+}))
+
 jest.mock('../../../../app/enrichment/invoice-lines/fc/get-marketing-year')
+const { getSchemeIds } = require('ffc-pay-schemes')
 const { getMarketingYear: mockGetMarketingYearFromInvoiceLine } = require('../../../../app/enrichment/invoice-lines/fc/get-marketing-year')
 
 const { STANDARD_CODE } = require('../../../mocks/values/standard-code')
-const { FC } = require('../../../../app/constants/schemes')
 const { getMarketingYear } = require('../../../../app/enrichment/header/get-marketing-year')
+
+const { FC } = getSchemeIds()
 
 let paymentRequest
 

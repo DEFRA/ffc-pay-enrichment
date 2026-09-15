@@ -1,5 +1,12 @@
+jest.mock('ffc-pay-schemes', () => ({
+  getSchemeIds: jest.fn(() => ({
+    FC: 10,
+    SFI: 1
+  }))
+}))
+
+const { getSchemeIds } = require('ffc-pay-schemes')
 const { SBI } = require('../../../app/constants/reference-types')
-const { FC, SFI } = require('../../../app/constants/schemes')
 const db = require('../../../app/data')
 
 const { verifySBI } = require('../../../app/enrichment/verify-sbi')
@@ -7,6 +14,8 @@ const { verifySBI } = require('../../../app/enrichment/verify-sbi')
 const paymentRequest = require('../../mocks/payment-requests/payment-request')
 const { FRN } = require('../../mocks/values/frn')
 const { SBI: SBIValue } = require('../../mocks/values/sbi')
+
+const { FC, SFI } = getSchemeIds()
 
 describe('verify SBI validity', () => {
   const transaction = {}
