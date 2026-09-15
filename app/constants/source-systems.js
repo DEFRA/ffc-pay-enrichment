@@ -16,5 +16,6 @@ module.exports = {
   COHTR: 'COHTR',
   COHTC: 'COHTC',
   FPTT: 'FPTT',
-  WMP: 'WMP'
+  WMP: 'WMP',
+  SFI26: 'SFI26'
 }
