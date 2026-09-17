@@ -15,7 +15,8 @@ const {
   COHT_REVENUE,
   COHT_CAPITAL,
   FPTT,
-  WMP
+  WMP,
+  SFI26
 } = require('./schemes')
 
 const {
@@ -35,7 +36,8 @@ const {
   COHTR,
   COHTC,
   FPTT: FPTT_SOURCE,
-  WMP: WMP_SOURCE
+  WMP: WMP_SOURCE,
+  SFI26: SFI26_SOURCE
 } = require('./source-systems')
 
 const {
@@ -70,7 +72,8 @@ const {
   COHTR: COHTR_PILLAR,
   COHTC: COHTC_PILLAR,
   FPTT: FPTT_PILLAR,
-  WMP: WMP_PILLAR
+  WMP: WMP_PILLAR,
+  SFI26: SFI26_PILLAR
 } = require('./pillars')
 
 module.exports = [
@@ -90,5 +93,6 @@ module.exports = [
   { schemeId: COHT_REVENUE, sourceSystem: COHTR, pillar: COHTR_PILLAR, deliveryBody: RP00, fundCode: DRD10 },
   { schemeId: COHT_CAPITAL, sourceSystem: COHTC, pillar: COHTC_PILLAR, deliveryBody: RP00, fundCode: DRD10 },
   { schemeId: FPTT, sourceSystem: FPTT_SOURCE, pillar: FPTT_PILLAR, deliveryBody: RP00, fundCode: DRD10 },
-  { schemeId: WMP, sourceSystem: WMP_SOURCE, pillar: WMP_PILLAR, deliveryBody: RP10, fundCode: DRD10 }
+  { schemeId: WMP, sourceSystem: WMP_SOURCE, pillar: WMP_PILLAR, deliveryBody: RP10, fundCode: DRD10 },
+  { schemeId: SFI26, sourceSystem: SFI26_SOURCE, pillar: SFI26_PILLAR, deliveryBody: RP00, fundCode: DRD10 }
 ]
