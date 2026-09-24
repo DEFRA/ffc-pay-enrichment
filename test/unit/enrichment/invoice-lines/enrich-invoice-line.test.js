@@ -1,3 +1,7 @@
+jest.mock('ffc-pay-schemes', () => ({
+  getSchemeIds: jest.fn(() => ({ ES: 'ES', FC: 'FC', IMPS: 'IMPS' }))
+}))
+
 jest.mock('../../../../app/enrichment/invoice-lines/es')
 jest.mock('../../../../app/enrichment/invoice-lines/fc')
 jest.mock('../../../../app/enrichment/invoice-lines/imps')
@@ -8,6 +12,7 @@ jest.mock('../../../../app/enrichment/invoice-lines/get-delivery-body')
 jest.mock('../../../../app/enrichment/invoice-lines/get-marketing-year')
 jest.mock('../../../../app/enrichment/invoice-lines/is-state-aid')
 
+const { getSchemeIds } = require('ffc-pay-schemes')
 const { enrichInvoiceLine: mockEnrichESInvoiceLine } = require('../../../../app/enrichment/invoice-lines/es')
 const { enrichInvoiceLine: mockEnrichFCInvoiceLine } = require('../../../../app/enrichment/invoice-lines/fc')
 const { enrichInvoiceLine: mockEnrichIMPSInvoiceLine } = require('../../../../app/enrichment/invoice-lines/imps')
@@ -21,11 +26,12 @@ const { isStateAid: mockIsStateAid } = require('../../../../app/enrichment/invoi
 const { SCHEME_CODE } = require('../../../mocks/values/scheme-code')
 const { FUND_CODE } = require('../../../mocks/values/fund-code')
 const { DELIVERY_BODY_RPA } = require('../../../mocks/values/delivery-body')
-const { ES, FC, IMPS } = require('../../../../app/constants/schemes')
+
+const { ES, FC, IMPS } = getSchemeIds()
 
 const { enrichInvoiceLine } = require('../../../../app/enrichment/invoice-lines/enrich-invoice-line')
 
-describe('enrich header', () => {
+describe('enrich invoice line', () => {
   let scheme, invoiceLine
   const marketingYear = 2023
 

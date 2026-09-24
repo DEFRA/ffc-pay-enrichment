@@ -1,7 +1,9 @@
 const moment = require('moment')
-const { BPS, CS } = require('../../constants/schemes')
+const { getSchemeIds } = require('ffc-pay-schemes')
 const { SITI_AGRI_DATE_FORMAT } = require('../../constants/date-formats')
 const { convertToDaxDate } = require('../../date-convert')
+
+const { BPS, CS } = getSchemeIds()
 
 const confirmDueDate = (schemeId, marketingYear, dueDate) => {
   if (schemeId === BPS) {

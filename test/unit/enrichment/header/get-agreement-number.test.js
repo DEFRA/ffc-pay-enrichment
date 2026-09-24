@@ -1,7 +1,13 @@
+jest.mock('ffc-pay-schemes', () => ({
+  getSchemeIds: jest.fn(() => ({ FC: 10 }))
+}))
+
+const { getSchemeIds } = require('ffc-pay-schemes')
 const { AGREEMENT_NUMBER } = require('../../../mocks/values/agreement-number')
 const { CONTRACT_NUMBER } = require('../../../mocks/values/contract-number')
-const { FC } = require('../../../../app/constants/schemes')
 const { getAgreementNumber } = require('../../../../app/enrichment/header/get-agreement-number')
+
+const { FC } = getSchemeIds()
 
 describe('getAgreementNumber', () => {
   let paymentRequest

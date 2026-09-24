@@ -1,5 +1,11 @@
-const { FC } = require('../../../../app/constants/schemes')
+jest.mock('ffc-pay-schemes', () => ({
+  getSchemeIds: jest.fn(() => ({ FC: 10 }))
+}))
+
+const { getSchemeIds } = require('ffc-pay-schemes')
 const { getContractNumber } = require('../../../../app/enrichment/header/get-contract-number')
+
+const { FC } = getSchemeIds()
 
 describe('getContractNumber', () => {
   let paymentRequest
