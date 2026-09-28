@@ -1,7 +1,8 @@
 const { GBP } = require('../../app/constants/currency')
 const { AP } = require('../../app/constants/ledgers')
 const { M12 } = require('../../app/constants/schedules')
-const db = require('../../app/data')
+const db = require('../../app/database')
+const { truncate } = require('../helpers/truncate')
 const { enrichPaymentRequest } = require('../../app/enrichment')
 
 let paymentRequest
@@ -9,7 +10,7 @@ let customer
 
 describe('enrichPaymentRequest', () => {
   beforeEach(async () => {
-    await db.sequelize.truncate({ cascade: true })
+    await truncate()
 
     customer = { referenceType: 'sbi', reference: 123456789, frn: 1234567890 }
     paymentRequest = {
@@ -31,12 +32,12 @@ describe('enrichPaymentRequest', () => {
       ]
     }
 
-    await db.customer.create(customer)
+    await db.customers().insert(customer)
   })
 
   afterAll(async () => {
-    await db.sequelize.truncate({ cascade: true })
-    await db.sequelize.close()
+    await truncate()
+    await db.close()
   })
 
   describe('validation errors', () => {

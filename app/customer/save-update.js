@@ -1,14 +1,14 @@
-const db = require('../data')
+const { customers } = require('../database')
 const { TRADER, VENDOR, SBI } = require('../constants/reference-types')
 
 const saveUpdate = async (customerUpdate) => {
   for (const referenceType in customerUpdate) {
     if ([TRADER, VENDOR, SBI].includes(referenceType)) {
-      const existingCustomer = await db.customer.findOne({ where: { referenceType, reference: customerUpdate[referenceType].toString() } })
+      const existingCustomer = (await customers().where({ referenceType, reference: customerUpdate[referenceType].toString() }).first()) ?? null
       if (existingCustomer) {
-        await db.customer.update({ frn: customerUpdate.frn }, { where: { id: existingCustomer.id } })
+        await customers().where({ id: existingCustomer.id }).update({ frn: customerUpdate.frn })
       } else {
-        await db.customer.create({ referenceType, reference: customerUpdate[referenceType], frn: customerUpdate.frn })
+        await customers().insert({ referenceType, reference: customerUpdate[referenceType], frn: customerUpdate.frn })
       }
     }
   }
