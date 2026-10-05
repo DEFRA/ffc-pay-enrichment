@@ -2,7 +2,7 @@ const { customers } = require('../database')
 const { TRADER, VENDOR, SBI } = require('../constants/reference-types')
 
 const saveUpdate = async (customerUpdate) => {
-  for (const referenceType in customerUpdate) {
+  for (const referenceType of customerUpdate) {
     await saveReference(customerUpdate, referenceType) // NOSONAR
   }
 }
