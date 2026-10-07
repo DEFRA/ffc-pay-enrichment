@@ -1,11 +1,19 @@
-const { getScheme } = require('../../../app/enrichment/get-scheme')
+jest.mock('ffc-pay-schemes', () => {
+  const actual = jest.requireActual('ffc-pay-schemes')
+
+  return {
+    ...actual,
+    getSchemeProperties: jest.fn()
+  }
+})
+
+const { getSchemeProperties } = require('ffc-pay-schemes')
 const { enrichHeader } = require('../../../app/enrichment/header')
 const { validateHeader } = require('../../../app/enrichment/validate-header')
 const { enrichInvoiceLines } = require('../../../app/enrichment/invoice-lines')
 const { validateValues } = require('../../../app/enrichment/validate-values')
 const { enrichPaymentRequest } = require('../../../app/enrichment/enrich-payment-request')
 
-jest.mock('../../../app/enrichment/get-scheme')
 jest.mock('../../../app/enrichment/header')
 jest.mock('../../../app/enrichment/validate-header')
 jest.mock('../../../app/enrichment/invoice-lines')
@@ -27,7 +35,7 @@ describe('enrichPaymentRequest', () => {
       marketingYear: undefined
     }
 
-    getScheme.mockReturnValue(mockScheme)
+    getSchemeProperties.mockReturnValue(mockScheme)
     enrichHeader.mockImplementation((pr) => { pr.providesAccountingValues = false })
     validateHeader.mockImplementation(jest.fn())
     enrichInvoiceLines.mockImplementation(
@@ -39,7 +47,7 @@ describe('enrichPaymentRequest', () => {
   test('should call all enrichment and validation functions with correct parameters', async () => {
     await enrichPaymentRequest(paymentRequest)
 
-    expect(getScheme).toHaveBeenCalledWith(
+    expect(getSchemeProperties).toHaveBeenCalledWith(
       paymentRequest.schemeId,
       paymentRequest.sourceSystem,
       paymentRequest.pillar
@@ -52,12 +60,16 @@ describe('enrichPaymentRequest', () => {
       paymentRequest.marketingYear,
       mockScheme
     )
-    expect(validateValues).toHaveBeenCalledWith(paymentRequest.value, paymentRequest.invoiceLines, paymentRequest.providesAccountingValues)
+    expect(validateValues).toHaveBeenCalledWith(
+      paymentRequest.value,
+      paymentRequest.invoiceLines,
+      paymentRequest.providesAccountingValues
+    )
   })
 
   describe('error handling', () => {
     const functions = [
-      ['getScheme', getScheme, 'Error in getScheme'],
+      ['getSchemeProperties', getSchemeProperties, 'Error in getSchemeProperties'],
       ['enrichHeader', enrichHeader, 'Error in enrichHeader'],
       ['validateHeader', validateHeader, 'Error in validateHeader'],
       ['enrichInvoiceLines', enrichInvoiceLines, 'Error in enrichInvoiceLines'],

@@ -1,7 +1,7 @@
+const { createInvoiceNumber, schemeProvidesAccountingValues } = require('ffc-pay-schemes')
 const { getCorrelationId } = require('./get-correlation-id')
 const { getContractNumber } = require('./get-contract-number')
 const { getAgreementNumber } = require('./get-agreement-number')
-const { createInvoiceNumber } = require('./create-invoice-number')
 const { getFrn } = require('./get-frn')
 const { getLedger } = require('./get-ledger')
 const { getValue } = require('./get-value')
@@ -10,12 +10,11 @@ const { confirmDueDate } = require('./confirm-due-date')
 const { convertToDaxDate } = require('../../date-convert')
 const { getMarketingYear } = require('./get-marketing-year')
 const { getDeliveryBody } = require('./get-delivery-body')
-const accountingValueSchemes = require('../../constants/accounting-value-schemes')
 
 const enrichHeader = async (paymentRequest, scheme) => {
   paymentRequest.deliveryBody = getDeliveryBody(paymentRequest, scheme)
   paymentRequest.schemeId = scheme?.schemeId
-  paymentRequest.providesAccountingValues = accountingValueSchemes.includes(scheme?.schemeId)
+  paymentRequest.providesAccountingValues = schemeProvidesAccountingValues(scheme?.schemeId)
   paymentRequest.correlationId = getCorrelationId(paymentRequest.correlationId)
   paymentRequest.contractNumber = getContractNumber(paymentRequest)
   paymentRequest.agreementNumber = getAgreementNumber(paymentRequest)

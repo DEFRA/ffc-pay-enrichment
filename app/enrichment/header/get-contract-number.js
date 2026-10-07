@@ -1,4 +1,6 @@
-const { FC } = require('../../constants/schemes')
+const { getSchemeIds } = require('ffc-pay-schemes')
+
+const { FC } = getSchemeIds()
 
 const getContractNumber = (paymentRequest) => {
   if (paymentRequest.schemeId === FC) {

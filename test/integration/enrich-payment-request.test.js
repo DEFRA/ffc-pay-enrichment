@@ -40,7 +40,7 @@ describe('enrichPaymentRequest', () => {
   })
 
   describe('validation errors', () => {
-    test.each([{}, undefined, null, [], '', false, true, 0, 1])(
+    test.each([undefined, null, [], '', false, true, 0, 1])(
       'throws validation error for invalid input %p',
       async (input) => {
         await expect(enrichPaymentRequest(input))

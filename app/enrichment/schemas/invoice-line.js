@@ -1,5 +1,8 @@
 const Joi = require('joi')
-const { MANUAL, ES, IMPS, FC } = require('../../constants/schemes')
+const { getSchemeIds } = require('ffc-pay-schemes')
+
+const { MANUAL, ES, IMPS, FC } = getSchemeIds()
+
 module.exports = Joi.object({
   schemeId: Joi.number().integer().required(),
   standardCode: Joi.string().optional(),
