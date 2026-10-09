@@ -1,5 +1,5 @@
 const { VENDOR, SBI, TRADER } = require('../../constants/reference-types')
-const db = require('../../data')
+const { customers } = require('../../database')
 
 const getFrn = async (paymentRequest, transaction) => {
   try {
@@ -15,36 +15,34 @@ const getFrn = async (paymentRequest, transaction) => {
     }
 
     if (sbi) {
-      const customer = await db.customer.findOne({
-        where: {
+      const customer = (await customers(transaction ?? undefined)
+        .where({
           referenceType: SBI,
           reference: sbi.toString()
-        }
-      }, { transaction })
+        })
+        .first()) ?? null
       if (customer) {
         return Number(customer.frn)
       }
     }
 
     if (vendor) {
-      const customer = await db.customer.findOne({
-        where: {
-          referenceType: VENDOR,
-          [db.Sequelize.Op.or]: [{ reference: vendor }, { reference: `${vendor.replace('G', '').replace('C', '')}` }]
-        }
-      }, { transaction })
+      const strippedReference = `${vendor.replace('G', '').replace('C', '')}`
+      const customer = (await customers(transaction ?? undefined)
+        .where('referenceType', VENDOR)
+        .where(function () { this.where('reference', vendor).orWhere('reference', strippedReference) })
+        .first()) ?? null
       if (customer) {
         return Number(customer.frn)
       }
     }
 
     if (trader) {
-      const customer = await db.customer.findOne({
-        where: {
-          referenceType: TRADER,
-          [db.Sequelize.Op.or]: [{ reference: trader }, { reference: `${trader.replace('G', '').replace('C', '')}` }]
-        }
-      }, { transaction })
+      const strippedReference = `${trader.replace('G', '').replace('C', '')}`
+      const customer = (await customers(transaction ?? undefined)
+        .where('referenceType', TRADER)
+        .where(function () { this.where('reference', trader).orWhere('reference', strippedReference) })
+        .first()) ?? null
       if (customer) {
         return Number(customer.frn)
       }
