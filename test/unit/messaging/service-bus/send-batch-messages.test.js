@@ -86,7 +86,7 @@ describe('sendBatchMessages', () => {
   })
 
   test('retries a failed batch send with the same batch and options', async () => {
-    jest.useFakeTimers()
+    jest.useFakeTimers({ legacyFakeTimers: false })
     try {
       const messages = [
         { body: { id: 1 }, type: 'type-1', source: 'source' }
