@@ -16,7 +16,7 @@ jest.mock('ffc-pay-event-publisher', () => {
   }
 })
 
-jest.mock('../../../app/data', () => ({}))
+jest.mock('../../../app/database', () => ({}))
 jest.mock('../../../app/enrichment', () => ({
   enrichPaymentRequest: jest.fn()
 }))

@@ -4,20 +4,21 @@ const { VENDOR } = require('../mocks/values/vendor')
 const { TRADER } = require('../mocks/values/trader')
 const { SBI: SBI_TYPE, VENDOR: VENDOR_TYPE, TRADER: TRADER_TYPE } = require('../../app/constants/reference-types')
 
-const db = require('../../app/data')
+const db = require('../../app/database')
+const { truncate } = require('../helpers/truncate')
 const { saveUpdate } = require('../../app/customer')
 
 let customerUpdate
 
 describe('saveUpdate', () => {
   beforeEach(async () => {
-    await db.sequelize.truncate({ cascade: true })
+    await truncate()
     customerUpdate = { sbi: SBI, vendor: VENDOR, trader: TRADER, frn: FRN }
   })
 
   afterAll(async () => {
-    await db.sequelize.truncate({ cascade: true })
-    await db.sequelize.close()
+    await truncate()
+    await db.close()
   })
 
   describe.each([
@@ -27,14 +28,14 @@ describe('saveUpdate', () => {
   ])('customer with %s', (key, value, type) => {
     test('saves new customer update', async () => {
       await saveUpdate(customerUpdate)
-      const result = await db.customer.findAll({ where: { referenceType: type, reference: value.toString(), frn: FRN } })
+      const result = await db.customers().where({ referenceType: type, reference: value.toString(), frn: FRN })
       expect(result).toHaveLength(1)
     })
 
     test('updates FRN for existing customer', async () => {
-      await db.customer.create({ referenceType: type, reference: value.toString(), frn: 123 })
+      await db.customers().insert({ referenceType: type, reference: value.toString(), frn: 123 })
       await saveUpdate(customerUpdate)
-      const result = await db.customer.findAll({ where: { referenceType: type, reference: value.toString(), frn: FRN } })
+      const result = await db.customers().where({ referenceType: type, reference: value.toString(), frn: FRN })
       expect(result).toHaveLength(1)
     })
   })
@@ -44,7 +45,7 @@ describe('saveUpdate', () => {
     delete customerUpdate.vendor
     delete customerUpdate.trader
     await saveUpdate(customerUpdate)
-    const result = await db.customer.findAll()
+    const result = await db.customers()
     expect(result).toHaveLength(0)
   })
 })

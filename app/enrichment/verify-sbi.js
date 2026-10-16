@@ -1,17 +1,17 @@
 const { getSchemeIds } = require('ffc-pay-schemes')
 const { SBI } = require('../constants/reference-types')
-const db = require('../data')
+const { customers } = require('../database')
 
 const { FC } = getSchemeIds()
 
 const verifySBI = async (header, transaction) => {
   if (header.sbi && header.schemeId === FC) {
-    const customer = await db.customer.findOne({
-      where: {
+    const customer = (await customers(transaction ?? undefined)
+      .where({
         referenceType: SBI,
         reference: header.sbi.toString()
-      }
-    }, { transaction })
+      })
+      .first()) ?? null
     if (!customer) {
       return `Header is invalid, SBI ${header.sbi} does not map to FRN ${header.frn} - no FRN record is held for this SBI`
     } else if (Number(header.frn) !== Number(customer.frn)) {
