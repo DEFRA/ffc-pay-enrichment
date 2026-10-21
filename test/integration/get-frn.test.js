@@ -4,16 +4,17 @@ const { VENDOR } = require('../mocks/values/vendor')
 const { TRADER } = require('../mocks/values/trader')
 const { SBI: SBI_TYPE, VENDOR: VENDOR_TYPE, TRADER: TRADER_TYPE } = require('../../app/constants/reference-types')
 
-const db = require('../../app/data')
+const db = require('../../app/database')
+const { truncate } = require('../helpers/truncate')
 const { getFrn } = require('../../app/enrichment/header/get-frn')
 
 let paymentRequest
 
 describe('getFrn', () => {
   beforeEach(async () => {
-    await db.sequelize.truncate({ cascade: true })
+    await truncate()
 
-    await db.customer.bulkCreate([
+    await db.customers().insert([
       { referenceType: SBI_TYPE, reference: SBI, frn: FRN },
       { referenceType: VENDOR_TYPE, reference: VENDOR, frn: FRN },
       { referenceType: TRADER_TYPE, reference: TRADER, frn: FRN }
@@ -23,8 +24,8 @@ describe('getFrn', () => {
   })
 
   afterAll(async () => {
-    await db.sequelize.truncate({ cascade: true })
-    await db.sequelize.close()
+    await truncate()
+    await db.close()
   })
 
   test('returns existing FRN if already present', async () => {
