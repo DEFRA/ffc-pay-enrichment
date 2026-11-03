@@ -33,7 +33,7 @@ const { VALIDATION } = require('../../../app/constants/errors')
 const { ENRICHED, ACCEPTED, REJECTED } = require('../../../app/constants/types')
 
 const { enrichPaymentRequest: mockEnrichPaymentRequest } = require('../../../app/enrichment')
-const { sendEnrichmentErrorEvent: mockSendEnrichmentErrorEvent } = require('../../../app/event')
+const { sendEnrichmentEvent: mockSendEnrichmentEvent, sendEnrichmentErrorEvent: mockSendEnrichmentErrorEvent } = require('../../../app/event')
 const { isSchemeActive: mockIsSchemeActive } = require('../../../app/messaging/is-scheme-active')
 const { sendMessage: mockSendMessage } = require('../../../app/messaging/send-message')
 
@@ -76,6 +76,11 @@ describe('process payment message', () => {
   ])('sends %s if valid', async (_, callIndex, expectedType) => {
     await processPaymentMessage(messageBase, receiver)
     expect(mockSendMessage.mock.calls[callIndex][1]).toBe(expectedType)
+  })
+
+  test('sends enrichment event before forwarding enriched message', async () => {
+    await processPaymentMessage(messageBase, receiver)
+    expect(mockSendEnrichmentEvent.mock.invocationCallOrder[0]).toBeLessThan(mockSendMessage.mock.invocationCallOrder[0])
   })
 
   test('dead letters and sends rejected response if request fails validation', async () => {

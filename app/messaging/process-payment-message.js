@@ -20,9 +20,9 @@ const processPaymentMessage = async (message, receiver) => {
     }
     const originalPaymentRequest = structuredClone(paymentRequest)
     await enrichPaymentRequest(paymentRequest)
+    await sendEnrichmentEvent({ originalPaymentRequest, paymentRequest })
     await sendMessage(paymentRequest, ENRICHED)
     await sendMessage({ paymentRequest, accepted: true }, ACCEPTED, { subject: paymentRequest.sourceSystem })
-    await sendEnrichmentEvent({ originalPaymentRequest, paymentRequest })
     console.log(`Payment request enriched for ${paymentRequest.frn}, agreement ${paymentRequest.agreementNumber}, from ${paymentRequest.sourceSystem}`)
     await receiver.completeMessage(message)
   } catch (err) {
