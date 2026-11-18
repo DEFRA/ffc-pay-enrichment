@@ -54,10 +54,6 @@
     "nodemon": "3.1.14"
   },
   "overrides": {
-    "ffc-pay-event-publisher": {
-      "@azure/identity": "$@azure/identity",
-      "joi": "$joi"
-    },
     "@opentelemetry/instrumentation-http": "0.222.0"
   },
   "nodemonConfig": {
