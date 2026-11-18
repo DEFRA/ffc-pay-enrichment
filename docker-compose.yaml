@@ -34,7 +34,7 @@ services:
       WMP_SERVICE_BUS_ACTIVE: ${WMP_SERVICE_BUS_ACTIVE:-true}
 
   ffc-pay-enrichment-postgres:
-    image: postgres:11.4-alpine
+    image: postgres:16.5-alpine
     environment:
       POSTGRES_DB: ffc_pay_enrichment
       POSTGRES_PASSWORD: ppp
